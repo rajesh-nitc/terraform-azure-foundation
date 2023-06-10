@@ -1,0 +1,13 @@
+.terraform
+*.tfstate*
+tfplan
+inspec.lock
+terraform.json
+*.swp
+*.log
+*.zip
+*.exe
+.vscode
+.terraform.lock*
+.idea
+set_sp_env_vars.sh
