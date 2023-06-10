@@ -4,7 +4,7 @@
 
 1. ```az login```
 
-2. Create Service Principal with Owner role at ROOT:
+2. Create Service Principal with Owner [as we are learning!] role at ROOT:
 
 ```
 az ad sp create-for-rbac -n sp-org-terraform --role="Owner" --scopes="/"
@@ -21,4 +21,5 @@ export ARM_SUBSCRIPTION_ID="<SUBSCRIPTION_ID>"
 export ARM_TENANT_ID="<TENANT_VALUE>"
 ```
 
-### After running terraform
+### Running terraform
+Run it with empty backend.tf
