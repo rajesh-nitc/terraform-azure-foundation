@@ -1,5 +1,24 @@
 ## 00-bootstrap
 
-az login
-az account set --subscription "8eba36d1-77ed-4614-9d23-ec86131e8315"
-az ad sp create-for-rbac -n sp-org-terraform --role="Owner" --scopes="/subscriptions/8eba36d1-77ed-4614-9d23-ec86131e8315"
+### Before running terraform
+
+1. ```az login```
+
+2. Create Service Principal with Owner role at ROOT:
+
+```
+az ad sp create-for-rbac -n sp-org-terraform --role="Owner" --scopes="/"
+```
+
+3. ```az logout```
+
+4. Set env vars for terraform:
+
+```
+export ARM_CLIENT_ID="<APPID_VALUE>"
+export ARM_CLIENT_SECRET="<PASSWORD_VALUE>"
+export ARM_SUBSCRIPTION_ID="<SUBSCRIPTION_ID>"
+export ARM_TENANT_ID="<TENANT_VALUE>"
+```
+
+### After running terraform
