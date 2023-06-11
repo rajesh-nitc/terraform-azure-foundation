@@ -1,5 +1,5 @@
 .terraform
-*.tfstate*
+# *.tfstate*
 tfplan
 inspec.lock
 terraform.json
