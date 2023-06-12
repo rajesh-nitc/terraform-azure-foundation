@@ -9,3 +9,9 @@ variable "mgs" {
   nullable    = false
   description = "description"
 }
+
+variable "management_subscription_id" {
+  type        = string
+  nullable    = false
+  description = "description"
+}
