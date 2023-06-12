@@ -8,7 +8,7 @@ resource "azurerm_management_group" "bootstrap" {
 
   subscription_ids = [
     # Assign bootstrap-tfstate subscription to mg-bootstrap
-    data.azurerm_subscription.current.subscription_id 
+    data.azurerm_subscription.current.subscription_id
   ]
 }
 
@@ -18,7 +18,7 @@ resource "azurerm_subscription" "tfstate" {
   alias             = "bootstrap-tfstate"
   subscription_name = "bootstrap-tfstate"
   subscription_id   = data.azurerm_subscription.current.subscription_id
-} 
+}
 
 # We did not specify the subscription - the current subscription used by tf will be used
 resource "azurerm_resource_group" "tfstate" {
