@@ -22,4 +22,4 @@ export ARM_TENANT_ID="fbae0f56-f901-41f2-8431-00d5dc38b1f4"
 ```
 
 ### Running terraform
-Run it with empty backend.tf
+First run with empty backend.tf
