@@ -1,5 +1,5 @@
 # azure-foundation
 
-### Org hierarchy [developing...]
+Org hierarchy [developing...]
 
 ![Alt text](images/image.png)
