@@ -1,10 +1,10 @@
-data "azurerm_subscription" "current" {
+resource "azurerm_management_group" "root" {
+  display_name = "mg-root"
 }
 
-# Not sure how mg-bootstrap got created under root mg as we did not specify any parent
-# May be the first mg you create gets created under root mg
 resource "azurerm_management_group" "bootstrap" {
-  display_name = "mg-bootstrap"
+  display_name               = "mg-bootstrap"
+  parent_management_group_id = azurerm_management_group.root.id
 
   subscription_ids = [
     # Assign bootstrap-tfstate subscription to mg-bootstrap
