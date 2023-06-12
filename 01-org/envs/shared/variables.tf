@@ -1,4 +1,4 @@
-variable "mg_root_id" {
+variable "mg_root_display_name" {
   type        = string
   nullable    = false
   description = "description"
