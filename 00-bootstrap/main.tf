@@ -23,7 +23,7 @@ resource "azurerm_subscription" "tfstate" {
 # We did not specify the subscription - the current subscription used by tf will be used
 resource "azurerm_resource_group" "tfstate" {
   name     = "rg-org-tfstate"
-  location = "West Europe"
+  location = var.location
 }
 
 resource "azurerm_storage_account" "tfstate" {
