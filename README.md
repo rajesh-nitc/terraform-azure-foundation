@@ -5,5 +5,5 @@ Org hierarchy [developing...]
 ![Alt text](images/image.png)
 
 
-### Credits
+## Credits
 [ChatGPT](https://chat.openai.com/)
