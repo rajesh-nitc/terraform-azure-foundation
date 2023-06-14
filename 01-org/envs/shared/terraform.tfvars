@@ -18,7 +18,7 @@ exempt_vm_ids = [
 ]
 
 exempt_user_object_ids = [
-  # "user_object_id"
+  # "<user_object_id>"
 ]
 
 location = "westus"
