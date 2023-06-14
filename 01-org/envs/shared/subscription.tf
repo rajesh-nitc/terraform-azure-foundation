@@ -5,7 +5,6 @@ resource "azurerm_subscription" "management" {
   subscription_id   = var.management_subscription_id
 }
 
-# Put common-management sub in mg-common
 resource "azurerm_management_group_subscription_association" "common_management" {
   management_group_id = azurerm_management_group.mg["mg-common"].id
   subscription_id     = "/subscriptions/${var.management_subscription_id}"
