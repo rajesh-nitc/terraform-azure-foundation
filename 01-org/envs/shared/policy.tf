@@ -1,8 +1,3 @@
-locals {
-  policy_definition_scope = data.azurerm_management_group.root.id
-  policy_assignment_scope = local.policy_definition_scope
-}
-
 # allowed_locations
 resource "azurerm_policy_definition" "allowed_locations" {
   name                = "allowed-locations-policy"
@@ -10,7 +5,7 @@ resource "azurerm_policy_definition" "allowed_locations" {
   description         = "Restricts the locations where Azure resources can be deployed."
   policy_type         = "Custom"
   mode                = "Indexed"
-  management_group_id = local.policy_definition_scope
+  management_group_id = local.scope
   policy_rule = jsonencode(
     {
       "if" : {
@@ -31,7 +26,7 @@ resource "azurerm_management_group_policy_assignment" "allowed_locations_assignm
   display_name         = "Allowed Locations Assignment"
   description          = "Applies the Allowed Locations policy to the management group"
   policy_definition_id = azurerm_policy_definition.allowed_locations.id
-  management_group_id  = local.policy_assignment_scope
+  management_group_id  = local.scope
 }
 
 # deny_vm_external_ip based on tag on vm
@@ -41,7 +36,7 @@ resource "azurerm_policy_definition" "deny_vm_external_ip" {
   description         = "Denies the creation of virtual machines with assigned external IP addresses, except for exempted VMs."
   policy_type         = "Custom"
   mode                = "Indexed"
-  management_group_id = local.policy_definition_scope
+  management_group_id = local.scope
   policy_rule = jsonencode({
     "if" : {
       "allOf" : [
@@ -74,7 +69,7 @@ resource "azurerm_management_group_policy_assignment" "deny_vm_external_ip_assig
   display_name         = "Deny VMs with External IP Assignment"
   description          = "Applies the Deny Virtual Machines with External IP policy to the management group"
   policy_definition_id = azurerm_policy_definition.deny_vm_external_ip.id
-  management_group_id  = local.policy_assignment_scope
+  management_group_id  = local.scope
 }
 
 # deny_user_role_assignment
@@ -84,7 +79,7 @@ resource "azurerm_policy_definition" "deny_user_role_assignment" {
   description         = "Denies the creation of any role assignment for a user, except for exempted users."
   policy_type         = "Custom"
   mode                = "Indexed"
-  management_group_id = local.policy_definition_scope
+  management_group_id = local.scope
   policy_rule = jsonencode({
     "if" : {
       "allOf" : [
@@ -111,5 +106,5 @@ resource "azurerm_management_group_policy_assignment" "deny_user_role_assignment
   display_name         = "Deny User Role Assignment Assignment"
   description          = "Applies the Deny User Role Assignment policy to enforce IAM assignments for groups only"
   policy_definition_id = azurerm_policy_definition.deny_user_role_assignment.id
-  management_group_id  = local.policy_assignment_scope
+  management_group_id  = local.scope
 }

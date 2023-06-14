@@ -10,12 +10,6 @@ variable "mgs" {
   description = "description"
 }
 
-variable "management_subscription_id" {
-  type        = string
-  nullable    = false
-  description = "description"
-}
-
 variable "allowed_locations" {
   type        = list(string)
   nullable    = false
@@ -48,6 +42,18 @@ variable "law_solutions" {
 
   }))
   default     = []
+  nullable    = false
+  description = "description"
+}
+
+variable "log_categories" {
+  type        = list(string)
+  nullable    = false
+  description = "description"
+}
+
+variable "subscriptions" {
+  type        = map(string)
   nullable    = false
   description = "description"
 }

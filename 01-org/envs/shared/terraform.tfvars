@@ -1,4 +1,9 @@
-mg_root_display_name = "mg-root"
+location = "westus"
+
+subscriptions = {
+  bootstrap-tfstate = "8eba36d1-77ed-4614-9d23-ec86131e8315"
+  common-management = "3c624b7d-5bd9-45bb-b1e2-485d05be69c2"
+}
 
 mgs = [
   "mg-common",
@@ -7,7 +12,7 @@ mgs = [
   "mg-prd"
 ]
 
-management_subscription_id = "3c624b7d-5bd9-45bb-b1e2-485d05be69c2"
+mg_root_display_name = "mg-root"
 
 allowed_locations = [
   "westus"
@@ -21,12 +26,21 @@ exempt_user_object_ids = [
   # "<user_object_id>"
 ]
 
-location = "westus"
-
 law_solutions = [
   {
     name      = "compliance"
     publisher = "Microsoft"
     product   = "AzurePolicy"
   },
+]
+
+log_categories = [
+  # "Administrative", 
+  "Security",
+  "Policy",
+  # "ServiceHealth", 
+  # "Alert", 
+  # "Recommendation", 
+  # "Autoscale", 
+  # "ResourceHealth"
 ]

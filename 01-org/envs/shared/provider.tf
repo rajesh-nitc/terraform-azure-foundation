@@ -17,6 +17,6 @@ provider "azurerm" {
 provider "azurerm" {
   skip_provider_registration = true
   alias                      = "common-management"
-  subscription_id            = var.management_subscription_id
+  subscription_id            = var.subscriptions["common-management"]
   features {}
 }
