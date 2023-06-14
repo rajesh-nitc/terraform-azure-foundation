@@ -24,7 +24,6 @@ exempt_user_object_ids = [
 location = "westus"
 
 law_solutions = [
-  # compliance-audit
   {
     name      = "compliance"
     publisher = "Microsoft"
