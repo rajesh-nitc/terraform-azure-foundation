@@ -20,3 +20,14 @@ exempt_vm_ids = [
 exempt_user_object_ids = [
   # "<user_object_id_1>"
 ]
+
+location = "westus"
+
+law_solutions = [
+  # compliance-audit
+  {
+    name      = "compliance"
+    publisher = "Microsoft"
+    product   = "AzurePolicy"
+  },
+]

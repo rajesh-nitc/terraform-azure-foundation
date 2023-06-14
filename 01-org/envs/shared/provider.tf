@@ -13,3 +13,10 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+provider "azurerm" {
+  skip_provider_registration = true
+  alias                      = "common-management"
+  subscription_id            = var.management_subscription_id
+  features {}
+}

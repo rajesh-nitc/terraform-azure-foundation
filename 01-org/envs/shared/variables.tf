@@ -33,3 +33,21 @@ variable "exempt_user_object_ids" {
   nullable    = false
   description = "description"
 }
+
+variable "location" {
+  type        = string
+  nullable    = false
+  description = "description"
+}
+
+variable "law_solutions" {
+  type = list(object({
+    name      = string
+    publisher = string,
+    product   = string,
+
+  }))
+  default     = []
+  nullable    = false
+  description = "description"
+}
