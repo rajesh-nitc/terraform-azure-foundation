@@ -1,13 +1,13 @@
 # law
 resource "azurerm_resource_group" "law" {
   provider = azurerm.common-management
-  name     = "rg-common-law"
+  name     = "rg-${var.shared_resource_naming}-law"
   location = var.location
 }
 
 resource "azurerm_log_analytics_workspace" "law" {
   provider            = azurerm.common-management
-  name                = "law-common"
+  name                = "law-${var.shared_resource_naming}"
   location            = azurerm_resource_group.law.location
   resource_group_name = azurerm_resource_group.law.name
   sku                 = "PerGB2018"

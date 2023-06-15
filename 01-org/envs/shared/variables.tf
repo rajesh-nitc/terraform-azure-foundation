@@ -1,11 +1,17 @@
-variable "mg_root_display_name" {
+variable "shared_resource_naming" {
   type        = string
   nullable    = false
   description = "description"
 }
 
-variable "mgs" {
-  type        = list(string)
+variable "subscription_management_suffix" {
+  type        = string
+  nullable    = false
+  description = "description"
+}
+
+variable "mg_root_display_name" {
+  type        = string
   nullable    = false
   description = "description"
 }
@@ -48,12 +54,6 @@ variable "law_solutions" {
 
 variable "log_categories" {
   type        = list(string)
-  nullable    = false
-  description = "description"
-}
-
-variable "subscriptions" {
-  type        = map(string)
   nullable    = false
   description = "description"
 }

@@ -1,18 +1,7 @@
-location = "westus"
-
-subscriptions = {
-  bootstrap-tfstate = "8eba36d1-77ed-4614-9d23-ec86131e8315"
-  common-management = "3c624b7d-5bd9-45bb-b1e2-485d05be69c2"
-}
-
-mgs = [
-  "mg-common",
-  "mg-dev",
-  "mg-npr",
-  "mg-prd"
-]
-
-mg_root_display_name = "mg-root"
+location                       = "westus"
+shared_resource_naming         = "common"
+subscription_management_suffix = "management"
+mg_root_display_name           = "mg-root"
 
 allowed_locations = [
   "westus"
