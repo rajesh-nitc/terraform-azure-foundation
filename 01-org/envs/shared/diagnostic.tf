@@ -19,9 +19,4 @@ resource "azurerm_monitor_diagnostic_setting" "logs" {
       }
     }
   }
-
-  depends_on = [
-    # Configure diagnostic after we change the name of the subscription 
-    azurerm_subscription.management
-  ]
 }

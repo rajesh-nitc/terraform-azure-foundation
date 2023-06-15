@@ -10,6 +10,12 @@ variable "subscription_management_suffix" {
   description = "description"
 }
 
+variable "subscription_connectivity_suffix" {
+  type        = string
+  nullable    = false
+  description = "description"
+}
+
 variable "mg_root_display_name" {
   type        = string
   nullable    = false

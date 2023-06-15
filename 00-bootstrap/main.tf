@@ -1,3 +1,8 @@
+locals {
+  default_subscription_id   = data.azurerm_subscription.current.subscription_id
+  default_subscription_name = data.azurerm_subscription.current.display_name
+}
+
 resource "azurerm_management_group" "root" {
   display_name = "mg-root"
 }
@@ -8,16 +13,15 @@ resource "azurerm_management_group" "bootstrap" {
 
   subscription_ids = [
     # Assign bootstrap-tfstate subscription to mg-bootstrap
-    data.azurerm_subscription.current.subscription_id
+    local.default_subscription_id
   ]
 }
 
-# This is actually the default subscription that you get with pay as you go
-# We are just changing its name from pay as you go to bootstrap-tfstate
+# This is actually your first default subscription that you get with pay as you go
 resource "azurerm_subscription" "tfstate" {
-  alias             = "bootstrap-tfstate"
-  subscription_name = "bootstrap-tfstate"
-  subscription_id   = data.azurerm_subscription.current.subscription_id
+  alias             = local.default_subscription_name
+  subscription_name = local.default_subscription_name
+  subscription_id   = local.default_subscription_id
 }
 
 # We did not specify the subscription - the current subscription used by tf will be used

@@ -4,7 +4,7 @@
 
 1. ```az login```
 
-2. Create Service Principal with Owner [as we are learning!] role at ROOT. We will be running the code in local envioronment only and that is why not using user assigned identity
+2. Create Service Principal with Owner [as we are learning!] role at ROOT. We will be running the code in local envioronment only and that is why not using msi / user assigned identity
 
 ```
 az ad sp create-for-rbac -n sp-org-terraform --role="Owner" --scopes="/"
@@ -20,6 +20,7 @@ export ARM_CLIENT_SECRET=""
 export ARM_SUBSCRIPTION_ID=""
 export ARM_TENANT_ID=""
 ```
+5. Change the name of your pay as you subscription to bootstrap-tfstate
 
 ### Running terraform
 First run with empty backend.tf

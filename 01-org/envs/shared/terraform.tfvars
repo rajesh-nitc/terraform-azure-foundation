@@ -1,7 +1,8 @@
-location                       = "westus"
-shared_resource_naming         = "common"
-subscription_management_suffix = "management"
-mg_root_display_name           = "mg-root"
+location                         = "westus"
+shared_resource_naming           = "common"
+subscription_management_suffix   = "management"
+subscription_connectivity_suffix = "connectivity"
+mg_root_display_name             = "mg-root"
 
 allowed_locations = [
   "westus"
