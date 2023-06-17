@@ -4,7 +4,7 @@
 
 1. ```az login```
 
-2. Create Service Principal with Owner [as we are learning!] role at ROOT. We are not using managed identity as we are running the code manually in local envioronment.
+2. Create Service Principal with Owner role at ROOT. We are not using the managed identity [yet!] as we are running the code manually in local envioronment.
 
 ```
 az ad sp create-for-rbac -n sp-org-terraform --role="Owner" --scopes="/"
