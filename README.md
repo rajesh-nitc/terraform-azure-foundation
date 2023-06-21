@@ -26,7 +26,6 @@ Status of each stage:
 Overview of some of the best practices violated by this repo: 
 
 - Single service principal with owner role at root is used in all stages
-- Groups are not used
 - Very few features are used to save costs for e.g. ddos not enabled, few policies, few log solutions, few log categories etc
 - Policy remediation not used
 - Manual provisioning, Infra cicd is not implemented

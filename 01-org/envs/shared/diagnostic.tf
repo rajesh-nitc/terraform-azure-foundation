@@ -5,7 +5,7 @@ resource "azurerm_monitor_diagnostic_setting" "logs" {
   for_each           = { for i in local.subscriptions_all : i.display_name => i }
   provider           = azurerm.sub-common-management
   name               = format("%s-%s", module.naming.monitor_diagnostic_setting.name, each.key)
-  target_resource_id = "/subscriptions/${each.value.subscription_id}"
+  target_resource_id = each.value.id
 
   log_analytics_workspace_id     = azurerm_log_analytics_workspace.law.id
   log_analytics_destination_type = "Dedicated"

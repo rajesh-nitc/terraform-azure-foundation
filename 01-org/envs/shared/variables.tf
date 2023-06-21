@@ -39,3 +39,8 @@ variable "log_categories" {
   nullable    = false
   description = "description"
 }
+
+variable "group_roles" {
+  type    = map(list(string))
+  default = {}
+}
