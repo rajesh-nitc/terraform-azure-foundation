@@ -30,9 +30,3 @@ Overview of some of the best practices violated by this repo:
 - Very few features are used to save costs for e.g. ddos not enabled, few policies, few log solutions, few log categories etc
 - Policy remediation not used
 - Manual provisioning, Infra cicd is not implemented
-
-
-Notes - delete
-spring apps - see all the firewall rules
-see rules in mission lz
-see rules at https://learn.microsoft.com/en-us/azure/firewall/tutorial-firewall-deploy-portal
