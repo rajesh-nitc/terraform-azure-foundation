@@ -11,7 +11,7 @@ group_roles = {
   "org-admins"      = ["Owner"]
   "security-admins" = ["Security Administrator"]
   "network-admins"  = ["Network Contributor"]
-  "viewer"          = ["Reader"]
+  "org-viewer"      = ["Reader"]
 }
 
 # Most are commented out to save on costs
