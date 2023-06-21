@@ -16,7 +16,7 @@ provider "azurerm" {
 
 provider "azurerm" {
   skip_provider_registration = true
-  alias                      = "common-management"
+  alias                      = "sub-common-management"
   subscription_id            = "3c624b7d-5bd9-45bb-b1e2-485d05be69c2"
   features {}
 }

@@ -1,9 +1,10 @@
 # This cannot be configured at management group level using terraform yet
 # Hence, configuring it at subscription level
+# Send admin activity logs including var.log_categories to central law
 resource "azurerm_monitor_diagnostic_setting" "logs" {
   for_each           = { for i in local.subscriptions_all : i.display_name => i }
-  provider           = azurerm.common-management
-  name               = "diag-${each.key}"
+  provider           = azurerm.sub-common-management
+  name               = format("%s-%s", module.naming.monitor_diagnostic_setting.name, each.key)
   target_resource_id = "/subscriptions/${each.value.subscription_id}"
 
   log_analytics_workspace_id     = azurerm_log_analytics_workspace.law.id

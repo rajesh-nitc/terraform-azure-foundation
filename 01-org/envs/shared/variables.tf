@@ -1,9 +1,3 @@
-variable "shared_resource_naming" {
-  type        = string
-  nullable    = false
-  description = "description"
-}
-
 variable "subscription_management_suffix" {
   type        = string
   nullable    = false
@@ -16,25 +10,7 @@ variable "subscription_connectivity_suffix" {
   description = "description"
 }
 
-variable "mg_root_display_name" {
-  type        = string
-  nullable    = false
-  description = "description"
-}
-
 variable "allowed_locations" {
-  type        = list(string)
-  nullable    = false
-  description = "description"
-}
-
-variable "exempt_vm_ids" {
-  type        = list(string)
-  nullable    = false
-  description = "description"
-}
-
-variable "exempt_user_object_ids" {
   type        = list(string)
   nullable    = false
   description = "description"

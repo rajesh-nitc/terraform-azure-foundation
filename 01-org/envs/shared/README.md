@@ -1,6 +1,6 @@
-## 01-org
+# 01-org
 
-### Before running terraform
-Create the subscriptions on the portal and change their names to:
-- common-management
-- common-connectivity
+## Before running terraform
+Create the payg subscriptions on the portal and change their names to:
+- sub-common-management
+- sub-common-connectivity

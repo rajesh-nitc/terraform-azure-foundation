@@ -1,13 +1,13 @@
 # law
 resource "azurerm_resource_group" "law" {
-  provider = azurerm.common-management
-  name     = "rg-${var.shared_resource_naming}-law"
+  provider = azurerm.sub-common-management
+  name     = module.naming.resource_group.name
   location = var.location
 }
 
 resource "azurerm_log_analytics_workspace" "law" {
-  provider            = azurerm.common-management
-  name                = "law-${var.shared_resource_naming}"
+  provider            = azurerm.sub-common-management
+  name                = module.naming.log_analytics_workspace.name
   location            = azurerm_resource_group.law.location
   resource_group_name = azurerm_resource_group.law.name
   sku                 = "PerGB2018"
@@ -16,7 +16,7 @@ resource "azurerm_log_analytics_workspace" "law" {
 
 # law solutions
 resource "azurerm_log_analytics_solution" "solutions" {
-  provider              = azurerm.common-management
+  provider              = azurerm.sub-common-management
   for_each              = { for i in var.law_solutions : i.name => i }
   solution_name         = each.key
   location              = azurerm_resource_group.law.location

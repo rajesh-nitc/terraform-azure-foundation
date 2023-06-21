@@ -1,29 +1,12 @@
 location                         = "westus"
-shared_resource_naming           = "common"
 subscription_management_suffix   = "management"
 subscription_connectivity_suffix = "connectivity"
-mg_root_display_name             = "mg-root"
 
 allowed_locations = [
   "westus"
 ]
 
-exempt_vm_ids = [
-  # "/subscriptions/<subscription_id>/resourceGroups/<resource_group_name>/providers/Microsoft.Compute/virtualMachines/<vm_name>"
-]
-
-exempt_user_object_ids = [
-  # "<user_object_id>"
-]
-
-law_solutions = [
-  {
-    name      = "compliance"
-    publisher = "Microsoft"
-    product   = "AzurePolicy"
-  },
-]
-
+# Most are commented out to save on costs
 log_categories = [
   # "Administrative", 
   "Security",
@@ -33,4 +16,12 @@ log_categories = [
   # "Recommendation", 
   # "Autoscale", 
   # "ResourceHealth"
+]
+
+law_solutions = [
+  {
+    name      = "compliance"
+    publisher = "Microsoft"
+    product   = "AzurePolicy"
+  },
 ]
