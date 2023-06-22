@@ -18,10 +18,3 @@ data "azurerm_subscriptions" "management" {
 data "azurerm_subscriptions" "connectivity" {
   display_name_contains = var.subscription_connectivity_suffix
 }
-
-output "pp" {
-  value       = data.azuread_client_config.current
-  sensitive   = false
-  description = "description"
-  depends_on  = []
-}

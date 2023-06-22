@@ -9,16 +9,16 @@ module "bu1_app1_dev_sub" {
   app      = "app1"
   location = "westus"
 
-  # uai will be created and the roles will be assigned to uai on subscription
+  # uai will be created and roles will be assigned to uai on subscription
   uai_roles = {
     "infra-cicd" = ["Contributor"]
-    "app-cicd"   = ["Contributor"]
-    "workload"   = ["Storage Blob Data Reader"]
+    "app-cicd"   = []
   }
 
-  # group will be created and the roles will be assigned to group on subscription
+  # group will be created and roles will be assigned to group on subscription
   group_roles = {
     "viewer" = ["Reader"]
-    "devs"   = ["Contributor"]
+    "devs"   = ["Reader"]
+    "admins" = ["Contributor"]
   }
 }

@@ -6,10 +6,10 @@ allowed_locations = [
   "westus"
 ]
 
-# group will be created and the roles will be assigned to group on root mg
+# group will be created and roles will be assigned to group on root mg
 group_roles = {
   "org-admins"      = ["Owner"]
-  "security-admins" = ["Security Administrator"]
+  "security-admins" = ["Security Admin", "User Access Administrator"]
   "network-admins"  = ["Network Contributor"]
   "org-viewer"      = ["Reader"]
 }

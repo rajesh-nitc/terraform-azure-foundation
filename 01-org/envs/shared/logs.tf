@@ -20,4 +20,11 @@ resource "azurerm_monitor_diagnostic_setting" "logs" {
       }
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      # looks like a bug, terraform plan always shows a diff
+      log_analytics_destination_type,
+    ]
+  }
 }

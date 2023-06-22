@@ -6,7 +6,7 @@ Status of each stage:
 
 01-org - partial complete - deployed
 
-02-subscriptions - not started
+02-subscriptions - partial complete - deployed
 
 03 networks - partial complete - not deployed
 
@@ -21,11 +21,3 @@ Status of each stage:
 
 ## Credits
 [ChatGPT](https://chat.openai.com/)
-
-## Errata summary
-Overview of some of the best practices violated by this repo: 
-
-- Single service principal with owner role at root is used in all stages
-- Very few features are used to save costs for e.g. ddos not enabled, few policies, few log solutions, few log categories etc
-- Policy remediation not used
-- Manual provisioning, Infra cicd is not implemented

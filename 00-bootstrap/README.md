@@ -20,7 +20,7 @@ export ARM_CLIENT_SECRET=""
 export ARM_SUBSCRIPTION_ID=""
 export ARM_TENANT_ID=""
 ```
-5. Change the name of payg subscription to sub-bootstrap-tfstate or any other name
+5. Change the name of payg subscription to sub-bootstrap-tfstate
 
 ## Running terraform
 First run with empty backend.tf
