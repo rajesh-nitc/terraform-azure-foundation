@@ -17,7 +17,3 @@ Status of each stage:
 ## Org hierarchy
 
 ![Alt text](images/image.png)
-
-
-## Credits
-[ChatGPT](https://chat.openai.com/)
