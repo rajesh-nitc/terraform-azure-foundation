@@ -1,11 +1,3 @@
-resource "azurerm_subnet" "firewall" {
-  count                = var.enable_firewall && var.env == "hub" ? 1 : 0
-  name                 = "AzureFirewallSubnet"
-  resource_group_name  = local.rg_name
-  virtual_network_name = local.vnet_name
-  address_prefixes     = var.firewall_address_prefixes
-}
-
 resource "azurerm_public_ip" "firewall" {
   count               = var.enable_firewall && var.env == "hub" ? 1 : 0
   name                = format("%s-%s", module.naming.public_ip.name, "fw")
@@ -26,7 +18,7 @@ resource "azurerm_firewall" "firewall" {
 
   ip_configuration {
     name                 = "configuration"
-    subnet_id            = azurerm_subnet.firewall[count.index].id
+    subnet_id            = data.azurerm_subnet.firewall[count.index].id
     public_ip_address_id = azurerm_public_ip.firewall[count.index].id
   }
 }

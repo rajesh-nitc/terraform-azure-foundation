@@ -1,5 +1,5 @@
 resource "azurerm_subnet" "snet" {
-  for_each = var.snets
+  for_each = local.all_snets
   # It looks like Azure-managed subnets starts with Capital
   # If subnet name starts with Capital, then keep that name
   # else follow the naming

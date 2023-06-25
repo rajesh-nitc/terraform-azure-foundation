@@ -1,5 +1,5 @@
 resource "azurerm_network_security_group" "nsg" {
-  for_each            = { for i in var.snets : i.nsg_name => i if i.nsg_name != null }
+  for_each            = { for i in local.all_snets : i.nsg_name => i if try(i.nsg_name, null) != null }
   name                = format("%s-%s", module.naming.network_security_group.name, each.value.name)
   resource_group_name = local.rg_name
   location            = var.location
@@ -21,13 +21,9 @@ resource "azurerm_network_security_rule" "nsg_rule" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg_association" {
-  for_each                  = { for i in var.snets : i.name => i if i.nsg_name != null }
+  for_each                  = { for i in local.all_snets : i.name => i if try(i.nsg_name, null) != null }
   subnet_id                 = azurerm_subnet.snet[each.key].id
   network_security_group_id = azurerm_network_security_group.nsg[each.value.nsg_name].id
 }
 
-# do we need nsg rule to allow outbound internet traffic on AzureFirewallSubnet ?
-# https://learn.microsoft.com/en-us/azure/firewall/firewall-faq#are-network-security-groups--nsgs--supported-on-the-azurefirewallsubnet
-# Azure Firewall is a managed service with multiple protection layers, including 
-# platform protection with NIC level NSGs (not viewable). Subnet level NSGs aren't 
-# required on the AzureFirewallSubnet, and are disabled to ensure no service interruption.
+
