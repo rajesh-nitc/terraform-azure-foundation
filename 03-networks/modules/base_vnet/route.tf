@@ -29,7 +29,4 @@ resource "azurerm_subnet_route_table_association" "rt_association" {
 # do we need route for outbound traffic through nat if nat is enabled ?
 # https://learn.microsoft.com/en-us/azure/nat-gateway/nat-gateway-resource#connect-to-the-internet-with-nat-gateway
 # No routing configurations are required to start connecting outbound with NAT gateway. 
-# NAT gateway becomes the default route to the internet after association to a subnet.
-
-# default route with next hop to Azure Firewall is definitely required in spokes
-# users of this module will be passing the default egress route
+# NAT gateway becomes the default route to the internet after association to a subnet. 

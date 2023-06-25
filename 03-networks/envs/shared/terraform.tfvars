@@ -7,4 +7,5 @@ enable_nat                = false
 enable_bastion            = true
 enable_firewall           = true
 snets                     = {}
+private_dns_zones         = []
 
