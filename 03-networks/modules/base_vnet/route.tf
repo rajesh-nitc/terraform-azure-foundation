@@ -26,7 +26,5 @@ resource "azurerm_subnet_route_table_association" "rt_association" {
   route_table_id = azurerm_route_table.route_table[each.value.route_table_name].id
 }
 
-# do we need route for outbound traffic through nat if nat is enabled ?
+# route for outbound traffic through nat ?
 # https://learn.microsoft.com/en-us/azure/nat-gateway/nat-gateway-resource#connect-to-the-internet-with-nat-gateway
-# No routing configurations are required to start connecting outbound with NAT gateway. 
-# NAT gateway becomes the default route to the internet after association to a subnet. 

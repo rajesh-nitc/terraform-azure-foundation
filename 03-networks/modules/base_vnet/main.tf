@@ -112,13 +112,18 @@ locals {
         }
 
       }
-      # ROUTES
-      # do we route bastion traffic through firewall ?
-      # https://learn.microsoft.com/en-us/azure/bastion/bastion-faq#udr
-      # For scenarios that include both Azure Bastion and Azure Firewall/Network Virtual Appliance (NVA) 
-      # in the same virtual network, you don’t need to force traffic from an Azure Bastion subnet to 
-      # Azure Firewall because the communication between Azure Bastion and your VMs is private
 
+      # route bastion traffic through firewall ?
+      # https://learn.microsoft.com/en-us/azure/bastion/bastion-faq#udr
+
+      # NSG
+      # default inbound rule allows source VirtualNetwork and destination VirtualNetwork https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview#allowvnetinbound
+      # default outbound rule allows source VirtualNetwork and destination VirtualNetwork https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview#allowvnetoutbound
+      # HERE, VirtualNetwork scope includes single vnet
+      # BUT, when you peer 2 vnets in Azure with a default setting of "Traffic to remote virtual network" as Allow https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-manage-peering?tabs=peering-portal#create-a-peering
+      # Then, VirtualNetwork scope changes to include both vnets
+      # Hence, traffic between 2 vnets is allowed and
+      # nsg rules are not required
     },
 
   }
@@ -132,18 +137,6 @@ locals {
 
       private_endpoint_network_policies_enabled     = false
       private_link_service_network_policies_enabled = false
-
-      # NSG
-      # do we need nsg rule to allow outbound internet traffic on AzureFirewallSubnet ?
-      # https://learn.microsoft.com/en-us/azure/firewall/firewall-faq#are-network-security-groups--nsgs--supported-on-the-azurefirewallsubnet
-      # Azure Firewall is a managed service with multiple protection layers, including 
-      # platform protection with NIC level NSGs (not viewable). Subnet level NSGs aren't 
-      # required on the AzureFirewallSubnet, and are disabled to ensure no service interruption.
-
-      # ROUTES
-      # do we need default route to Internet on AzureFirewallSubnet ?
-      # Answer seems to be NO as the scenario in the link below seems to work
-      # https://learn.microsoft.com/en-us/azure/firewall/tutorial-firewall-deploy-portal
 
     }
   }
