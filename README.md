@@ -12,7 +12,9 @@ Status of each stage:
 
 4. security - not started
 
-5. workload - not started
+5. aca-infra - not started
+
+6. aca-app - not started
 
 ## Org hierarchy
 
