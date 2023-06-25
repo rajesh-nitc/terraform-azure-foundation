@@ -12,7 +12,6 @@ resource "azurerm_virtual_network_peering" "spoke-hub" {
   virtual_network_name         = azurerm_virtual_network.vnet.name
   remote_virtual_network_id    = data.azurerm_virtual_network.hub_vnet[count.index].id
   allow_virtual_network_access = true # yes please, we don't want to create nsg rules!
-  allow_forwarded_traffic      = true
 }
 
 resource "azurerm_virtual_network_peering" "hub-spoke" {
@@ -22,5 +21,4 @@ resource "azurerm_virtual_network_peering" "hub-spoke" {
   virtual_network_name         = data.azurerm_virtual_network.hub_vnet[count.index].id
   remote_virtual_network_id    = azurerm_virtual_network.vnet.name
   allow_virtual_network_access = true # yes please, we don't want to create nsg rules!
-  allow_forwarded_traffic      = true
 }
