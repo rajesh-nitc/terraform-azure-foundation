@@ -47,8 +47,8 @@ variable "snets" {
     name                                          = string
     address_prefixes                              = list(string)
     service_endpoints                             = optional(list(string))
-    private_endpoint_network_policies_enabled     = optional(bool, false)
-    private_link_service_network_policies_enabled = optional(bool, false)
+    private_endpoint_network_policies_enabled     = optional(bool, true)
+    private_link_service_network_policies_enabled = optional(bool, true)
 
     nsg_name = optional(string)
     nsg_rules = optional(map(object({

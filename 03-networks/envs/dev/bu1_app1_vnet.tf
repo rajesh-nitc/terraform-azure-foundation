@@ -21,9 +21,6 @@ module "bu1_app1_vnet" {
       address_prefixes  = ["10.0.64.0/24"]
       service_endpoints = []
 
-      private_endpoint_network_policies_enabled     = false
-      private_link_service_network_policies_enabled = false
-
       # route_table_name = "workload1"
       # routes = [
       #   {
@@ -44,8 +41,7 @@ module "bu1_app1_vnet" {
         # "Microsoft.KeyVault",
       ]
 
-      private_endpoint_network_policies_enabled     = true
-      private_link_service_network_policies_enabled = false
+      private_endpoint_network_policies_enabled = false
     },
   }
 }

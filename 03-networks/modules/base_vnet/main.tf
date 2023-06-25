@@ -17,9 +17,6 @@ locals {
       address_prefixes  = var.bastion_address_prefixes
       service_endpoints = []
 
-      private_endpoint_network_policies_enabled     = false
-      private_link_service_network_policies_enabled = false
-
       nsg_name = "bastion"
       nsg_rules = {
         "bastionAllowHTTPSInbound" = {
@@ -134,9 +131,6 @@ locals {
       name              = "AzureFirewallSubnet"
       address_prefixes  = var.firewall_address_prefixes
       service_endpoints = []
-
-      private_endpoint_network_policies_enabled     = false
-      private_link_service_network_policies_enabled = false
 
     }
   }
