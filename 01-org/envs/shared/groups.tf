@@ -1,6 +1,6 @@
 resource "azuread_group" "group" {
   for_each                = var.group_roles
-  display_name            = format("%s-%s", "grp", each.key)
+  display_name            = each.key
   security_enabled        = true
   prevent_duplicate_names = true
   owners                  = [data.azuread_client_config.current.object_id]

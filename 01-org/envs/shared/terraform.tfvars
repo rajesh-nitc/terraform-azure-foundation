@@ -8,10 +8,10 @@ allowed_locations = [
 
 # group will be created and roles will be assigned to group on root mg
 group_roles = {
-  "org-admins"      = ["Owner"]
-  "security-admins" = ["Security Admin", "User Access Administrator"]
-  "network-admins"  = ["Network Contributor"]
-  "org-viewer"      = ["Reader"]
+  "azure-org-admins"      = ["Owner"]
+  "azure-security-admins" = ["Security Admin", "User Access Administrator"]
+  "azure-network-admins"  = ["Network Contributor"]
+  "azure-org-viewers"     = ["Reader"]
 }
 
 # Most are commented out to save on costs

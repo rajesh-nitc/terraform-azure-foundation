@@ -17,8 +17,7 @@ module "bu1_app1_dev_sub" {
 
   # group will be created and roles will be assigned to group on subscription
   group_roles = {
-    "viewer" = ["Reader"]
-    "devs"   = ["Reader"]
-    "admins" = ["Contributor"]
+    "azure-devs"   = ["Reader"]
+    "azure-admins" = ["Contributor"]
   }
 }
