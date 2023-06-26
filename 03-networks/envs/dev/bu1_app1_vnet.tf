@@ -14,6 +14,8 @@ module "bu1_app1_vnet" {
     "privatelink.vaultcore.azure.net",
 
   ]
+  enable_appgwsubnet     = true
+  appgw_address_prefixes = ["10.0.66.0/24"]
 
   snets = {
     app1subnet = {

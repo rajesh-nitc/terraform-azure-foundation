@@ -7,6 +7,9 @@ locals {
     var.enable_firewall && var.env == "hub"
     ? local.firewall_snet
     : {},
+    var.enable_appgwsubnet && length(var.appgw_address_prefixes) > 0 && var.env != "hub"
+    ? local.appgw_snet
+    : {},
     var.snets
   )
 
@@ -42,7 +45,7 @@ locals {
           destination_address_prefix = "*"
         }
         "bastionAllowAzureLBInbound" = {
-          name                       = "AllowAzureLBInbound"
+          name                       = "bastionAllowAzureLBInbound"
           priority                   = 300
           direction                  = "Inbound"
           access                     = "Allow"
@@ -53,7 +56,7 @@ locals {
           destination_address_prefix = "*"
         }
         "bastionAllowBastionHostCommunication" = {
-          name                       = "AllowBastionHostCommunication"
+          name                       = "bastionAllowBastionHostCommunication"
           priority                   = 400
           direction                  = "Inbound"
           access                     = "Allow"
@@ -64,7 +67,7 @@ locals {
           destination_address_prefix = "VirtualNetwork"
         }
         "bastionAllowRdpSshOutbound" = {
-          name                       = "AllowRdpSshOutbound"
+          name                       = "bastionAllowRdpSshOutbound"
           priority                   = 100
           direction                  = "Outbound"
           access                     = "Allow"
@@ -75,7 +78,7 @@ locals {
           destination_address_prefix = "VirtualNetwork"
         }
         "bastionAllowBastionHostCommunicationOutbound" = {
-          name                       = "AllowBastionHostCommunicationOutbound"
+          name                       = "bastionAllowBastionHostCommunicationOutbound"
           priority                   = 110
           direction                  = "Outbound"
           access                     = "Allow"
@@ -86,7 +89,7 @@ locals {
           destination_address_prefix = "VirtualNetwork"
         }
         "bastionAllowAzureCloudOutbound" = {
-          name                       = "AllowAzureCloudOutbound"
+          name                       = "bastionAllowAzureCloudOutbound"
           priority                   = 120
           direction                  = "Outbound"
           access                     = "Allow"
@@ -97,7 +100,7 @@ locals {
           destination_address_prefix = "AzureCloud"
         }
         "bastionAllowGetSessionInformation" = {
-          name                       = "AllowGetSessionInformation"
+          name                       = "bastionAllowGetSessionInformation"
           priority                   = 130
           direction                  = "Outbound"
           access                     = "Allow"
@@ -128,10 +131,64 @@ locals {
   firewall_snet = {
 
     AzureFirewallSubnet = {
-      name              = "AzureFirewallSubnet"
-      address_prefixes  = var.firewall_address_prefixes
-      service_endpoints = []
+      name             = "AzureFirewallSubnet"
+      address_prefixes = var.firewall_address_prefixes
 
+    }
+  }
+
+  appgw_snet = {
+
+    appgwsubnet = {
+      name             = "appgwsubnet"
+      address_prefixes = var.appgw_address_prefixes
+      nsg_name         = "appgw"
+      nsg_rules = {
+        "appgwAllowHTTPSInbound" = {
+          name                       = "appgwAllowHTTPSInbound"
+          priority                   = 100
+          direction                  = "Inbound"
+          access                     = "Allow"
+          protocol                   = "Tcp"
+          source_port_ranges         = ["*"]
+          destination_port_ranges    = ["443"]
+          source_address_prefix      = "Internet"
+          destination_address_prefix = "*"
+        }
+        "appgwAllowHTTPInbound" = {
+          name                       = "appgwAllowHTTPInbound"
+          priority                   = 200
+          direction                  = "Inbound"
+          access                     = "Allow"
+          protocol                   = "Tcp"
+          source_port_ranges         = ["*"]
+          destination_port_ranges    = ["80"]
+          source_address_prefix      = "Internet"
+          destination_address_prefix = "*"
+        }
+        "appgwAllowGatewayManagerInbound" = {
+          name                       = "appgwAllowGatewayManagerInbound"
+          priority                   = 300
+          direction                  = "Inbound"
+          access                     = "Allow"
+          protocol                   = "Tcp"
+          source_port_ranges         = ["*"]
+          destination_port_ranges    = ["65200-65535"]
+          source_address_prefix      = "GatewayManager"
+          destination_address_prefix = "*"
+        }
+        "appgwAllowAzureLBInbound" = {
+          name                       = "appgwAllowAzureLBInbound"
+          priority                   = 400
+          direction                  = "Inbound"
+          access                     = "Allow"
+          protocol                   = "Tcp"
+          source_port_ranges         = ["*"]
+          destination_port_ranges    = ["443"]
+          source_address_prefix      = "AzureLoadBalancer"
+          destination_address_prefix = "*"
+        }
+      }
     }
   }
 

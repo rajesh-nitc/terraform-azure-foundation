@@ -12,7 +12,7 @@ resource "azurerm_subnet" "snet" {
   virtual_network_name = local.vnet_name
   address_prefixes     = each.value.address_prefixes
 
-  service_endpoints = each.value.service_endpoints
+  service_endpoints = try(each.value.service_endpoints, [])
 
   private_endpoint_network_policies_enabled     = try(each.value.private_endpoint_network_policies_enabled, true)
   private_link_service_network_policies_enabled = try(each.value.private_link_service_network_policies_enabled, true)

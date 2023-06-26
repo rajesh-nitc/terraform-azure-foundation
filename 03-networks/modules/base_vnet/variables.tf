@@ -91,4 +91,15 @@ variable "private_dns_zones" {
   default = []
 }
 
+variable "enable_appgwsubnet" {
+  type    = bool
+  default = false
+}
+
+
+variable "appgw_address_prefixes" {
+  type    = list(string)
+  default = []
+}
+
 
