@@ -96,10 +96,23 @@ variable "enable_appgwsubnet" {
   default = false
 }
 
-
 variable "appgw_address_prefixes" {
   type    = list(string)
   default = []
 }
 
+variable "pe_address_prefixes" {
+  type    = list(string)
+  default = []
+}
+
+variable "acr_name" {
+  type    = string
+  default = ""
+}
+
+variable "acr_rg_name" {
+  type    = string
+  default = ""
+}
 

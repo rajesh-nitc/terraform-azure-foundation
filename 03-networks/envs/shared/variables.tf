@@ -86,9 +86,4 @@ variable "firewall_address_prefixes" {
   default = []
 }
 
-variable "private_dns_zones" {
-  type    = list(string)
-  default = []
-}
-
 

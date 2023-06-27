@@ -4,7 +4,8 @@ locals {
   sub_id   = data.azurerm_subscriptions.all.subscriptions[0].subscription_id
   id       = data.azurerm_subscriptions.all.subscriptions[0].id
 
-  rg_name = azurerm_resource_group.rg.name
+  rg_name        = azurerm_resource_group.rg.name
+  rg_shared_name = azurerm_resource_group.shared.name
 
   uai_roles = flatten([
     for k, v in var.uai_roles : [

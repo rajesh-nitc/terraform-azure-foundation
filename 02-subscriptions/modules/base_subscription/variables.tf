@@ -28,3 +28,12 @@ variable "group_roles" {
   default = {}
 }
 
+variable "enable_acr" {
+  type    = bool
+  default = true
+}
+
+variable "acr_short_name" {
+  type    = string
+  default = ""
+}

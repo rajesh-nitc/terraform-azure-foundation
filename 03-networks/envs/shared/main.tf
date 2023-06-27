@@ -9,7 +9,6 @@ module "hub_vnet" {
   location           = var.location
   vnet_address_space = var.vnet_address_space
   snets              = var.snets
-  private_dns_zones  = var.private_dns_zones
 
   # Firewall
   enable_firewall           = var.enable_firewall

@@ -10,6 +10,9 @@ locals {
     var.enable_appgwsubnet && length(var.appgw_address_prefixes) > 0 && var.env != "hub"
     ? local.appgw_snet
     : {},
+    length(var.pe_address_prefixes) > 0 && var.env != "hub"
+    ? local.pe_snet
+    : {},
     var.snets
   )
 
@@ -192,6 +195,15 @@ locals {
     }
   }
 
+  pe_snet = {
+
+    pesubnet = {
+      name                                      = "pesubnet"
+      address_prefixes                          = var.pe_address_prefixes
+      private_endpoint_network_policies_enabled = false
+    }
+  }
+
   nsg_rules = flatten([
     for i in values(local.all_snets) : [
       for k, v in coalesce(try(i.nsg_rules, null), {}) : {
@@ -222,5 +234,7 @@ locals {
 
     ]
   ])
+
+
 
 }

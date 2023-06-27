@@ -1,4 +1,4 @@
-module "bu1_app1_dev_sub" {
+module "bu1_app1_sub" {
   source = "../../modules/base_subscription"
   providers = {
     azurerm = azurerm.sub-bu1-app1-dev
@@ -9,10 +9,13 @@ module "bu1_app1_dev_sub" {
   app      = "app1"
   location = "westus"
 
+  enable_acr = false
+
   # uai will be created and roles will be assigned to uai on subscription
   uai_roles = {
     "infra-cicd" = ["Contributor"]
     "app-cicd"   = []
+    "app"        = ["AcrPull"] # Should be on container registry but i guess no harm at sub level
   }
 
   # group will be created and roles will be assigned to group on subscription
