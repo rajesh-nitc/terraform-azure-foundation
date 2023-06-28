@@ -1,4 +1,4 @@
-# azure-foundation
+# terraform-azure-foundation
 
 Status of each stage:
 
