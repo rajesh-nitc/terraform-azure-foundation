@@ -14,7 +14,7 @@ module "bu1_app1_sub" {
 
   # uai will be created and roles will be assigned to uai on subscription
   uai_roles = {
-    "infra-cicd" = ["Contributor"]
+    "infra-cicd" = ["Contributor", "Managed Identity Operator"]
     "app-cicd"   = ["AcrPush"]
     "app"        = ["AcrPull", "Key Vault Secrets User"]
   }
