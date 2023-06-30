@@ -3,7 +3,7 @@ resource "azuread_group" "group" {
   display_name            = format("%s-%s-%s", each.key, var.bu, var.app)
   security_enabled        = true
   prevent_duplicate_names = true
-  owners                  = [data.azuread_client_config.current.object_id]
+  owners                  = [data.azurerm_client_config.current.object_id]
 }
 
 resource "azurerm_role_assignment" "group" {

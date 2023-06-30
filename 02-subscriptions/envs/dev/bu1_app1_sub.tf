@@ -10,17 +10,18 @@ module "bu1_app1_sub" {
   location = "westus"
 
   enable_acr = false
+  enable_kv  = false
 
   # uai will be created and roles will be assigned to uai on subscription
   uai_roles = {
     "infra-cicd" = ["Contributor"]
-    "app-cicd"   = []
-    "app"        = ["AcrPull"] # Should be on container registry but i guess no harm at sub level
+    "app-cicd"   = ["AcrPush"]
+    "app"        = ["AcrPull", "Key Vault Secrets User"]
   }
 
   # group will be created and roles will be assigned to group on subscription
   group_roles = {
-    "azure-devs"   = ["Reader"]
-    "azure-admins" = ["Contributor"]
+    "azure-devs"   = ["Reader", "Key Vault Secrets Officer"]
+    "azure-admins" = ["Contributor", "Key Vault Secrets Officer"]
   }
 }

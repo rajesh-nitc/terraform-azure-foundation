@@ -29,5 +29,11 @@ data "azurerm_subnet" "firewall" {
 data "azurerm_container_registry" "acr" {
   count               = var.env != "hub" ? 1 : 0
   name                = module.naming.container_registry.name
-  resource_group_name = format("%s-%s", module.naming.resource_group.name, "shared")
+  resource_group_name = local.rg_shared_name
+}
+
+data "azurerm_key_vault" "kv" {
+  count               = var.env != "hub" ? 1 : 0
+  name                = module.naming.key_vault.name
+  resource_group_name = local.rg_shared_name
 }

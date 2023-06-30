@@ -33,7 +33,7 @@ variable "enable_acr" {
   default = true
 }
 
-variable "acr_short_name" {
-  type    = string
-  default = ""
+variable "enable_kv" {
+  type    = bool
+  default = true
 }

@@ -106,13 +106,3 @@ variable "pe_address_prefixes" {
   default = []
 }
 
-variable "acr_name" {
-  type    = string
-  default = ""
-}
-
-variable "acr_rg_name" {
-  type    = string
-  default = ""
-}
-
