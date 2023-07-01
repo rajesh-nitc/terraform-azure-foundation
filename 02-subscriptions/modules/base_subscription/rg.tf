@@ -7,3 +7,8 @@ resource "azurerm_resource_group" "shared" {
   name     = format("%s-%s", module.naming.resource_group.name, "shared")
   location = var.location
 }
+
+resource "azurerm_resource_group" "tfstate" {
+  name     = format("%s-%s", module.naming.resource_group.name, "tf")
+  location = var.location
+}

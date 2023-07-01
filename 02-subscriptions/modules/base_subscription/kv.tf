@@ -4,7 +4,7 @@ resource "azurerm_key_vault" "kv" {
   resource_group_name             = local.rg_shared_name
   location                        = var.location
   sku_name                        = "standard"
-  tenant_id                       = data.azurerm_client_config.current.tenant_id
+  tenant_id                       = local.tenant_id
   soft_delete_retention_days      = 7
   purge_protection_enabled        = false
   public_network_access_enabled   = true

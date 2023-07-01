@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/azuread"
       version = ">=2.39.0"
     }
+    github = {
+      source  = "integrations/github"
+      version = ">= 5.0"
+    }
   }
 }
 
@@ -18,4 +22,8 @@ provider "azurerm" {
   alias                      = "sub-bu1-app1-dev"
   subscription_id            = "1b668524-37b9-410f-aede-fca0b2f2ee06"
   features {}
+}
+
+provider "github" {
+  # set GITHUB_TOKEN environment variable 
 }
