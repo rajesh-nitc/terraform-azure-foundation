@@ -9,6 +9,15 @@ terraform {
   }
 }
 
+# This is the default provider
+# This is without alias so it will be inherited by the root module automatically
+provider "azurerm" {
+  skip_provider_registration = true
+  # alias                      = "sub-bu1-app1-dev"
+  subscription_id = "1b668524-37b9-410f-aede-fca0b2f2ee06"
+  features {}
+}
+
 provider "azurerm" {
   skip_provider_registration = true
   alias                      = "sub-common-connectivity"

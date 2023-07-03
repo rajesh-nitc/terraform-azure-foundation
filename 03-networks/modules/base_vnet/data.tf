@@ -27,13 +27,13 @@ data "azurerm_subnet" "firewall" {
 }
 
 data "azurerm_container_registry" "acr" {
-  count               = var.env != "hub" ? 1 : 0
+  count               = contains(var.private_dns_zones, "privatelink.azurecr.io") && var.env != "hub" ? 1 : 0
   name                = module.naming.container_registry.name
   resource_group_name = local.rg_shared_name
 }
 
 data "azurerm_key_vault" "kv" {
-  count               = var.env != "hub" ? 1 : 0
+  count               = contains(var.private_dns_zones, "privatelink.vaultcore.azure.net") && var.env != "hub" ? 1 : 0
   name                = module.naming.key_vault.name
   resource_group_name = local.rg_shared_name
 }

@@ -91,6 +91,15 @@ variable "private_dns_zones" {
   default = []
 }
 
+variable "uai_roles" {
+  type    = map(list(string))
+  default = {}
+  validation {
+    condition     = contains(keys(var.uai_roles), "infra-cicd")
+    error_message = "Must have a key named infra-cicd"
+  }
+}
+
 variable "enable_appgwsubnet" {
   type    = bool
   default = false
