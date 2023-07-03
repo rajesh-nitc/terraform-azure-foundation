@@ -20,11 +20,7 @@ locals {
     ]
   ])
 
-  gh_repo = data.github_repository.repo.name
-
-  infra_cicd = "infra-cicd"
-  app_cicd   = "app-cicd"
-  app        = "app"
-
+  # filter repos where uai provided by user contains "cicd"
+  filtered_uai_repos = { for k, v in var.uai_repos : k => v if can(regex(".*cicd.*", k)) }
 
 }

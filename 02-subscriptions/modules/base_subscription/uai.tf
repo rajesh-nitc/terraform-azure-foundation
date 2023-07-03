@@ -20,12 +20,13 @@ resource "azurerm_role_assignment" "uai" {
   principal_id         = azurerm_user_assigned_identity.uai[each.value.member].principal_id
 }
 
-# Federate infra-cicd 
-resource "azurerm_federated_identity_credential" "uai_infra_cicd" {
-  name                = format("%s-%s-%s-%s-%s", "uaif", local.infra_cicd, var.bu, var.app, var.env)
+# Federate repos provided by user that contain "cicd" 
+resource "azurerm_federated_identity_credential" "cicd" {
+  for_each            = local.filtered_uai_repos
+  name                = format("%s-%s-%s-%s-%s", "uaif", each.key, var.bu, var.app, var.env)
   resource_group_name = local.rg_name
   audience            = ["api://AzureADTokenExchange"]
   issuer              = "https://token.actions.githubusercontent.com"
-  parent_id           = azurerm_user_assigned_identity.uai[local.infra_cicd].id
-  subject             = "repo:${data.github_repository.repo.full_name}:environment:${var.env}"
+  parent_id           = azurerm_user_assigned_identity.uai[each.key].id
+  subject             = "repo:${each.value}:environment:${var.env}"
 }

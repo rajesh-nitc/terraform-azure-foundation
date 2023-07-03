@@ -13,10 +13,7 @@ module "bu1_app1_sub" {
   enable_kv  = false
 
   # Role assignments are at subscription level
-  # "infra-cicd" and "app-cicd" are standard keys
-  # There is a validation that require uai_roles must have :
-  # key named "infra-cicd" and a key named "app-cicd" and a key named "app"
-  # To enforce every subscription has a uai for infra cicd and app cicd and app
+  # Must have a key named infra-cicd
   uai_roles = {
     "infra-cicd" = [
       "Contributor",
@@ -32,6 +29,16 @@ module "bu1_app1_sub" {
     ]
   }
 
+  # In real world, repos will be different
+  # The keys must match with the uai_roles
+  # If the key provided by user contains "cicd", uai github integration will be created
+  # For e.g. uai github integration will not be created for "app"
+  uai_repos = {
+    "infra-cicd" = "rajesh-nitc/terraform-azure-foundation"
+    "app-cicd"   = "rajesh-nitc/terraform-azure-foundation"
+    "app"        = "rajesh-nitc/terraform-azure-foundation"
+  }
+
   group_roles = {
     "azure-devs" = [
       "Reader",
@@ -43,8 +50,5 @@ module "bu1_app1_sub" {
     ]
   }
 
-  # Github
-  gh_owner = "rajesh-nitc"
-  gh_repo  = "terraform-azure-foundation"
 }
 

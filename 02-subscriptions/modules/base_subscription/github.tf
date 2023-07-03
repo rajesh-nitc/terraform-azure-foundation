@@ -1,34 +1,30 @@
 resource "github_repository_environment" "env" {
+  for_each    = local.filtered_uai_repos
   environment = var.env
-  repository  = local.gh_repo
+  repository  = split("/", each.value)[1]
 }
 
-resource "github_actions_environment_secret" "uai_infra_cicd_client_id" {
-  repository      = local.gh_repo
-  environment     = github_repository_environment.env.environment
-  secret_name     = "INFRA_CICD_CLIENT_ID"
-  plaintext_value = azurerm_user_assigned_identity.uai[local.infra_cicd].client_id
-}
-
-# we have one repo with various stages where one stage may setup infra cicd and other may setup app cicd 
-# In real world, both infra-cicd and app-cicd will have a separate repo
-resource "github_actions_environment_secret" "uai_app_cicd_client_id" {
-  repository      = local.gh_repo
-  environment     = github_repository_environment.env.environment
-  secret_name     = "APP_CICD_CLIENT_ID"
-  plaintext_value = azurerm_user_assigned_identity.uai[local.app_cicd].client_id
+# Error: secret names can only contain alphanumeric characters or underscores and must not start with a number
+resource "github_actions_environment_secret" "client_id" {
+  for_each        = local.filtered_uai_repos
+  repository      = split("/", each.value)[1]
+  environment     = github_repository_environment.env[each.key].environment
+  secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "CLIENT_ID")
+  plaintext_value = azurerm_user_assigned_identity.uai[each.key].client_id
 }
 
 resource "github_actions_environment_secret" "subscription_id" {
-  repository      = local.gh_repo
-  environment     = github_repository_environment.env.environment
+  for_each        = local.filtered_uai_repos
+  repository      = split("/", each.value)[1]
+  environment     = github_repository_environment.env[each.key].environment
   secret_name     = "SUBSCRIPTION_ID"
   plaintext_value = local.sub_id
 }
 
 resource "github_actions_environment_secret" "tenant_id" {
-  repository      = local.gh_repo
-  environment     = github_repository_environment.env.environment
+  for_each        = local.filtered_uai_repos
+  repository      = split("/", each.value)[1]
+  environment     = github_repository_environment.env[each.key].environment
   secret_name     = "TENANT_ID"
   plaintext_value = local.tenant_id
 }

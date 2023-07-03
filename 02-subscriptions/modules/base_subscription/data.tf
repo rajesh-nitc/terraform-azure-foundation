@@ -9,5 +9,7 @@ data "azurerm_subscriptions" "all" {
 }
 
 data "github_repository" "repo" {
-  full_name = format("%s/%s", var.gh_owner, var.gh_repo)
+  for_each  = var.uai_repos
+  full_name = each.value
 }
+
