@@ -14,15 +14,14 @@ terraform {
 provider "azurerm" {
   use_oidc                   = true
   skip_provider_registration = true
-  # alias                      = "sub-bu1-app1-dev"
-  subscription_id = "1b668524-37b9-410f-aede-fca0b2f2ee06"
+  subscription_id            = "1b668524-37b9-410f-aede-fca0b2f2ee06"
   features {}
 }
 
-provider "azurerm" {
-  use_oidc                   = true
-  skip_provider_registration = true
-  alias                      = "sub-common-connectivity"
-  subscription_id            = "9f75fbbf-3b6c-4036-971d-426b55119ad5"
-  features {}
-}
+# provider "azurerm" {
+#   use_oidc                   = true
+#   skip_provider_registration = true
+#   alias                      = "sub-common-connectivity"
+#   subscription_id            = "9f75fbbf-3b6c-4036-971d-426b55119ad5"
+#   features {}
+# }
