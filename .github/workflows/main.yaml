@@ -17,7 +17,7 @@ permissions:
       
 jobs: 
   job_aca_infra_analysis:
-    if: github.event_name == 'pull_request'
+    # if: github.event_name == 'pull_request'
     defaults:
       run:
         working-directory: 05-aca-infra/envs/dev
