@@ -1,7 +1,5 @@
 # terraform-azure-foundation
 
-test
-
 Status of each stage:
 
 0. bootstrap - partial complete - deployed
