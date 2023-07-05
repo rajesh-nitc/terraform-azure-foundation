@@ -37,11 +37,6 @@ variable "group_roles" {
   default = {}
 }
 
-variable "enable_acr" {
-  type    = bool
-  default = true
-}
-
 variable "enable_kv" {
   type    = bool
   default = true

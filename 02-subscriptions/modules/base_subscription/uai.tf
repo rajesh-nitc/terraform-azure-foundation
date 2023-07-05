@@ -22,7 +22,7 @@ resource "azurerm_role_assignment" "uai" {
 
 # Federate repos provided by user that contain "cicd" 
 resource "azurerm_federated_identity_credential" "cicd" {
-  for_each            = local.filtered_uai_repos
+  for_each            = local.filtered_cicd_repos
   name                = format("%s-%s-%s-%s-%s", "uaif", each.key, var.bu, var.app, var.env)
   resource_group_name = local.rg_name
   audience            = ["api://AzureADTokenExchange"]

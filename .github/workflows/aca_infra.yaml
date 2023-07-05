@@ -1,6 +1,6 @@
 # https://learn.microsoft.com/en-us/samples/azure-samples/github-terraform-oidc-ci-cd/github-terraform-oidc-ci-cd/
 
-name: Run Terraform with OpenID Connect
+name: Deploy aca infra with uai and OpenID Connect
 on: 
   push:
     branches:

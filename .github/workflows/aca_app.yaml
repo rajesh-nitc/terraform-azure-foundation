@@ -1,0 +1,58 @@
+# https://learn.microsoft.com/en-us/azure/container-instances/container-instances-github-action?tabs=openid
+
+name: Deploy aca app with uai and OpenID Connect
+on: 
+  push:
+    branches:
+     - main
+  pull_request:
+    branches:
+     - main
+  workflow_dispatch:
+
+permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+      
+jobs: 
+  build_and_deploy_pr:
+    # if: github.event_name == 'pull_request'
+    # defaults:
+    #   run:
+    #     working-directory: 05-aca-app/src
+    name: Build and Deploy PR
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@main
+    - name: Get Short SHA
+      id: get-sha
+      run: |
+          echo "::set-output name=short-sha::${{ github.sha:0:7 }}"
+    - name: Print Short SHA
+      run: |
+          echo "Short SHA: ${{ steps.get-sha.outputs.short-sha }}"  
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.APP_BACKEND_CICD_CLIENT_ID }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+    - name: 'Run Azure CLI commands'
+      env:
+        IMAGE_NAME: hello-world
+        ACR_NAME: ${{ secrets.APP_BACKEND_CICD_ACR_NAME }}
+        USER_ID: ${{ secrets.APP_BACKEND_CICD_USER_ID }}
+        SHORT_SHA: ${{ steps.get-sha.outputs.short-sha }}
+      run: |
+         az account show
+         az group list
+         az login --identity --username $USER_ID
+        #  az acr login --name $ACR_NAME
+         docker build -t $IMAGE_NAME -f ${{ github.workspace }}/06-aca-app/src/Dockerfile .
+        #  docker tag $IMAGE_NAME $ACR_NAME.azurecr.io/$IMAGE_NAME:$SHORT_SHA
+        #  docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$SHORT_SHA        
+          
+    

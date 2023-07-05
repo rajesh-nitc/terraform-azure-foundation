@@ -1,7 +1,7 @@
 resource "azurerm_key_vault" "kv" {
   count                           = var.enable_kv ? 1 : 0
   name                            = module.naming.key_vault.name
-  resource_group_name             = local.rg_shared_name
+  resource_group_name             = local.rg_name
   location                        = var.location
   sku_name                        = "standard"
   tenant_id                       = local.tenant_id

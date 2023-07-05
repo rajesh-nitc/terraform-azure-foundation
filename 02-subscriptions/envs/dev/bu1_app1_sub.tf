@@ -9,34 +9,40 @@ module "bu1_app1_sub" {
   app      = "app1"
   location = "westus"
 
-  enable_acr = false
-  enable_kv  = false
+  enable_kv = false
 
   # Role assignments are at subscription level
   # Must have a key named infra-cicd
   uai_roles = {
     "infra-cicd" = [
       "Contributor",
-      "Managed Identity Operator",     # To be able to use uais
       "Storage Blob Data Contributor", # tfstate
     ]
-    "app-cicd" = [
+    "app-backend-cicd" = [
       "AcrPush",
+      "Managed Identity Operator", # To be able to use uais. App backend cicd will use uai app-backend
     ]
-    "app" = [
+    "app-backend" = [
       "AcrPull",
       "Key Vault Secrets User",
     ]
   }
 
   # In real world, repos will be different
-  # The keys must match with the uai_roles
-  # If the key provided by user contains "cicd", uai github integration will be created
-  # For e.g. uai github integration will not be created for "app"
+  # The keys must match with the keys in uai_roles
+
+  # If the key includes "cicd", uai github openid connect integration will be created:
+  # For e.g. uai github openid connect integration will not be created for "app-backend"
+
+  # If the key includes "cicd" but not "infra":
+  # acr will be created along with github secrets for acr name and rg name
+
+  # If the key includes "app" but not "cicd" and "infa":
+  # github secret for app uai id will be created
   uai_repos = {
-    "infra-cicd" = "rajesh-nitc/terraform-azure-foundation"
-    "app-cicd"   = "rajesh-nitc/terraform-azure-foundation"
-    "app"        = "rajesh-nitc/terraform-azure-foundation"
+    "infra-cicd"       = "rajesh-nitc/terraform-azure-foundation"
+    "app-backend-cicd" = "rajesh-nitc/terraform-azure-foundation"
+    "app-backend"      = "rajesh-nitc/terraform-azure-foundation"
   }
 
   group_roles = {
