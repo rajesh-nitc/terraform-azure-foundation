@@ -30,7 +30,8 @@ jobs:
     - name: Get Short SHA
       id: get-sha
       run: |
-          echo "::set-output name=short-sha::${{ github.sha:0:7 }}"
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo "::set-output name=short-sha::$SHORT_SHA"
     - name: Print Short SHA
       run: |
           echo "Short SHA: ${{ steps.get-sha.outputs.short-sha }}"  
