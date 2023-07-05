@@ -50,7 +50,7 @@ jobs:
       run: |
           az account show
           az group list
-          az login --identity --username $USER_ID
+          # az login --identity --username $USER_ID
           # az acr login --name $ACR_NAME
           docker build -t $IMAGE_NAME -f ${{ github.workspace }}/06-aca-app/src/Dockerfile .
           # docker tag $IMAGE_NAME $ACR_NAME.azurecr.io/$IMAGE_NAME:$SHORT_SHA
