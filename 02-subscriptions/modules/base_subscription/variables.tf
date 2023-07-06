@@ -36,8 +36,3 @@ variable "group_roles" {
   type    = map(list(string))
   default = {}
 }
-
-variable "enable_kv" {
-  type    = bool
-  default = true
-}

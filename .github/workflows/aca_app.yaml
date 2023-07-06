@@ -1,6 +1,6 @@
 # https://learn.microsoft.com/en-us/azure/container-instances/container-instances-github-action?tabs=openid
 
-name: Deploy aca app with uai and OpenID Connect
+name: Deploy aca app with uai and OpenID authentication
 on: 
   push:
     branches:
@@ -17,6 +17,7 @@ permissions:
 
 env:
   IMAGE_NAME: hello-world
+  CONTAINER_APP_NAME: ca-bu1-app1
     
 jobs: 
   build_and_deploy_pr:
@@ -26,6 +27,10 @@ jobs:
         working-directory: 06-aca-app/src
     name: Build and Deploy PR
     environment: dev
+    env:
+        REGISTRY_LOGIN_SERVER: ${{ secrets.APP_BACKEND_CICD_ACR_NAME }}.azurecr.io
+        IMAGE_NAME: ${{ env.IMAGE_NAME }}
+        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
@@ -36,22 +41,6 @@ jobs:
       run: |
           SHORT_SHA=$(git rev-parse --short HEAD)
           echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT" 
-      
-    # - name: Docker Login 
-    #   uses: azure/docker-login@v1
-    #   env:
-    #     IMAGE_NAME: ${{ env.IMAGE_NAME }}
-    #     ACR_NAME: ${{ secrets.APP_BACKEND_CICD_ACR_NAME }}
-    #     ACR_USERNAME: ${{ secrets.APP_BACKEND_CICD_ACR_USERNAME }}
-    #     ACR_PASSWORD: ${{ secrets.APP_BACKEND_CICD_ACR_PASSWORD }}
-    #     SHORT_SHA: ${{ steps.get-sha.outputs.short-sha }}
-    #   with:
-    #     login-server: $ACR_NAME.azurecr.io
-    #     username: $ACR_USERNAME 
-    #     password: $ACR_PASSWORD
-    # - run: |
-    #     docker build . -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$SHORT_SHA
-    #     #docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$SHORT_SHA
 
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
@@ -59,34 +48,21 @@ jobs:
         client-id: ${{ secrets.APP_BACKEND_CICD_CLIENT_ID }}
         tenant-id: ${{ secrets.TENANT_ID }}
         subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
-    # - name: 'Run Azure CLI commands'
-    #   run: |
-    #       az account show
-    #       az group list
-    # - name: Build and deploy Container App
-    #   uses: azure/container-apps-deploy-action@v1
-    #   with:
-    #     appSourcePath: ${{ github.workspace }}/06-aca-app/src
-    #     dockerfilePath: Dockerfile
-    #     acrName: ${{ secrets.APP_BACKEND_CICD_ACR_NAME }}
-    #     acrUsername: ${{ secrets.APP_BACKEND_CICD_ACR_USERNAME }}
-    #     acrPassword: ${{ secrets.APP_BACKEND_CICD_ACR_PASSWORD }}
-    #     imageToBuild: ${{ secrets.APP_BACKEND_CICD_ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.get-sha.outputs.short-sha }}
-    #     containerAppName: ca-bu1-app1-dev-westus
-    #     resourceGroup: ${{ secrets.APP_BACKEND_CICD_RG_NAME }}
-    #     containerAppEnvironment: cae-bu1-app1-dev-westus
-    #     targetPort: 3500
-    #     location: westus
-    #     ingress: external
-    #     environmentVariables: |
-    #       KEY1=VALUE1 \
-    #       KEY2=VALUE2 
+
     - name: Build and push image
       id: build-image
-      env:
-        REGISTRY_LOGIN_SERVER: ${{ secrets.APP_BACKEND_CICD_ACR_NAME }}.azurecr.io
-        IMAGE_NAME: ${{ env.IMAGE_NAME }}
-        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-
       run: |
-          az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
+          echo $REGISTRY_LOGIN_SERVER
+          echo $IMAGE_NAME
+          echo $SHORT_SHA
+          #az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
+
+    # - name: Pull image
+    #   run: |
+    #       az containerapp up \
+    #       --name ${CONTAINER_APP_NAME}-dev \
+    #       --resource-group ${{ secrets.APP_BACKEND_CICD_RG_NAME }} \
+    #       --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
+    #       --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} \
+    #       --location ${{ inputs.container-app-location }} \
+    #       ${{ env.CA_GH_ACTION_CONTAINER_APP_ENVIRONMENT_VARIABLES_ARG }}

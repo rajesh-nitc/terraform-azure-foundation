@@ -1,6 +1,6 @@
 # https://learn.microsoft.com/en-us/samples/azure-samples/github-terraform-oidc-ci-cd/github-terraform-oidc-ci-cd/
 
-name: Deploy aca infra with uai and OpenID Connect
+name: Deploy aca infra with uai and OpenID authentication
 on: 
   push:
     branches:
@@ -107,18 +107,4 @@ jobs:
 
   #   - name: Terraform Apply
   #     run: terraform apply -auto-approve
-
-  
-# NOTE This is an example of how to login to the Azure CLI, this step is not needed for Terraform
-#     - name: 'Az CLI login'
-#       uses: azure/login@v1
-#       with:
-#          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-#          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-#          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-#     - name: 'Run Azure CLI commands'
-#       run: |
-#          az account show
-#          az group list
           
-    
