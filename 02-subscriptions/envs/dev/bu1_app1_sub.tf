@@ -17,14 +17,17 @@ module "bu1_app1_sub" {
     "infra-cicd" = [
       "Contributor",
       "Storage Blob Data Contributor", # tfstate
+      "Key Vault Administrator",
     ]
     "app-backend-cicd" = [
       "AcrPush",
       "Managed Identity Operator", # To be able to use uais. App backend cicd will use uai app-backend
+      "Key Vault Secrets User",
+      "Contributor", # Until we have a container app admin role from Azure
     ]
     "app-backend" = [
       "AcrPull",
-      "Key Vault Secrets User",
+
     ]
   }
 
