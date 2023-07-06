@@ -59,12 +59,13 @@ jobs:
           echo ${CONTAINER_APP_NAME}-dev
           #az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
-    # - name: Pull image
-    #   run: |
-    #       az containerapp up \
-    #       --name ${CONTAINER_APP_NAME}-dev \
-    #       --resource-group ${{ secrets.APP_BACKEND_CICD_RG_NAME }} \
-    #       --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
-    #       --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} \
-    #       --location ${{ inputs.container-app-location }} \
-    #       ${{ env.CA_GH_ACTION_CONTAINER_APP_ENVIRONMENT_VARIABLES_ARG }}
+    - name: Pull image
+      run: |
+          echo "test if short sha is available here: $SHORT_SHA"
+          # az containerapp up \
+          # --name ${CONTAINER_APP_NAME}-dev \
+          # --resource-group ${{ secrets.APP_BACKEND_CICD_RG_NAME }} \
+          # --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
+          # --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} \
+          # --location ${{ inputs.container-app-location }} \
+          # ${{ env.CA_GH_ACTION_CONTAINER_APP_ENVIRONMENT_VARIABLES_ARG }}
