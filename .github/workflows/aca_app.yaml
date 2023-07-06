@@ -17,6 +17,7 @@ permissions:
 
 env:
   IMAGE_NAME: hello-world
+  CONTAINER_NAME: hello-world
   CONTAINER_APP_NAME: ca-bu1-app1-westus
   CONTAINER_APP_ENVIRONMENT: cae-bu1-app1-westus
   LOCATION: westus
@@ -32,6 +33,7 @@ jobs:
     env:
       REGISTRY_LOGIN_SERVER: ${{ secrets.APP_B_CICD_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.APP_B_CICD_RG_NAME }}
+      CONTAINER_UAI_ID: ${{ secrets.APP_B_CONTAINER_UAI_ID }}
         
     runs-on: ubuntu-latest
     steps:
@@ -56,16 +58,17 @@ jobs:
       env:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
-          echo "hello world!"
-          #az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
+          az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
     # - name: Pull image
     #   env:
     #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
     #   run: |
-    #       az containerapp up \
-    #       --name ${CONTAINER_APP_NAME}-dev \
-    #       --resource-group $RG \
+    #       az containerapp create --name ${CONTAINER_APP_NAME}-dev --resource-group $RG --location $LOCATION \
+    #       --container-name ${CONTAINER_NAME}-dev \ 
+    #       --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
+    #       --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
     #       --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
-    #       --environment $CONTAINER_APP_ENVIRONMENT \
-    #       --location $LOCATION \
+    #       --ingress external \
+    #       --target-port 3500 \
+    #       --user-assigned $CONTAINER_UAI_ID
