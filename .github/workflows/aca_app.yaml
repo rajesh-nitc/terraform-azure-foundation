@@ -28,9 +28,8 @@ jobs:
     name: Build and Deploy PR
     environment: dev
     env:
-        REGISTRY_LOGIN_SERVER: ${{ secrets.APP_BACKEND_CICD_ACR_NAME }}.azurecr.io
-        IMAGE_NAME: ${{ env.IMAGE_NAME }}
-        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+      REGISTRY_LOGIN_SERVER: ${{ secrets.APP_BACKEND_CICD_ACR_NAME }}.azurecr.io
+        
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout GitHub Action'
@@ -51,10 +50,13 @@ jobs:
 
     - name: Build and push image
       id: build-image
+      env:
+        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
           echo $REGISTRY_LOGIN_SERVER
           echo $IMAGE_NAME
           echo $SHORT_SHA
+          echo ${CONTAINER_APP_NAME}-dev
           #az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
     # - name: Pull image
