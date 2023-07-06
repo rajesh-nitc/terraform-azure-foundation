@@ -5,6 +5,6 @@ module "naming" {
     var.env != "hub"
     ? [var.bu, var.app]
     : [],
-    [var.env, var.location]
+    [var.location, var.env]
   )
 }

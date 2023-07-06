@@ -1,5 +1,5 @@
 resource "azurerm_container_app_environment" "env" {
-  name                           = format("%s-%s-%s-%s-%s", "cae", var.bu, var.app, var.env, var.location)
+  name                           = format("%s-%s-%s-%s-%s", "cae", var.bu, var.app, var.location, var.env)
   resource_group_name            = local.rg_name
   location                       = var.location
   log_analytics_workspace_id     = azurerm_log_analytics_workspace.law.id

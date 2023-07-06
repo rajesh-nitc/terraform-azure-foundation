@@ -17,7 +17,9 @@ permissions:
 
 env:
   IMAGE_NAME: hello-world
-  CONTAINER_APP_NAME: ca-bu1-app1
+  CONTAINER_APP_NAME: ca-bu1-app1-westus
+  CONTAINER_APP_ENVIRONMENT: cae-bu1-app1-westus
+  LOCATION: westus
     
 jobs: 
   build_and_deploy_pr:
@@ -28,7 +30,8 @@ jobs:
     name: Build and Deploy PR
     environment: dev
     env:
-      REGISTRY_LOGIN_SERVER: ${{ secrets.APP_BACKEND_CICD_ACR_NAME }}.azurecr.io
+      REGISTRY_LOGIN_SERVER: ${{ secrets.APP_B_CICD_ACR_NAME }}.azurecr.io
+      RG: ${{ secrets.APP_B_CICD_RG_NAME }}
         
     runs-on: ubuntu-latest
     steps:
@@ -44,7 +47,7 @@ jobs:
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
-        client-id: ${{ secrets.APP_BACKEND_CICD_CLIENT_ID }}
+        client-id: ${{ secrets.APP_B_CICD_CLIENT_ID }}
         tenant-id: ${{ secrets.TENANT_ID }}
         subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
 
@@ -53,25 +56,16 @@ jobs:
       env:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
-          echo $REGISTRY_LOGIN_SERVER
-          echo $IMAGE_NAME
-          echo $SHORT_SHA
-          echo ${CONTAINER_APP_NAME}-dev
+          echo "hello world!"
           #az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
-    - name: Pull image
-      env:
-        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-      run: |
-          echo "now t should be: $SHORT_SHA"
-          echo $REGISTRY_LOGIN_SERVER
-          echo $IMAGE_NAME
-          echo $SHORT_SHA
-          echo ${CONTAINER_APP_NAME}-dev
-          # az containerapp up \
-          # --name ${CONTAINER_APP_NAME}-dev \
-          # --resource-group ${{ secrets.APP_BACKEND_CICD_RG_NAME }} \
-          # --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
-          # --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} \
-          # --location ${{ inputs.container-app-location }} \
-          # ${{ env.CA_GH_ACTION_CONTAINER_APP_ENVIRONMENT_VARIABLES_ARG }}
+    # - name: Pull image
+    #   env:
+    #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+    #   run: |
+    #       az containerapp up \
+    #       --name ${CONTAINER_APP_NAME}-dev \
+    #       --resource-group $RG \
+    #       --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
+    #       --environment $CONTAINER_APP_ENVIRONMENT \
+    #       --location $LOCATION \

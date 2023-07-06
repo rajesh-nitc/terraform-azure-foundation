@@ -1,4 +1,6 @@
 locals {
+  rg_name   = azurerm_resource_group.net.name
+  vnet_name = azurerm_virtual_network.vnet.name
 
   all_snets = merge(
     var.enable_bastion && var.env == "hub"

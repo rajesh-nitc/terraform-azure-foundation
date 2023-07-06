@@ -8,8 +8,3 @@ data "azurerm_subscriptions" "all" {
   display_name_contains = format("%s-%s-%s", var.bu, var.app, var.env)
 }
 
-data "github_repository" "repo" {
-  for_each  = var.uai_repos
-  full_name = each.value
-}
-

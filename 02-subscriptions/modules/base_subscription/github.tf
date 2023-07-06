@@ -33,7 +33,7 @@ resource "github_actions_environment_secret" "tenant_id" {
 #   repository      = split("/", each.value)[1]
 #   environment     = github_repository_environment.env[each.key].environment
 #   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "ACR_NAME")
-#   plaintext_value = azurerm_container_registry.acr[each.key].name
+#   plaintext_value = azurerm_container_registry.acr.name
 # }
 
 resource "github_actions_environment_secret" "rg" {

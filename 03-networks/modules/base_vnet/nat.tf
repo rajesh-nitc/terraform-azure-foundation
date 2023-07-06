@@ -31,7 +31,7 @@ resource "azurerm_nat_gateway_public_ip_association" "nat_pip" {
 
 resource "azurerm_nat_gateway" "nat" {
   count                   = var.enable_nat ? 1 : 0
-  name                    = format("%s-%s-%s", "natgw", var.env, var.location)
+  name                    = format("%s-%s-%s", "natgw", var.location, var.env)
   location                = var.location
   resource_group_name     = local.rg_name
   sku_name                = "Standard"

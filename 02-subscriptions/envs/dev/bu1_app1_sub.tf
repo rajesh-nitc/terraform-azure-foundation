@@ -11,19 +11,21 @@ module "bu1_app1_sub" {
 
   # Uai will be created and role assignments are given to uai at subscription level
   # Must have a key named infra-cicd
+  # App Frontend: app-f
+  # App Backend: app-b
   uai_roles = {
     "infra-cicd" = [
       "Contributor",
       "Storage Blob Data Contributor", # tfstate
       "Key Vault Secrets Officer",
     ]
-    "app-backend-cicd" = [
+    "app-b-cicd" = [
       "AcrPush",
       "Managed Identity Operator", # To be able to use uais. App backend cicd will use uai app-backend
       "Key Vault Secrets User",
       "Contributor", # Until we have a container app admin role from Azure
     ]
-    "app-backend" = [
+    "app-b" = [
       "AcrPull",
 
     ]
@@ -41,9 +43,9 @@ module "bu1_app1_sub" {
   # If the key includes "app" but not "cicd" and "infa":
   # github secret for app uai ID will be created
   uai_repos = {
-    "infra-cicd"       = "rajesh-nitc/terraform-azure-foundation"
-    "app-backend-cicd" = "rajesh-nitc/terraform-azure-foundation"
-    "app-backend"      = "rajesh-nitc/terraform-azure-foundation"
+    "infra-cicd" = "rajesh-nitc/terraform-azure-foundation"
+    "app-b-cicd" = "rajesh-nitc/terraform-azure-foundation"
+    "app-b"      = "rajesh-nitc/terraform-azure-foundation"
   }
 
   # Group will be created and role assignments are given to group at subscription level

@@ -1,10 +1,10 @@
 terraform {
   backend "azurerm" {
     use_oidc             = true
-    storage_account_name = "stbu1app1devwestustf"
-    container_name       = "stct-bu1-app1-dev-westus-tf"
+    storage_account_name = "stbu1app1westusdevtf"
+    container_name       = "stct-bu1-app1-westus-dev-tf"
     key                  = "dev-bu1-app1-aca-infra.tfstate"
-    resource_group_name  = "rg-bu1-app1-dev-westus-tf"
+    resource_group_name  = "rg-bu1-app1-westus-dev-tf"
 
     # we have been using sp-org-terraform until now with the stct in sub-bootstrap-tfstate
     # stct above is in sub-bu1-app1-dev subscription

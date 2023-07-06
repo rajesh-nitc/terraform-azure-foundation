@@ -12,7 +12,7 @@ resource "azurerm_public_ip" "bastion" {
 # https://github.com/Azure/terraform-azurerm-naming/pull/92
 resource "azurerm_bastion_host" "bastion" {
   count = var.enable_bastion && var.env == "hub" ? 1 : 0
-  name  = format("%s-%s-%s", "bas", var.env, var.location)
+  name  = format("%s-%s-%s", "bas", var.location, var.env)
   # name                = module.naming.bastion_host.name
   location            = var.location
   resource_group_name = local.rg_name

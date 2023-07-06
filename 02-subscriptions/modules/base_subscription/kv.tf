@@ -1,6 +1,5 @@
 # resource "azurerm_key_vault" "kv" {
-#   for_each                        = local.filtered_app_cicd_repos
-#   name                            = format("%s-%s", module.naming_kv.key_vault.name, substr(each.key, 0, 8))
+#   name                            = module.naming.key_vault.name
 #   resource_group_name             = local.rg_name
 #   location                        = var.location
 #   sku_name                        = "standard"
