@@ -4,36 +4,37 @@ variable "env" {
 }
 
 variable "bu" {
-  type    = string
-  default = ""
+  type     = string
+  nullable = false
 }
 
 variable "app" {
-  type    = string
-  default = ""
+  type     = string
+  nullable = false
 }
 
 variable "location" {
-  type    = string
-  default = "westus"
+  type     = string
+  nullable = false
+  default  = "westus"
 }
 
 variable "enable_nat" {
-  description = ""
-  type        = bool
-  default     = false
+  type     = bool
+  nullable = false
+  default  = false
 }
 
 variable "enable_bastion" {
-  description = ""
-  type        = bool
-  default     = false
+  type     = bool
+  nullable = false
+  default  = false
 }
 
 variable "enable_firewall" {
-  description = ""
-  type        = bool
-  default     = false
+  type     = bool
+  nullable = false
+  default  = false
 }
 
 variable "vnet_address_space" {
@@ -42,7 +43,6 @@ variable "vnet_address_space" {
 }
 
 variable "snets" {
-  description = ""
   type = map(object({
     name                                          = string
     address_prefixes                              = list(string)
@@ -73,36 +73,43 @@ variable "snets" {
 
     })))
   }))
-  default = {}
+  nullable = false
+  default  = {}
 }
 
 variable "bastion_address_prefixes" {
-  type    = list(string)
-  default = []
+  type     = list(string)
+  nullable = false
+  default  = []
 }
 
 variable "firewall_address_prefixes" {
-  type    = list(string)
-  default = []
+  type     = list(string)
+  nullable = false
+  default  = []
 }
 
 variable "private_dns_zones" {
-  type    = list(string)
-  default = []
+  type     = list(string)
+  nullable = false
+  default  = []
 }
 
 variable "enable_appgwsubnet" {
-  type    = bool
-  default = false
+  type     = bool
+  nullable = false
+  default  = false
 }
 
 variable "appgw_address_prefixes" {
-  type    = list(string)
-  default = []
+  type     = list(string)
+  nullable = false
+  default  = []
 }
 
 variable "pe_address_prefixes" {
-  type    = list(string)
-  default = []
+  type     = list(string)
+  nullable = false
+  default  = []
 }
 

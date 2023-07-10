@@ -18,6 +18,7 @@ provider "azurerm" {
   features {}
 }
 
+# If we wanted to pass another provider
 # provider "azurerm" {
 #   use_oidc                   = true
 #   skip_provider_registration = true

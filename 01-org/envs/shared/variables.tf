@@ -1,25 +1,25 @@
 variable "subscription_management_suffix" {
-  type        = string
-  nullable    = false
-  description = "description"
+  type     = string
+  nullable = false
+  default  = "management"
 }
 
 variable "subscription_connectivity_suffix" {
-  type        = string
-  nullable    = false
-  description = "description"
+  type     = string
+  nullable = false
+  default  = "connectivity"
 }
 
 variable "allowed_locations" {
-  type        = list(string)
-  nullable    = false
-  description = "description"
+  type     = list(string)
+  nullable = false
+  default  = ["westus"]
 }
 
 variable "location" {
-  type        = string
-  nullable    = false
-  description = "description"
+  type     = string
+  nullable = false
+  default  = "westus"
 }
 
 variable "law_solutions" {
@@ -29,18 +29,22 @@ variable "law_solutions" {
     product   = string,
 
   }))
-  default     = []
-  nullable    = false
-  description = "description"
+
+  nullable = false
+  default  = []
 }
 
 variable "log_categories" {
-  type        = list(string)
-  nullable    = false
-  description = "description"
+  type     = list(string)
+  nullable = false
+  default = [
+    "Administrative"
+  ]
+
 }
 
 variable "group_roles" {
-  type    = map(list(string))
-  default = {}
+  type     = map(list(string))
+  nullable = false
+  default  = {}
 }

@@ -1,2 +1,0 @@
-env      = "dev"
-location = "westus"

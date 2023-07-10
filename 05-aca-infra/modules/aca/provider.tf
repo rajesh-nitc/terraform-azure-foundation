@@ -5,7 +5,7 @@ terraform {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = ">= 3.61.0"
-      # configuration_aliases = [azurerm.connectivity]
+      # configuration_aliases = [azurerm.connectivity] # If we wanted to pass another provider
     }
 
   }

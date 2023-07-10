@@ -21,9 +21,9 @@ module "bu1_app1_sub" {
     ]
     "app-b-cicd" = [
       "AcrPush",
-      "Managed Identity Operator", # To be able to use uais. App backend cicd will use uai app-backend
+      "Managed Identity Operator", # To be able to use uais. app-b-cicd will use uai app-b for the container
       "Key Vault Secrets User",
-      "Contributor", # Until we have a container app admin role from Azure
+      "Contributor", # Until Azure provide container app admin role
     ]
     "app-b" = [
       "AcrPull",
@@ -34,14 +34,14 @@ module "bu1_app1_sub" {
   # In real world, repos will be different
   # The keys must match with the keys in uai_roles
 
-  # If the key includes "cicd", uai will be fedearted for github openid auth:
-  # For e.g. uai app-backend will not be federated
+  # If the key includes "cicd", uai will be federated for github openid auth:
+  # For e.g. uai app-b will not be federated
 
   # If the key includes "cicd" but not "infra":
   # acr will be created along with github secrets for acr name and rg name
 
   # If the key includes "app" but not "cicd" and "infa":
-  # github secret for app uai ID will be created
+  # github secret for app uai ID will be created - which will be used by app-b-cicd workflow to assign it to a container
   uai_repos = {
     "infra-cicd" = "rajesh-nitc/terraform-azure-foundation"
     "app-b-cicd" = "rajesh-nitc/terraform-azure-foundation"

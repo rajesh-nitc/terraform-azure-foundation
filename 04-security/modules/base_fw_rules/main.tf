@@ -1,6 +1,6 @@
 # network rules
 resource "azurerm_firewall_network_rule_collection" "fwnetrc" {
-  for_each = { for i in coalesce(var.network_rule_collections, []) : i.name => i }
+  for_each = { for i in var.network_rule_collections : i.name => i }
 
   name                = format("%s-%s", module.naming.firewall_network_rule_collection.name, each.key)
   azure_firewall_name = var.firewall_name
@@ -25,7 +25,7 @@ resource "azurerm_firewall_network_rule_collection" "fwnetrc" {
 
 # application rules
 resource "azurerm_firewall_application_rule_collection" "fwapprc" {
-  for_each = { for i in coalesce(var.application_rule_collections, []) : i.name => i }
+  for_each = { for i in var.application_rule_collections : i.name => i }
 
   name                = format("%s-%s", module.naming.firewall_application_rule_collection.name, each.key)
   azure_firewall_name = var.firewall_name
@@ -53,7 +53,7 @@ resource "azurerm_firewall_application_rule_collection" "fwapprc" {
 
 # nat rules
 resource "azurerm_firewall_nat_rule_collection" "fwnatrc" {
-  for_each = { for i in coalesce(var.nat_rule_collections, []) : i.name => i }
+  for_each = { for i in var.nat_rule_collections : i.name => i }
 
   name                = format("%s-%s", module.naming.firewall_nat_rule_collection.name, each.key)
   azure_firewall_name = var.firewall_name

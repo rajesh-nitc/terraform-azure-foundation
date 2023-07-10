@@ -16,7 +16,7 @@ group_roles = {
 
 # Most are commented out to save on costs
 log_categories = [
-  # "Administrative", 
+  # "Administrative",
   "Security",
   "Policy",
   # "ServiceHealth", 

@@ -6,13 +6,11 @@ variable "env" {
 variable "bu" {
   type     = string
   nullable = false
-  default  = ""
 }
 
 variable "app" {
   type     = string
   nullable = false
-  default  = ""
 }
 
 variable "location" {
@@ -26,8 +24,8 @@ variable "firewall_name" {
 }
 
 variable "firewall_public_ip" {
-  type    = string
-  default = ""
+  type     = string
+  nullable = false
 }
 
 variable "resource_group_name" {
@@ -51,7 +49,8 @@ variable "network_rule_collections" {
       protocols             = list(string)
     }))
   }))
-  default = null
+  nullable = false
+  default  = []
 }
 
 variable "application_rule_collections" {
@@ -70,7 +69,8 @@ variable "application_rule_collections" {
       }))
     }))
   }))
-  default = null
+  nullable = false
+  default  = []
 }
 
 variable "nat_rule_collections" {
@@ -88,5 +88,6 @@ variable "nat_rule_collections" {
       protocols          = list(string)
     }))
   }))
-  default = null
+  nullable = false
+  default  = []
 }

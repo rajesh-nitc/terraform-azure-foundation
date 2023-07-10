@@ -4,16 +4,17 @@ variable "env" {
 }
 
 variable "bu" {
-  type    = string
-  default = ""
+  type     = string
+  nullable = false
 }
 
 variable "app" {
-  type    = string
-  default = ""
+  type     = string
+  nullable = false
 }
 
 variable "location" {
-  type    = string
-  default = "westus"
+  type     = string
+  nullable = false
+  default  = "westus"
 }
