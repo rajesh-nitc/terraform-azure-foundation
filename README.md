@@ -29,22 +29,22 @@ Mainly org level resources like policy, centralized log analytics workspace, azu
 ## Subscriptions
 New subscription can be created using ```base_subscription``` module. These subscriptions will be handed over to project teams. As part of creating new subscriptions, the following has been automated:
 - Default rg, acr, kv, tfstate
-- Uais like ```infra-cicd```, ```app-b-cicd``` (b for backend) and ```app-b```
+- Uais like ```infra-cicd```, ```app-b-cicd``` (b for backend), ```app-b```, ```app-f``` (f for frontend)
 - Federation of the uais with github openid auth so that project teams can run their infra cicd, app cicd on github actions
 - Roles to uais on subscription
 - Groups and roles to groups on subscription
-- Gitub environment and secrets
+- Github environment and secrets
 
 ## Networks
 New networks hub and/or spoke can be created using single ```base_vnet``` module. As part of creating a vnet, the following has been automated:
 - vnet, snet, nsg, nsg rules, routes for hub and/or spoke
 - bastion, firewall in hub
-- private endpoint and dns for acr and kv created in subscriptions stage
+- private endpoint and dns for default acr and kv created in subscriptions stage
 - option to enable nat on snet
 - default snets
 
 ## Aca-infra
-This stage is run on github actions using ```infra-cicd``` uai that was created in subscriptions stage.
+This stage is for project team and is run on github actions using ```infra-cicd``` uai that was handed over by platform/central team as part of subscriptions stage.
 
 ## Aca-app
-This stage is run on github actions using ```app-b-cicd``` uai that was created in subscriptions stage. Actual app runs with uai ```app-b``` and can pull images from acr.
+This stage is for project team and is run on github actions using ```app-b-cicd``` uai that was handed over by platform/central team as part of subscriptions stage. Actual app runs with uai ```app-b``` and can pull images from acr.
