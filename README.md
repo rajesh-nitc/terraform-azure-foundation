@@ -1,7 +1,5 @@
 # terraform-azure-foundation
 
-This is dedicated to the creators of [terraform-example-foundation](https://github.com/terraform-google-modules/terraform-example-foundation)
-
 Stages 0-4 are run manually using a service principal with owner role at root management group. 
 
 Stage 5 is run on github with OpenID authentication using uai infra-cicd (which was created as part of stage 2). Federating an uai is also part of stage 2.
