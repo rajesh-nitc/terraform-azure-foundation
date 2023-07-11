@@ -19,12 +19,6 @@ variable "location" {
   default  = "westus"
 }
 
-variable "enable_nat" {
-  type     = bool
-  nullable = false
-  default  = false
-}
-
 variable "enable_bastion" {
   type     = bool
   nullable = false
@@ -46,32 +40,36 @@ variable "snets" {
   type = map(object({
     name                                          = string
     address_prefixes                              = list(string)
-    service_endpoints                             = optional(list(string))
+    service_endpoints                             = optional(list(string), [])
     private_endpoint_network_policies_enabled     = optional(bool, true)
     private_link_service_network_policies_enabled = optional(bool, true)
 
-    nsg_name = optional(string)
-    nsg_rules = optional(map(object({
-      name                       = string
-      priority                   = string
-      direction                  = string
-      access                     = string
-      protocol                   = string
-      source_port_ranges         = list(string)
-      destination_port_ranges    = list(string)
-      source_address_prefix      = string
-      destination_address_prefix = string
-    })))
+    enable_nat = optional(bool, false)
 
-    route_table_name = optional(string)
-    routes = optional(list(object({
-      route_name             = string
-      address_prefix         = string
-      next_hop_type          = string
-      next_hop_in_ip_address = optional(string)
+    nsg_name = optional(string, null)
+    nsg_rules = optional(map(object(
+      {
+        name                       = string
+        priority                   = string
+        direction                  = string
+        access                     = string
+        protocol                   = string
+        source_port_ranges         = list(string)
+        destination_port_ranges    = list(string)
+        source_address_prefix      = string
+        destination_address_prefix = string
+      }
+    )), {})
 
-
-    })))
+    route_table_name = optional(string, null)
+    routes = optional(list(object(
+      {
+        route_name             = string
+        address_prefix         = string
+        next_hop_type          = string
+        next_hop_in_ip_address = optional(string)
+      }
+    )), [])
   }))
   nullable = false
   default  = {}

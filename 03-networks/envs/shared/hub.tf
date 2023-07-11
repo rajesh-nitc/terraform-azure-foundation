@@ -17,9 +17,6 @@ module "hub_vnet" {
   enable_bastion = false
   # bastion_address_prefixes = ["10.0.1.0/24"]
 
-  # Nat
-  enable_nat = false
-
 }
 
 

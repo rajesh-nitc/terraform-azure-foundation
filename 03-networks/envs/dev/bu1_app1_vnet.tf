@@ -24,6 +24,7 @@ module "bu1_app1_vnet" {
     infrasubnet = {
       name             = "infrasubnet"
       address_prefixes = ["10.0.64.0/23"] # /23 is the minimum subnet size required
+      enable_nat       = false
 
       # route_table_name = "default-egress"
       # routes = [

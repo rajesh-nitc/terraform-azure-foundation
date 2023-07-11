@@ -208,7 +208,7 @@ locals {
 
   nsg_rules = flatten([
     for i in values(local.all_snets) : [
-      for k, v in coalesce(try(i.nsg_rules, null), {}) : {
+      for k, v in try(i.nsg_rules, {}) : {
         nsg_name                   = i.nsg_name
         name                       = v.name
         priority                   = v.priority
@@ -226,7 +226,7 @@ locals {
 
   routes = flatten([
     for i in values(local.all_snets) : [
-      for j in coalesce(try(i.routes, null), []) : {
+      for j in try(i.routes, []) : {
         route_table_name       = i.route_table_name
         route_name             = j.route_name
         address_prefix         = j.address_prefix
