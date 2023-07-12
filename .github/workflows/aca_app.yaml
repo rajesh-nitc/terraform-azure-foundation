@@ -72,3 +72,11 @@ jobs:
     #       --ingress external \
     #       --target-port 3500 \
     #       --user-assigned $CONTAINER_UAI_ID
+
+    - name: Update redirect_uri in azure ad app registration
+      id: test
+      env:
+        AAD_CLIENT_ID: ${{ secrets.APP_AAD_CLIENT_ID }}
+        REDIRECT_URI: "https://fqdn-will-come-from-the-output-of-above-step/.auth/login/aad/callback""
+      run: |
+          az ad app update --id $AAD_CLIENT_ID --web-redirect-uris $REDIRECT_URI
