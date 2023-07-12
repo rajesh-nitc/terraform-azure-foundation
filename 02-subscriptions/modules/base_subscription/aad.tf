@@ -19,7 +19,7 @@ resource "azurerm_role_assignment" "group" {
   principal_id         = azuread_group.group[each.value.member].object_id
 }
 
-# Allow developers to update app registrations in azure ad
+# Allow developers to create app registrations in azure ad
 resource "azuread_directory_role" "app_developer" {
   display_name = "Application Developer"
 }
@@ -30,8 +30,12 @@ resource "azuread_directory_role_assignment" "devs_group" {
 }
 
 # So that app-cicd (as part of github actions) is able to update the redirect URI in aad app
+resource "azuread_directory_role" "app_cicd" {
+  display_name = "Application Administrator"
+}
+
 resource "azuread_directory_role_assignment" "app_cicd" {
   for_each            = local.filtered_app_cicd_repos
-  role_id             = azuread_directory_role.app_developer.template_id
+  role_id             = azuread_directory_role.app_cicd.template_id
   principal_object_id = azurerm_user_assigned_identity.uai[each.key].principal_id
 }
