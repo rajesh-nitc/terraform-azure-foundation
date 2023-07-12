@@ -33,16 +33,16 @@ New subscription can be created using ```base_subscription``` module. These subs
 - Federation of the uais with github openid auth so that project teams can run their infra cicd, app cicd on github actions
 - Roles to uais on subscription
 - Groups and roles to groups on subscription
-- Github environment and secrets
+- ```Application Developer``` role to ```azure-devs``` group to manage app registrations in azure ad
+- Github environments and secrets
 
 ## Networks
-New networks hub and/or spoke can be created using single ```base_vnet``` module. As part of creating a vnet, the following has been automated:
-- vnet, snet, nsg, nsg rules, routes for hub and/or spoke
-- bastion, firewall in hub
+New network hub or spoke can be created using single ```base_vnet``` module. As part of creating a vnet, the following has been automated:
+- vnet, snet, nsg, nsg rules, routes
+- bastion, firewall
 - private endpoint and dns for default acr and kv created in subscriptions stage
 - option to enable nat on snet
-- default snets for spoke like private endpoint subnet
-- default snets for hub like bastion subnet
+- default snets like private endpoint subnet
 
 ## Aca-infra
 This stage is for project team and is run on github actions using ```infra-cicd``` uai that was handed over by platform/central team as part of subscriptions stage.

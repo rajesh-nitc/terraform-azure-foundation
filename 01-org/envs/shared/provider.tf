@@ -18,6 +18,9 @@ provider "azurerm" {
   features {}
 }
 
+provider "azuread" {
+}
+
 provider "azurerm" {
   skip_provider_registration = true
   alias                      = "sub-common-management"

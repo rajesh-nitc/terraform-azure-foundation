@@ -24,6 +24,10 @@ provider "azurerm" {
   features {}
 }
 
+provider "azuread" {
+
+}
+
 provider "github" {
   # set GITHUB_TOKEN environment variable 
 }

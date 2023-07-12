@@ -39,4 +39,8 @@ variable "group_roles" {
   type     = map(list(string))
   nullable = false
   default  = {}
+  validation {
+    condition     = contains(keys(var.group_roles), "azure-devs")
+    error_message = "Must have a key named azure-devs"
+  }
 }

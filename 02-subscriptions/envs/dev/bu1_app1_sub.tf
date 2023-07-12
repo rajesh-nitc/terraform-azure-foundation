@@ -49,9 +49,11 @@ module "bu1_app1_sub" {
   }
 
   # Group will be created and role assignments are given to group at subscription level
+  # Must have a key named azure-devs
   group_roles = {
     "azure-devs" = [
       "Reader",
+      "Key Vault Secrets Officer",
     ]
     "azure-admins" = [
       "Contributor",
