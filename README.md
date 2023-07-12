@@ -33,8 +33,9 @@ New subscription can be created using ```base_subscription``` module. These subs
 - Federation of the uais with github openid auth so that project teams can run their infra cicd, app cicd on github actions
 - Roles to uais on subscription
 - Groups and roles to groups on subscription
-- App registration
-- ```Application Developer``` role to ```azure-devs``` group and to ```app-cicd``` uai so that ```app-cicd``` workflow can update the redirect uri for azure ad app registration
+- App registrations
+- ```Application Developer``` role to ```azure-devs``` group
+- ```Application Administrator``` role to ```app-cicd``` uai so that ```app-cicd``` workflow can update the redirect uri for azure ad app registration
 - Github environments and secrets
 
 ## Networks

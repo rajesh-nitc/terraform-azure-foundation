@@ -30,6 +30,7 @@ resource "azuread_directory_role_assignment" "devs_group" {
 }
 
 # So that app-cicd (as part of github actions) is able to update the redirect URI in aad app
+# app-cicd workflow is not able to update redirect uri with "Application Developer" role
 resource "azuread_directory_role" "app_cicd" {
   display_name = "Application Administrator"
 }
