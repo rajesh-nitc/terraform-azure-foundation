@@ -34,6 +34,7 @@ jobs:
       REGISTRY_LOGIN_SERVER: ${{ secrets.APP_CICD_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.APP_CICD_RG_NAME }}
       CONTAINER_UAI_ID: ${{ secrets.APP_CONTAINER_UAI_ID }}
+      APP_AAD_CLIENT_ID: ${{ secrets.APP_AAD_CLIENT_ID }}
         
     runs-on: ubuntu-latest
     steps:
@@ -61,10 +62,11 @@ jobs:
           #az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
     # - name: Pull image
+    #   id: get_fqdn
     #   env:
     #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
     #   run: |
-    #       az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
+    #       app_fqdn=$(az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
     #       --container-name ${CONTAINER_NAME}-pr \ 
     #       --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
     #       --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
@@ -72,11 +74,12 @@ jobs:
     #       --ingress external \
     #       --target-port 3500 \
     #       --user-assigned $CONTAINER_UAI_ID
+    #       --query properties.configuration.ingress.fqdn)
+    #       echo "fqdn=$app_fqdn" >> "$GITHUB_OUTPUT"
 
-    - name: Update redirect_uri in azure ad app registration
-      id: test
-      env:
-        APP_AAD_CLIENT_ID: ${{ secrets.APP_AAD_CLIENT_ID }}
-        REDIRECT_URI: "http://fqdn/.auth/login/aad/callback"
-      run: |
-          az ad app update --id $APP_AAD_CLIENT_ID --web-redirect-uris $REDIRECT_URI
+    # - name: Update redirect_uri in azure ad app registration
+    #   id: test
+    #   env:
+    #     APP_FQDN: ${{ steps.get_fqdn.outputs.fqdn }}
+    #   run: |
+    #       az ad app update --id $APP_AAD_CLIENT_ID --web-redirect-uris "https://$APP_FQDN/.auth/login/aad/callback"
