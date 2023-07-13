@@ -53,17 +53,17 @@ resource "github_actions_environment_secret" "uai_id" {
 }
 
 resource "github_actions_environment_secret" "aad_client_id" {
-  for_each        = local.filtered_app_repos
+  for_each        = local.filtered_app_web_e_auth_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "AAD_CLIENT_ID")
-  plaintext_value = azuread_application.app[each.key].application_id
+  plaintext_value = azuread_application.authenticate_users[each.key].application_id
 }
 
 resource "github_actions_environment_secret" "aad_secret" {
-  for_each        = local.filtered_app_repos
+  for_each        = local.filtered_app_web_e_auth_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "AAD_SECRET")
-  plaintext_value = azuread_application_password.app[each.key].value
+  plaintext_value = azuread_application_password.authenticate_users[each.key].value
 }

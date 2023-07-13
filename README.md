@@ -29,13 +29,15 @@ Mainly org level resources like policy, centralized log analytics workspace, azu
 ## Subscriptions
 New subscription can be created using ```base_subscription``` module. These subscriptions will be handed over to project teams. As part of creating new subscriptions, the following has been automated:
 - Default rg, acr, kv, tfstate
-- Uais like ```infra-cicd```, ```app-cicd```,```app```
-- Federation of the uais with github openid auth so that project teams can run their infra cicd, app cicd on github actions
-- Roles to uais on subscription
+- Support for app type ```web-e-auth``` (external web app with azure ad auth) and ```web-e``` (external web app open to all)
+- App registrations for ```web-e-auth```
+- Github workflows that run with uais like ```infra-cicd```, ```[web-e-auth/web-e]-cicd```
+- Federation of the uais with github openid auth so that project teams can run their ```infra-cicd```, [web-e-auth/web-e]-cicd on github actions
+- Roles to cicd uais ```[web-e-auth/web-e]-cicd``` on subscription
+- Roles to actual app uais ```[web-e-auth/web-e]``` on subscription 
 - Groups and roles to groups on subscription
-- App registrations
 - ```Application Developer``` role to ```azure-devs``` group
-- ```Application Administrator``` role to ```app-cicd``` uai so that ```app-cicd``` workflow can update the redirect uri for azure ad app registration
+- ```Application Administrator``` role to ```web-e-auth-cicd``` uai so that ```web-e-auth-cicd``` workflow can update the redirect uri for azure ad app registration
 - Github environments and secrets
 
 ## Networks
@@ -50,4 +52,4 @@ New network hub or spoke can be created using single ```base_vnet``` module. As 
 This stage is for project team and is run on github actions using ```infra-cicd``` uai that was handed over by platform/central team as part of subscriptions stage.
 
 ## Aca-app
-This stage is for project team and is run on github actions using ```app-cicd``` uai that was handed over by platform/central team as part of subscriptions stage. Actual app runs with uai ```app``` and can pull images from acr.
+This stage is for project team and is run on github actions using ```[web-e-auth/web-e]-cicd``` uai that was handed over by platform/central team as part of subscriptions stage. Actual app[web-e-auth/web-e] runs with uai ```[web-e-auth/web-e]``` and can pull images from acr.

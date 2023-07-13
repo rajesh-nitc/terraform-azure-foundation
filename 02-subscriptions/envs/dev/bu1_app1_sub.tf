@@ -11,19 +11,24 @@ module "bu1_app1_sub" {
 
   # Uai will be created and role assignments are given to uai at subscription level
   # Must have a key named infra-cicd
+  # App type is [web-e-auth/web-e]
+  # e stands for external
+  # web-e-auth require auth with azure ad
+  # web-e is open to all users
+  # Must use [web-e-auth/web-e]-cicd for workflows or just [web-e-auth/web-e] for actual apps 
   uai_roles = {
     "infra-cicd" = [
       "Contributor",
       "Storage Blob Data Contributor", # tfstate
       "Key Vault Secrets Officer",
     ]
-    "app-cicd" = [
+    "web-e-auth-cicd" = [
       "AcrPush",
-      "Managed Identity Operator", # To be able to use uais. app-cicd will use uai app for the container
+      "Managed Identity Operator", # To be able to use uais. web-e-auth-cicd will use uai web-e-auth for the container
       "Key Vault Secrets User",
       "Contributor", # Until Azure provide container app admin role
     ]
-    "app" = [
+    "web-e-auth" = [
       "AcrPull",
 
     ]
@@ -33,17 +38,17 @@ module "bu1_app1_sub" {
   # The keys must match with the keys in uai_roles
 
   # If the key includes "cicd", uai will be federated for github openid auth:
-  # For e.g. uai app-b will not be federated
+  # For e.g. uai web-e-auth will not be federated because it's not used by workflow. It will be used by the actual app.
 
   # If the key includes "cicd" but not "infra":
   # acr will be created along with github secrets for acr name and rg name
 
-  # If the key includes "app" but not "cicd" and "infa":
-  # github secret for app uai ID will be created - which will be used by app-cicd workflow to assign it to a container
+  # If the key does not include "cicd" and "infa":
+  # github secret for [web-e-auth/web-e] uai ID will be created - which will be used by [web-e-auth/web-e]-cicd workflow to assign it to a container app
   uai_repos = {
-    "infra-cicd" = "rajesh-nitc/terraform-azure-foundation"
-    "app-cicd"   = "rajesh-nitc/terraform-azure-foundation"
-    "app"        = "rajesh-nitc/terraform-azure-foundation"
+    "infra-cicd"      = "rajesh-nitc/terraform-azure-foundation"
+    "web-e-auth-cicd" = "rajesh-nitc/terraform-azure-foundation"
+    "web-e-auth"      = "rajesh-nitc/terraform-azure-foundation"
   }
 
   # Group will be created and role assignments are given to group at subscription level
