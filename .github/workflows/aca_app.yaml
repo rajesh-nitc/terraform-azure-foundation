@@ -61,25 +61,31 @@ jobs:
       run: |
           #az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
-    # - name: Pull image
-    #   id: get_fqdn
-    #   env:
-    #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-    #   run: |
-    #       app_fqdn=$(az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
-    #       --container-name ${CONTAINER_NAME}-pr \ 
-    #       --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
-    #       --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
-    #       --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
-    #       --ingress external \
-    #       --target-port 3500 \
-    #       --user-assigned $CONTAINER_UAI_ID
-    #       --query properties.configuration.ingress.fqdn)
-    #       echo "fqdn=$app_fqdn" >> "$GITHUB_OUTPUT"
+    - name: Pull image
+      id: get_fqdn
+      env:
+        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+      run: |
+          # app_fqdn=$(az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
+          # --container-name ${CONTAINER_NAME}-pr \ 
+          # --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
+          # --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
+          # --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
+          # --ingress external \
+          # --target-port 3500 \
+          # --user-assigned $CONTAINER_UAI_ID \
+          # --query properties.configuration.ingress.fqdn \
+          # --output tsv)
+          app_fqdn=pp
+          echo "fqdn=$app_fqdn" >> "$GITHUB_OUTPUT"
 
-    # - name: Update redirect_uri in azure ad app registration
-    #   id: test
-    #   env:
-    #     APP_FQDN: ${{ steps.get_fqdn.outputs.fqdn }}
-    #   run: |
-    #       az ad app update --id $APP_AAD_CLIENT_ID --web-redirect-uris "https://$APP_FQDN/.auth/login/aad/callback"
+    - name: Update redirect_uri in azure ad app registration
+      env:
+        REDIRECT_URI: "https://${{ steps.get_fqdn.outputs.fqdn }}/.auth/login/aad/callback"
+      run: |
+          GET_REDIRECT_URI=$(az ad app show --id $APP_AAD_CLIENT_ID --query "web.redirectUris[0]" --output tsv)
+          if [[ $GET_REDIRECT_URI != $REDIRECT_URI ]];then
+          echo "get----$GET_REDIRECT_URI"
+          echo "redirect uri----$REDIRECT_URI"
+            az ad app update --id $APP_AAD_CLIENT_ID --web-redirect-uris $REDIRECT_URI
+          fi
