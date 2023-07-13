@@ -54,9 +54,9 @@ jobs:
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
-        client-id: $APP_CICD_CLIENT_ID
-        tenant-id: $TENANT_ID
-        subscription-id: $SUBSCRIPTION_ID
+        client-id: ${{ env.APP_CICD_CLIENT_ID }}
+        tenant-id: ${{ env.TENANT_ID }}
+        subscription-id: ${{ env.SUBSCRIPTION_ID }}
 
     - name: Build and push image
       id: build-image
