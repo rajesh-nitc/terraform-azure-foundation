@@ -9,7 +9,7 @@ resource "azuread_application" "app" {
   display_name     = format("%s-%s-%s-%s", "azureadapp", var.bu, var.app, each.key)
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
-  identifier_uris  = ["api://${each.key}"]
+  identifier_uris  = ["api://${var.bu}-${var.app}-${each.key}"]
 
   web {
     redirect_uris = []
@@ -21,6 +21,7 @@ resource "azuread_application" "app" {
   }
 
   api {
+    requested_access_token_version = 2
 
     oauth2_permission_scope {
       admin_consent_description  = "Allow the application to access example on behalf of the signed-in user."

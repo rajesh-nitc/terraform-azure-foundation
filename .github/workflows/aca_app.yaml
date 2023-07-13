@@ -1,6 +1,6 @@
 # https://learn.microsoft.com/en-us/azure/container-instances/container-instances-github-action?tabs=openid
 
-name: Deploy aca app with uai and OpenID authentication
+name: Deploy aca app
 on: 
   push:
     branches:
@@ -31,10 +31,14 @@ jobs:
     name: Build and Deploy PR
     environment: dev
     env:
+      APP_CICD_CLIENT_ID: ${{ secrets.APP_CICD_CLIENT_ID }}
+      TENANT_ID: ${{ secrets.TENANT_ID }}
+      SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       REGISTRY_LOGIN_SERVER: ${{ secrets.APP_CICD_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.APP_CICD_RG_NAME }}
       CONTAINER_UAI_ID: ${{ secrets.APP_CONTAINER_UAI_ID }}
       APP_AAD_CLIENT_ID: ${{ secrets.APP_AAD_CLIENT_ID }}
+      APP_AAD_SECRET: ${{ secrets.APP_AAD_SECRET }}
         
     runs-on: ubuntu-latest
     steps:
@@ -50,9 +54,9 @@ jobs:
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
-        client-id: ${{ secrets.APP_CICD_CLIENT_ID }}
-        tenant-id: ${{ secrets.TENANT_ID }}
-        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+        client-id: $APP_CICD_CLIENT_ID
+        tenant-id: $TENANT_ID
+        subscription-id: $SUBSCRIPTION_ID
 
     - name: Build and push image
       id: build-image
@@ -61,31 +65,35 @@ jobs:
       run: |
           #az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
-    - name: Pull image
-      id: get_fqdn
-      env:
-        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-      run: |
-          # app_fqdn=$(az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
-          # --container-name ${CONTAINER_NAME}-pr \ 
-          # --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
-          # --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
-          # --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
-          # --ingress external \
-          # --target-port 3500 \
-          # --user-assigned $CONTAINER_UAI_ID \
-          # --query properties.configuration.ingress.fqdn \
-          # --output tsv)
-          app_fqdn=pp
-          echo "fqdn=$app_fqdn" >> "$GITHUB_OUTPUT"
+    # - name: Pull image
+    #   id: get_fqdn
+    #   env:
+    #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+    #   run: |
+    #       app_fqdn=$(az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
+    #       --container-name ${CONTAINER_NAME}-pr \ 
+    #       --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
+    #       --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
+    #       --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
+    #       --ingress external \
+    #       --target-port 3500 \
+    #       --user-assigned $CONTAINER_UAI_ID \
+    #       --query properties.configuration.ingress.fqdn \
+    #       --output tsv)
+    #       echo "fqdn=$app_fqdn" >> "$GITHUB_OUTPUT"
 
-    - name: Update redirect_uri in azure ad app registration
-      env:
-        REDIRECT_URI: "https://${{ steps.get_fqdn.outputs.fqdn }}/.auth/login/aad/callback"
-      run: |
-          GET_REDIRECT_URI=$(az ad app show --id $APP_AAD_CLIENT_ID --query "web.redirectUris[0]" --output tsv)
-          if [[ $GET_REDIRECT_URI != $REDIRECT_URI ]];then
-          echo "get----$GET_REDIRECT_URI"
-          echo "redirect uri----$REDIRECT_URI"
-            az ad app update --id $APP_AAD_CLIENT_ID --web-redirect-uris $REDIRECT_URI
-          fi
+    # - name: Update identity provider
+    #   run: |
+    #       az containerapp auth microsoft update --name ${CONTAINER_APP_NAME}-pr --resource-group $RG \
+    #       --client-id $APP_AAD_CLIENT_ID \
+    #       --client-secret-name $APP_AAD_SECRET \
+    #       --issuer "https://login.microsoftonline.com/$TENANT_ID/v2.0"
+
+    # - name: Update redirect_uri in azure ad app registration
+    #   env:
+    #     REDIRECT_URI: "https://${{ steps.get_fqdn.outputs.fqdn }}/.auth/login/aad/callback"
+    #   run: |
+    #       GET_REDIRECT_URI=$(az ad app show --id $APP_AAD_CLIENT_ID --query "web.redirectUris[0]" --output tsv)
+    #       if [[ $GET_REDIRECT_URI != $REDIRECT_URI ]];then
+    #         az ad app update --id $APP_AAD_CLIENT_ID --web-redirect-uris $REDIRECT_URI
+    #       fi
