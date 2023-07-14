@@ -53,7 +53,7 @@ resource "github_actions_environment_secret" "uai_id" {
 }
 
 resource "github_actions_environment_secret" "aad_client_id" {
-  for_each        = local.filtered_app_web_e_auth_repos
+  for_each        = local.filtered_app_web_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "AAD_CLIENT_ID")
@@ -61,7 +61,7 @@ resource "github_actions_environment_secret" "aad_client_id" {
 }
 
 resource "github_actions_environment_secret" "aad_secret" {
-  for_each        = local.filtered_app_web_e_auth_repos
+  for_each        = local.filtered_app_web_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "AAD_SECRET")

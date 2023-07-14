@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -14,5 +14,5 @@ app.add_middleware(
 )
 
 @app.get("/")
-def read_root():
-    return {"message": "hello world!"}
+def read_root(request: Request):
+    return {"request_headers": request.headers}

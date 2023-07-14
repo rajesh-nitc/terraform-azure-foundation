@@ -11,44 +11,61 @@ module "bu1_app1_sub" {
 
   # Uai will be created and role assignments are given to uai at subscription level
   # Must have a key named infra-cicd
-  # App type is [web-e-auth/web-e]
-  # e stands for external
-  # web-e-auth require auth with azure ad
-  # web-e is open to all users
-  # Must use [web-e-auth/web-e]-cicd for workflows or just [web-e-auth/web-e] for actual apps 
+  # Must pass app type key as [webspa/web/api] spa is single page application
+  # webspa and web are external, api is internal
+  # Must use [webspa/web/api]-cicd for workflows or just [webspa/web/api] for actual apps 
   uai_roles = {
+
+    # Infra
     "infra-cicd" = [
       "Contributor",
       "Storage Blob Data Contributor", # tfstate
       "Key Vault Secrets Officer",
     ]
-    "web-e-auth-cicd" = [
+
+    # webspa
+    "webspa-cicd" = [
       "AcrPush",
-      "Managed Identity Operator", # To be able to use uais. web-e-auth-cicd will use uai web-e-auth for the container
+      "Managed Identity Operator", # To be able to use uais. webspa-cicd will use uai webspa for the container
       "Key Vault Secrets User",
       "Contributor", # Until Azure provide container app admin role
     ]
-    "web-e-auth" = [
+    "webspa" = [
+      "AcrPull",
+
+    ]
+
+    # api
+    "api-cicd" = [
+      "AcrPush",
+      "Managed Identity Operator", # To be able to use uais. api-cicd will use uai api for the container
+      "Key Vault Secrets User",
+      "Contributor", # Until Azure provide container app admin role
+    ]
+    "api" = [
       "AcrPull",
 
     ]
   }
 
   # In real world, repos will be different
+  # repos must exist before running this code
   # The keys must match with the keys in uai_roles
 
   # If the key includes "cicd", uai will be federated for github openid auth:
-  # For e.g. uai web-e-auth will not be federated because it's not used by workflow. It will be used by the actual app.
+  # For e.g. uai webspa will not be federated because it's not used by workflow. It will be used by the actual app.
 
   # If the key includes "cicd" but not "infra":
   # acr will be created along with github secrets for acr name and rg name
 
   # If the key does not include "cicd" and "infa":
-  # github secret for [web-e-auth/web-e] uai ID will be created - which will be used by [web-e-auth/web-e]-cicd workflow to assign it to a container app
+  # github secret for [webspa/web/api] uai ID will be created - which will be used by [webspa/web/api]-cicd workflow to assign it to a container app
   uai_repos = {
-    "infra-cicd"      = "rajesh-nitc/terraform-azure-foundation"
-    "web-e-auth-cicd" = "rajesh-nitc/terraform-azure-foundation"
-    "web-e-auth"      = "rajesh-nitc/terraform-azure-foundation"
+    "infra-cicd"  = "rajesh-nitc/terraform-azure-foundation"
+    "webspa-cicd" = "rajesh-nitc/terraform-azure-foundation"
+    "webspa"      = "rajesh-nitc/terraform-azure-foundation"
+    "api-cicd"    = "rajesh-nitc/terraform-azure-foundation"
+    "api"         = "rajesh-nitc/terraform-azure-foundation"
   }
 
   # Group will be created and role assignments are given to group at subscription level
