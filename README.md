@@ -52,4 +52,4 @@ New network hub or spoke can be created using single ```base_vnet``` module. As 
 This stage is for project team and is run on github actions using ```infra-cicd``` uai that was handed over by platform/central team as part of subscriptions stage.
 
 ## Aca-app
-This stage is for project team and is run on github actions using ```[webspa/web/api]-cicd``` uai. Actual apps runs with uai ```[webspa/web/api]``` and can pull images from acr.
+This stage is for project team and is run on github actions using ```[webspa/web/api]-cicd``` uai. Actual apps run with uai ```[webspa/web/api]``` and can pull images from acr.
