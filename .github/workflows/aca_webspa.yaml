@@ -70,7 +70,7 @@ jobs:
     #   env:
     #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
     #   run: |
-    #       app_fqdn=$(az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
+    #       az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
     #       --container-name ${CONTAINER_NAME}-pr \ 
     #       --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
     #       --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
@@ -78,10 +78,7 @@ jobs:
     #       --ingress external \
     #       --target-port 3000 \
     #       --user-assigned $CONTAINER_UAI_ID \
-    #       --env-vars REACT_APP_API_URL="http://ca-bu1-app1-api-westus-pr" \
-    #       --query properties.configuration.ingress.fqdn \
-    #       --output tsv)
-    #       echo "fqdn=$app_fqdn" >> "$GITHUB_OUTPUT"
+    #       --env-vars API_URL="http://ca-bu1-app1-api-westus-pr:3500"
 
     # - name: Update identity provider
     #   run: |
@@ -89,12 +86,3 @@ jobs:
     #       --client-id $WEBSPA_AAD_CLIENT_ID \
     #       --client-secret-name $WEBSPA_AAD_SECRET \
     #       --issuer "https://login.microsoftonline.com/$TENANT_ID/v2.0"
-
-    # - name: Update redirect_uri in azure ad app registration
-    #   env:
-    #     REDIRECT_URI: "https://${{ steps.get_fqdn.outputs.fqdn }}/.auth/login/aad/callback"
-    #   run: |
-    #       GET_REDIRECT_URI=$(az ad app show --id $WEBSPA_AAD_CLIENT_ID --query "web.redirectUris[0]" --output tsv)
-    #       if [[ $GET_REDIRECT_URI != $REDIRECT_URI ]];then
-    #         az ad app update --id $WEBSPA_AAD_CLIENT_ID --web-redirect-uris $REDIRECT_URI
-    #       fi

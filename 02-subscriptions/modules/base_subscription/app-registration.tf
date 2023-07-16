@@ -2,6 +2,7 @@ resource "random_uuid" "authenticate_users" {
   for_each = local.filtered_app_web_repos
 }
 
+# Redirect uris will be updated manually by azure-devs group
 resource "azuread_application" "authenticate_users" {
   for_each         = local.filtered_app_web_repos
   display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, each.key, var.env)
@@ -12,9 +13,7 @@ resource "azuread_application" "authenticate_users" {
     for_each = can(regex(".*spa.*", each.key)) ? [1] : []
 
     content {
-      redirect_uris = [
-        "http://localhost:3000/redirect" # This will be updated by github workflow after aca app is created
-      ]
+      redirect_uris = []
     }
   }
 
@@ -22,7 +21,7 @@ resource "azuread_application" "authenticate_users" {
     for_each = !can(regex(".*spa.*", each.key)) ? [1] : []
 
     content {
-      redirect_uris = [] # This will be updated by github workflow after aca app is created
+      redirect_uris = []
 
       implicit_grant {
         access_token_issuance_enabled = false

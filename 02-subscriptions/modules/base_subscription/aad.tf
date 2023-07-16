@@ -28,15 +28,3 @@ resource "azuread_directory_role_assignment" "devs_group" {
   role_id             = azuread_directory_role.app_developer.template_id
   principal_object_id = azuread_group.group["azure-devs"].object_id
 }
-
-# So that [webspa/web]-cicd (as part of github actions) is able to update the redirect URI in aad app
-# [webspa/web]-cicd workflow is not able to update redirect uri with "Application Developer" role
-resource "azuread_directory_role" "app_cicd" {
-  display_name = "Application Administrator"
-}
-
-resource "azuread_directory_role_assignment" "app_cicd" {
-  for_each            = local.filtered_app_web_repos
-  role_id             = azuread_directory_role.app_cicd.template_id
-  principal_object_id = azurerm_user_assigned_identity.uai[each.key].principal_id
-}

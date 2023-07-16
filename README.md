@@ -36,8 +36,7 @@ New subscription can be created using ```base_subscription``` module. These subs
 - Roles to cicd uais ```[webspa/web/api]-cicd``` on subscription
 - Roles to actual app uais ```[webspa/web/api]``` on subscription 
 - Groups and roles to groups on subscription
-- ```Application Developer``` role to ```azure-devs``` group
-- ```Application Administrator``` role to ```[webspa/web]-cicd``` uai so that ```[webspa/web]-cicd``` workflow can update the redirect uri for azure ad app registration
+- Redirect uris will be updated manually by azure-devs group. ```Application Developer``` role to ```azure-devs``` group has been granted. Not sure if that is enough or ```Application Administrator``` is required
 - Github environments and secrets
 
 ## Networks
@@ -52,4 +51,4 @@ New network hub or spoke can be created using single ```base_vnet``` module. As 
 This stage is for project team and is run on github actions using ```infra-cicd``` uai that was handed over by platform/central team as part of subscriptions stage.
 
 ## Aca-app
-This stage is for project team and is run on github actions using ```[webspa/web/api]-cicd``` uai. Actual apps run with uai ```[webspa/web/api]``` and can pull images from acr.
+The app is made up of ```webspa``` which is external but require authentication with azure ad and ```api``` which is internal. This stage is for project team and is run on github actions using ```[webspa/web/api]-cicd``` uai. Actual apps run with uai ```[webspa/web/api]``` and can pull images from acr.

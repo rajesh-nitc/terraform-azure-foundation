@@ -68,13 +68,11 @@ jobs:
     #   env:
     #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
     #   run: |
-    #       app_fqdn=$(az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
+    #       az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
     #       --container-name ${CONTAINER_NAME}-pr \ 
     #       --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
     #       --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
     #       --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
     #       --ingress internal \
     #       --target-port 3500 \
-    #       --user-assigned $CONTAINER_UAI_ID \
-    #       --query properties.configuration.ingress.fqdn \
-    #       --output tsv)
+    #       --user-assigned $CONTAINER_UAI_ID
