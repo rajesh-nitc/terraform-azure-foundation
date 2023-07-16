@@ -1,17 +1,4 @@
-.terraform
-*.tfstate*
-tfplan
-inspec.lock
-terraform.json
-*.swp
-*.log
-*.zip
-*.exe
-.vscode
-.terraform.lock*
-.idea
-
-__pycache__
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
@@ -46,4 +33,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-

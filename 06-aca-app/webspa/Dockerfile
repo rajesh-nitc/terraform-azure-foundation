@@ -4,13 +4,13 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
-ENV REACT_APP_API_URL=http://localhost:3500
-
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install --production
+
+ENV API_URL=http://api:3500
 
 # Copy the rest of the app's source code
 COPY . .
