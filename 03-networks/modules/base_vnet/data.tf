@@ -1,7 +1,8 @@
 data "azurerm_virtual_network" "hub_vnet" {
+  provider            = azurerm.connectivity
   count               = var.env != "hub" ? 1 : 0
-  name                = format("%s-%s-hub", "vnet", var.location)
-  resource_group_name = format("%s-%s-hub-net", "rg", var.location)
+  name                = format("%s-%s-%s", "vnet", var.location, "hub")
+  resource_group_name = format("%s-%s-%s-%s", "rg", var.location, "hub", "net")
 }
 
 data "azurerm_subnet" "bastion" {
@@ -36,4 +37,11 @@ data "azurerm_key_vault" "kv" {
   count               = contains(var.private_dns_zones, "privatelink.vaultcore.azure.net") && var.env != "hub" ? 1 : 0
   name                = module.naming.key_vault.name
   resource_group_name = module.naming.resource_group.name
+}
+
+data "azurerm_private_dns_zone" "dns" {
+  provider            = azurerm.connectivity
+  for_each            = var.env != "hub" ? toset(var.private_dns_zones) : []
+  name                = format("%s-%s-%s-%s", "pdns", var.location, "hub", split(".", each.key)[1])
+  resource_group_name = format("%s-%s-%s-%s", "rg", var.location, "hub", "net")
 }

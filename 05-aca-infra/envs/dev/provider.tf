@@ -9,8 +9,7 @@ terraform {
   }
 }
 
-# This is the default provider
-# This is without alias so it will be inherited by the root module automatically
+# This is the default provider (i.e. without alias), it will be inherited by the root module automatically
 provider "azurerm" {
   use_oidc                   = true
   skip_provider_registration = true

@@ -14,7 +14,7 @@ resource "azurerm_private_endpoint" "acr" {
 
   private_dns_zone_group {
     name                 = format("%s-%s", module.naming.private_dns_zone_group.name, "acr")
-    private_dns_zone_ids = [azurerm_private_dns_zone.dns["privatelink.azurecr.io"].id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.dns["privatelink.azurecr.io"].id]
   }
 }
 
@@ -34,6 +34,6 @@ resource "azurerm_private_endpoint" "kv" {
 
   private_dns_zone_group {
     name                 = format("%s-%s", module.naming.private_dns_zone_group.name, "kv")
-    private_dns_zone_ids = [azurerm_private_dns_zone.dns["privatelink.azurecr.io"].id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.dns["privatelink.vaultcore.azure.net"].id]
   }
 }

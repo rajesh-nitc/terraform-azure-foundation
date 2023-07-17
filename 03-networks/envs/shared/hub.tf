@@ -1,13 +1,21 @@
 module "hub_vnet" {
   source = "../../modules/base_vnet"
+
   providers = {
-    azurerm = azurerm.sub-common-connectivity
+    azurerm.connectivity = azurerm.sub-common-connectivity
   }
+
   env                = "hub"
   bu                 = ""
   app                = ""
   location           = "westus"
   vnet_address_space = ["10.0.0.0/18"]
+
+  private_dns_zones = [
+    "privatelink.azurecr.io",
+    # "privatelink.vaultcore.azure.net",
+    # "privatelink.blob.core.windows.net",
+  ]
 
   # Firewall
   enable_firewall = false

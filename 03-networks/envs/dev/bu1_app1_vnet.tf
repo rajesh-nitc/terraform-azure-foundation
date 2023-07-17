@@ -1,8 +1,10 @@
 module "bu1_app1_vnet" {
   source = "../../modules/base_vnet"
+
   providers = {
-    azurerm = azurerm.sub-bu1-app1-dev
+    azurerm.connectivity = azurerm.sub-common-connectivity
   }
+
   env                = "dev"
   location           = "westus"
   bu                 = "bu1"
