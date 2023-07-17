@@ -41,10 +41,12 @@ New subscription can be created using ```base_subscription``` module. These subs
 
 ## Networks
 New network hub or spoke can be created using single ```base_vnet``` module. As part of creating a vnet, the following has been automated:
-- vnet, snet, nsg, nsg rules, routes
-- bastion, firewall
-- private endpoint and dns for default acr and kv created in subscriptions stage
-- option to enable nat on snet
+- rg-net, vnet, snet, nsg, nsg rules, routes
+- hub/spoke vnet peering
+- private dns zones in hub
+- private endpoints in spoke 
+- bastion, firewall in hub
+- enable nat on snet
 - default snets like private endpoint subnet
 
 ## Aca-infra
