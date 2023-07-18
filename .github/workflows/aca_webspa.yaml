@@ -49,7 +49,11 @@ jobs:
       id: get_short_sha
       run: |
           SHORT_SHA=$(git rev-parse --short HEAD)
-          echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT" 
+          echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
+
+    - name: Set Azure CLI to dynamically install missing extensions
+      shell: bash
+      run: az config set extension.use_dynamic_install=yes_without_prompt 
 
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
@@ -81,6 +85,8 @@ jobs:
 
     # - name: Update identity provider
     #   run: |
+    #       az containerapp auth microsoft show --name ${CONTAINER_APP_NAME}-pr --resource-group $RG
+    #       #Add if condition that checks if aca already has microsoft identity provider set 
     #       az containerapp auth microsoft update --name ${CONTAINER_APP_NAME}-pr --resource-group $RG \
     #       --client-id $WEBSPA_AAD_CLIENT_ID \
     #       --client-secret-name $WEBSPA_AAD_SECRET \

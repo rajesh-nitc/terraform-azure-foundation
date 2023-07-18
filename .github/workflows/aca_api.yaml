@@ -49,6 +49,10 @@ jobs:
           SHORT_SHA=$(git rev-parse --short HEAD)
           echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT" 
 
+    - name: Set Azure CLI to dynamically install missing extensions
+      shell: bash
+      run: az config set extension.use_dynamic_install=yes_without_prompt
+
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
