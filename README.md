@@ -33,7 +33,7 @@ New subscription can be created using ```base_subscription``` module. These subs
 - Github workflows uais: ```infra-cicd```, ```[webspa/web/api]-cicd```
 - Roles to workflow uais on subscription
 - Federation of the workflow uais with github openid auth
-- Roles to actual app uais ```[webspa/web/api]``` on subscription 
+- App uais ```[webspa/web/api]``` and roles to app uais on subscription 
 - Groups and roles to groups on subscription
 - App registrations
 - Github environments and secrets
@@ -52,7 +52,7 @@ New network hub or spoke can be created using single ```base_vnet``` module. As 
 This stage is for project team and is run on github actions using workflow uai ```infra-cicd``` that was handed over by platform/central team as part of subscriptions stage.
 
 ## Aca-app
-The app is made up of ```webspa``` (which is external but require authentication with azure ad) and ```api``` (which is internal). This stage is for project team and is run on github actions using workflow uais ```[webspa/web/api]-cicd```. Actual apps run with uai ```[webspa/web/api]``` and can pull images from acr. 
+The app is made up of ```webspa``` (which is external but require authentication with azure ad) and ```api``` (which is internal). This stage is for project team and is run on github actions using workflow uais ```[webspa/web/api]-cicd```. Apps run with app uais ```[webspa/web/api]``` and can pull images from acr. 
 
 ```azure-devs``` group will be updating these manually on the portal after aca webspa is deployed through github workflow:
 - Redirect uri for webspa
