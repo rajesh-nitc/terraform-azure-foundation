@@ -6,7 +6,7 @@ data "azurerm_virtual_network" "hub_vnet" {
 }
 
 data "azurerm_subnet" "bastion" {
-  count                = var.enable_bastion && var.env == "hub" ? 1 : 0
+  count                = length(var.bastion_address_prefixes) > 0 && var.env == "hub" ? 1 : 0
   name                 = "AzureBastionSubnet"
   virtual_network_name = local.vnet_name
   resource_group_name  = local.rg_name
@@ -17,7 +17,7 @@ data "azurerm_subnet" "bastion" {
 }
 
 data "azurerm_subnet" "firewall" {
-  count                = var.enable_firewall && var.env == "hub" ? 1 : 0
+  count                = length(var.firewall_address_prefixes) > 0 && var.env == "hub" ? 1 : 0
   name                 = "AzureFirewallSubnet"
   virtual_network_name = local.vnet_name
   resource_group_name  = local.rg_name
@@ -42,6 +42,6 @@ data "azurerm_key_vault" "kv" {
 data "azurerm_private_dns_zone" "dns" {
   provider            = azurerm.connectivity
   for_each            = var.env != "hub" ? toset(var.private_dns_zones) : []
-  name                = format("%s-%s-%s-%s", "pdns", var.location, "hub", split(".", each.key)[1])
+  name                = each.key
   resource_group_name = format("%s-%s-%s-%s", "rg", var.location, "hub", "net")
 }

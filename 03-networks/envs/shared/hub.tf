@@ -17,13 +17,8 @@ module "hub_vnet" {
     # "privatelink.blob.core.windows.net",
   ]
 
-  # Firewall
-  enable_firewall = false
-  # firewall_address_prefixes = ["10.0.0.0/24"]
-
-  # Bastion
-  enable_bastion = false
-  # bastion_address_prefixes = ["10.0.1.0/24"]
+  firewall_address_prefixes = []
+  bastion_address_prefixes  = []
 
 }
 

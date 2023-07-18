@@ -1,6 +1,6 @@
 output "firewall_name" {
   value = (
-    var.enable_firewall && var.env == "hub"
+    length(var.firewall_address_prefixes) > 0 && var.env == "hub"
     ? azurerm_firewall.firewall[0].name
     : null
   )
@@ -10,7 +10,7 @@ output "firewall_name" {
 
 output "firewall_public_ip" {
   value = (
-    var.enable_firewall && var.env == "hub"
+    length(var.firewall_address_prefixes) > 0 && var.env == "hub"
     ? azurerm_public_ip.firewall[0].ip_address
     : null
   )
@@ -20,7 +20,7 @@ output "firewall_public_ip" {
 
 output "firewall_private_ip" {
   value = (
-    var.enable_firewall && var.env == "hub"
+    length(var.firewall_address_prefixes) > 0 && var.env == "hub"
     ? azurerm_firewall.firewall[0].ip_configuration[0].private_ip_address
     : null
   )

@@ -18,3 +18,9 @@ variable "location" {
   nullable = false
   default  = "westus"
 }
+
+variable "deploy_appgw" {
+  type     = bool
+  nullable = false
+  default  = true
+}

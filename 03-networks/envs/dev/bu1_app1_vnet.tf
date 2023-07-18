@@ -11,16 +11,15 @@ module "bu1_app1_vnet" {
   app                = "app1"
   vnet_address_space = ["10.0.64.0/18"]
 
-  # default subnets
-  enable_appgwsubnet = false
-  # appgw_address_prefixes = ["10.0.67.0/24"]
-  pe_address_prefixes = ["10.0.66.0/24"]
-
   private_dns_zones = [
     "privatelink.azurecr.io",
     # "privatelink.vaultcore.azure.net",
     # "privatelink.blob.core.windows.net",
   ]
+
+  # default subnets
+  appgw_address_prefixes = ["10.0.67.0/24"]
+  pe_address_prefixes    = ["10.0.66.0/24"]
 
   snets = {
     infrasubnet = {

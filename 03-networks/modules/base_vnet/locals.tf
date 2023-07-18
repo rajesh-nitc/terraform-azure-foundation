@@ -3,13 +3,13 @@ locals {
   vnet_name = azurerm_virtual_network.vnet.name
 
   all_snets = merge(
-    var.enable_bastion && var.env == "hub"
+    length(var.bastion_address_prefixes) > 0 && var.env == "hub"
     ? local.bastion_snet
     : {},
-    var.enable_firewall && var.env == "hub"
+    length(var.firewall_address_prefixes) > 0 && var.env == "hub"
     ? local.firewall_snet
     : {},
-    var.enable_appgwsubnet && length(var.appgw_address_prefixes) > 0 && var.env != "hub"
+    length(var.appgw_address_prefixes) > 0 && var.env != "hub"
     ? local.appgw_snet
     : {},
     length(var.pe_address_prefixes) > 0 && var.env != "hub"

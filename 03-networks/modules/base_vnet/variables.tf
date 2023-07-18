@@ -19,18 +19,6 @@ variable "location" {
   default  = "westus"
 }
 
-variable "enable_bastion" {
-  type     = bool
-  nullable = false
-  default  = false
-}
-
-variable "enable_firewall" {
-  type     = bool
-  nullable = false
-  default  = false
-}
-
 variable "vnet_address_space" {
   type     = list(string)
   nullable = false
@@ -91,12 +79,6 @@ variable "private_dns_zones" {
   type     = list(string)
   nullable = false
   default  = []
-}
-
-variable "enable_appgwsubnet" {
-  type     = bool
-  nullable = false
-  default  = false
 }
 
 variable "appgw_address_prefixes" {

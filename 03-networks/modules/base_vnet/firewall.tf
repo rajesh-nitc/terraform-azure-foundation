@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "firewall" {
-  count               = var.enable_firewall && var.env == "hub" ? 1 : 0
+  count               = length(var.firewall_address_prefixes) > 0 && var.env == "hub" ? 1 : 0
   name                = format("%s-%s", module.naming.public_ip.name, "fw")
   location            = var.location
   resource_group_name = local.rg_name
@@ -8,7 +8,7 @@ resource "azurerm_public_ip" "firewall" {
 }
 
 resource "azurerm_firewall" "firewall" {
-  count               = var.enable_firewall && var.env == "hub" ? 1 : 0
+  count               = length(var.firewall_address_prefixes) > 0 && var.env == "hub" ? 1 : 0
   name                = module.naming.firewall.name
   location            = var.location
   resource_group_name = local.rg_name

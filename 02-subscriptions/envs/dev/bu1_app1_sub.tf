@@ -72,7 +72,7 @@ module "bu1_app1_sub" {
   # Must have a key named azure-devs
   group_roles = {
     "azure-devs" = [
-      "Reader",
+      "Contributor",
       "Key Vault Secrets Officer",
     ]
     "azure-admins" = [

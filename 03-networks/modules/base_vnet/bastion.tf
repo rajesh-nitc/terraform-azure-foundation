@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "bastion" {
-  count               = var.enable_bastion && var.env == "hub" ? 1 : 0
+  count               = length(var.bastion_address_prefixes) > 0 && var.env == "hub" ? 1 : 0
   name                = format("%s-%s", module.naming.public_ip.name, "bastion")
   location            = var.location
   resource_group_name = local.rg_name
@@ -7,11 +7,9 @@ resource "azurerm_public_ip" "bastion" {
   sku                 = "Standard"
 }
 
-# Azure Naming module currently produce wrong slug for bastion
-# once the following pr gets merged, we should be able to use the naming module without a diff
-# https://github.com/Azure/terraform-azurerm-naming/pull/92
+# module naming does not support bastion_host
 resource "azurerm_bastion_host" "bastion" {
-  count = var.enable_bastion && var.env == "hub" ? 1 : 0
+  count = length(var.bastion_address_prefixes) > 0 && var.env == "hub" ? 1 : 0
   name  = format("%s-%s-%s", "bas", var.location, var.env)
   # name                = module.naming.bastion_host.name
   location            = var.location
