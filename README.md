@@ -1,21 +1,5 @@
 # terraform-azure-foundation
 
-## Status
-
-0. bootstrap - partially complete - deployed
-
-1. org - partially complete - deployed
-
-2. subscriptions - partially complete - deployed
-
-3. networks - partially complete - not deployed
-
-4. security - not started
-
-5. aca-infra - partially complete - not deployed
-
-6. aca-app - partially complete - not deployed
-
 ## Org hierarchy
 
 ![Alt text](images/image.png)
