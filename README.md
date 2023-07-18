@@ -30,7 +30,7 @@ Mainly org level resources like policy, centralized log analytics workspace, azu
 New subscription can be created using ```base_subscription``` module. These subscriptions will be handed over to project teams. As part of creating new subscriptions, the following has been automated:
 - Default rg, acr, kv, tfstate
 - Support for app type ```webspa```, ```web```, ```api```. spa is single page application. ```api``` is internal
-- Github workflows uais: ```infra-cicd```, ```[webspa/web/api]-cicd```
+- Github workflow uais: ```infra-cicd```, ```[webspa/web/api]-cicd```
 - Roles to workflow uais on subscription
 - Federation of the workflow uais with github openid auth
 - App uais ```[webspa/web/api]``` and roles to app uais on subscription 
