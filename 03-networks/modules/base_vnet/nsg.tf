@@ -12,6 +12,7 @@ resource "azurerm_network_security_rule" "nsg_rule" {
   direction                   = each.value.direction
   access                      = each.value.access
   protocol                    = each.value.protocol
+  source_port_range           = each.value.source_port_range
   source_port_ranges          = each.value.source_port_ranges
   destination_port_ranges     = each.value.destination_port_ranges
   source_address_prefix       = each.value.source_address_prefix

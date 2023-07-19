@@ -12,13 +12,13 @@ module "bu1_app1_vnet" {
   vnet_address_space = ["10.0.64.0/18"]
 
   private_dns_zones = [
-    "privatelink.azurecr.io",
+    # "privatelink.azurecr.io",
     # "privatelink.vaultcore.azure.net",
     # "privatelink.blob.core.windows.net",
   ]
 
   # default subnets
-  appgw_address_prefixes = ["10.0.67.0/24"]
+  appgw_address_prefixes = []
   pe_address_prefixes    = ["10.0.66.0/24"]
 
   snets = {
@@ -41,11 +41,11 @@ module "bu1_app1_vnet" {
       nsg_rules = {
 
         "infra_Allow_Internal_AKS_UDP" = {
-          name                       = "Allow_Internal_AKS_Connection_Between_Nodes_And_Control_Plane_UDP",
+          name                       = "Allow_Internal_AKS_UDP",
           description                = "internal AKS secure connection between underlying nodes and control plane..",
           protocol                   = "Udp",
           source_address_prefix      = "VirtualNetwork",
-          source_port_ranges         = ["*"],
+          source_port_range          = "*",
           destination_address_prefix = "AzureCloud.westus",
           destination_port_ranges    = ["1194"],
           access                     = "Allow",
@@ -53,11 +53,11 @@ module "bu1_app1_vnet" {
           direction                  = "Outbound"
         },
         "infra_Allow_Internal_AKS_TCP" = {
-          name                       = "Allow_Internal_AKS_Connection_Between_Nodes_And_Control_Plane_TCP",
+          name                       = "Allow_Internal_AKS_TCP",
           description                = "internal AKS secure connection between underlying nodes and control plane..",
           protocol                   = "Tcp",
           source_address_prefix      = "VirtualNetwork",
-          source_port_ranges         = ["*"],
+          source_port_range          = "*",
           destination_address_prefix = "AzureCloud.westus",
           destination_port_ranges    = ["9000"],
           access                     = "Allow",
@@ -69,7 +69,7 @@ module "bu1_app1_vnet" {
           description                = "Allows outbound calls to Azure Monitor.",
           protocol                   = "Tcp",
           source_address_prefix      = "VirtualNetwork",
-          source_port_ranges         = ["*"],
+          source_port_range          = "*",
           destination_address_prefix = "AzureCloud.westus",
           destination_port_ranges    = ["443"],
           access                     = "Allow",
@@ -81,7 +81,7 @@ module "bu1_app1_vnet" {
           description                = "Allowing all outbound on port 443 provides a way to allow all FQDN based outbound dependencies that don't have a static IP",
           protocol                   = "Tcp",
           source_address_prefix      = "VirtualNetwork",
-          source_port_ranges         = ["*"],
+          source_port_range          = "*",
           destination_address_prefix = "*",
           destination_port_ranges    = ["443"],
           access                     = "Allow",
@@ -93,7 +93,7 @@ module "bu1_app1_vnet" {
           description                = "NTP server",
           protocol                   = "Udp",
           source_address_prefix      = "VirtualNetwork",
-          source_port_ranges         = ["*"],
+          source_port_range          = "*",
           destination_address_prefix = "*",
           destination_port_ranges    = ["123"],
           access                     = "Allow",
@@ -105,7 +105,7 @@ module "bu1_app1_vnet" {
           description                = "Container Apps control plane",
           protocol                   = "Tcp",
           source_address_prefix      = "VirtualNetwork",
-          source_port_ranges         = ["*"],
+          source_port_range          = "*",
           destination_address_prefix = "*",
           destination_port_ranges    = ["5671", "5672"],
           access                     = "Allow",

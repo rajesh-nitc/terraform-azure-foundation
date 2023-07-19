@@ -215,6 +215,7 @@ locals {
         direction                  = v.direction
         access                     = v.access
         protocol                   = v.protocol
+        source_port_range          = v.source_port_range
         source_port_ranges         = v.source_port_ranges
         destination_port_ranges    = v.destination_port_ranges
         source_address_prefix      = v.source_address_prefix

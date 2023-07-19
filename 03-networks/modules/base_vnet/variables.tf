@@ -42,7 +42,8 @@ variable "snets" {
         direction                  = string
         access                     = string
         protocol                   = string
-        source_port_ranges         = list(string)
+        source_port_range          = string
+        source_port_ranges         = optional(list(string))
         destination_port_ranges    = list(string)
         source_address_prefix      = string
         destination_address_prefix = string
