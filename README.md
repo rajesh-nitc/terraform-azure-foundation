@@ -40,4 +40,4 @@ The app is made up of ```webspa``` (which is external but require authentication
 
 After ```webspa``` is deployed via github workflow, ```azure-devs``` group will manually update the settings listed below:
 - Redirect uri
-- Session affinity ?
+- Session affinity?
