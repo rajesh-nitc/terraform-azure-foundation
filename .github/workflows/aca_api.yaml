@@ -1,19 +1,19 @@
 # https://learn.microsoft.com/en-us/azure/container-instances/container-instances-github-action?tabs=openid
 
 name: Deploy aca api
-on: 
+on:
   push:
     branches:
-     - main
+      - main
   pull_request:
     branches:
-     - main
+      - main
   workflow_dispatch:
 
 permissions:
-      id-token: write
-      contents: read
-      pull-requests: write
+  id-token: write
+  contents: read
+  pull-requests: write
 
 env:
   IMAGE_NAME: hello-world-api
@@ -21,7 +21,7 @@ env:
   CONTAINER_APP_NAME: ca-bu1-app1-api-westus
   CONTAINER_APP_ENVIRONMENT: cae-bu1-app1-westus
   LOCATION: westus
-    
+
 jobs:
   build_and_deploy_pr:
     # if: github.event_name == 'pull_request'
@@ -37,34 +37,34 @@ jobs:
       REGISTRY_LOGIN_SERVER: ${{ secrets.API_CICD_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.API_CICD_RG_NAME }}
       CONTAINER_UAI_ID: ${{ secrets.API_CONTAINER_UAI_ID }}
-        
+
     runs-on: ubuntu-latest
     steps:
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@main
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@main
 
-    - name: Get Short SHA
-      id: get_short_sha
-      run: |
+      - name: Get Short SHA
+        id: get_short_sha
+        run: |
           SHORT_SHA=$(git rev-parse --short HEAD)
-          echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT" 
+          echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
 
-    - name: Set Azure CLI to dynamically install missing extensions
-      shell: bash
-      run: az config set extension.use_dynamic_install=yes_without_prompt
+      - name: Set Azure CLI to dynamically install missing extensions
+        shell: bash
+        run: az config set extension.use_dynamic_install=yes_without_prompt
 
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        client-id: ${{ env.API_CICD_CLIENT_ID }}
-        tenant-id: ${{ env.TENANT_ID }}
-        subscription-id: ${{ env.SUBSCRIPTION_ID }}
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          client-id: ${{ env.API_CICD_CLIENT_ID }}
+          tenant-id: ${{ env.TENANT_ID }}
+          subscription-id: ${{ env.SUBSCRIPTION_ID }}
 
-    - name: Build and push image
-      id: build-image
-      env:
-        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-      run: |
+      - name: Build and push image
+        id: build-image
+        env:
+          SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+        run: |
           #az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
     # - name: Pull image
@@ -72,7 +72,7 @@ jobs:
     #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
     #   run: |
     #       az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
-    #       --container-name ${CONTAINER_NAME}-pr \ 
+    #       --container-name ${CONTAINER_NAME}-pr \
     #       --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
     #       --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
     #       --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
