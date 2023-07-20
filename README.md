@@ -38,6 +38,6 @@ This stage is for project team and is run on github actions using workflow uai `
 ## Aca-app
 The app is made up of ```webspa``` (which is external but require authentication with azure ad) and ```api``` (which is internal). This stage is for project team and is run on github actions using workflow uais ```[webspa/web/api]-cicd```. Apps run with app uais ```[webspa/web/api]``` and can pull images from acr. 
 
-After ```webspa``` is deployed via github workflow, ```azure-devs``` group will manually update the settings listed below:
+After ```webspa``` is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
 - Redirect uri
 - Session affinity?
