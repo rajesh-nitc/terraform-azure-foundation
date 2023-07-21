@@ -1,3 +1,5 @@
+# dns A records for acrbu1app1westusdev and acrbu1app1westusdev.westus.data
+# will be created automatically by this resource
 resource "azurerm_private_endpoint" "acr" {
   count               = contains(var.private_dns_zones, "privatelink.azurecr.io") && var.env != "hub" ? 1 : 0
   name                = format("%s-%s", module.naming.private_endpoint.name, "acr")
