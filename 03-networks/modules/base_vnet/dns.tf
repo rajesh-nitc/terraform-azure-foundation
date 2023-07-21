@@ -14,8 +14,9 @@ resource "azurerm_private_dns_zone_virtual_network_link" "hub_link" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "spoke_link" {
+  provider              = azurerm.connectivity
   for_each              = var.env != "hub" ? toset(var.private_dns_zones) : []
-  name                  = format("%s-%s-%s-%s", "pnetlk", split(".", each.key)[1], var.bu, var.app, var.location, var.env)
+  name                  = format("%s-%s-%s-%s-%s-%s", "pnetlk", split(".", each.key)[1], var.bu, var.app, var.location, var.env)
   resource_group_name   = data.azurerm_private_dns_zone.dns[each.key].resource_group_name
   private_dns_zone_name = data.azurerm_private_dns_zone.dns[each.key].name
   virtual_network_id    = azurerm_virtual_network.vnet.id

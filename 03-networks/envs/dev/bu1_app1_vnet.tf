@@ -12,7 +12,7 @@ module "bu1_app1_vnet" {
   vnet_address_space = ["10.0.64.0/18"]
 
   private_dns_zones = [
-    # "privatelink.azurecr.io",
+    "privatelink.azurecr.io",
     # "privatelink.vaultcore.azure.net",
     # "privatelink.blob.core.windows.net",
   ]
