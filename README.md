@@ -36,7 +36,7 @@ New network hub or spoke can be created using single ```base_vnet``` module. As 
 This stage is for project team and is run on github actions using workflow uai ```infra-cicd``` that was handed over by platform/central team as part of subscriptions stage.
 
 ## Aca-app
-The app is made up of ```webspa``` (which is external but require authentication with azure ad) and ```api``` (which is internal). This stage is for project team and is run on github actions using workflow uais ```[webspa/web/api]-cicd```. Apps run with app uais ```[webspa/web/api]``` and can pull images from acr. 
+The app is made up of two Azure Container Apps: ```webspa``` (external but require authentication with azure ad) and ```api``` (internal). This stage is for project team and is run on github actions using workflow uais ```[webspa/web/api]-cicd```. Apps run with app uais ```[webspa/web/api]``` and can pull images from acr. 
 
 After ```webspa``` is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
 - Redirect uri
