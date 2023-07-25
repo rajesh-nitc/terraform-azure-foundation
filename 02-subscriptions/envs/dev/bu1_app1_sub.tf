@@ -50,22 +50,19 @@ module "bu1_app1_sub" {
 
   # In real world, repos will be different
   # repos must exist before running this code
-  # The keys must match with the keys in uai_roles
+  # The keys must include cicd as suffix and must match with keys of uai_roles
 
   # If the key includes "cicd", uai will be federated for github openid auth:
-  # For e.g. uai webspa will not be federated because it's not used by workflow. It will be used by the actual app.
 
   # If the key includes "cicd" but not "infra":
-  # acr will be created along with github secrets for acr name and rg name
+  # github secrets for acr name and rg name will be created
 
-  # If the key does not include "cicd" and "infa":
-  # github secret for [webspa/web/api] uai ID will be created - which will be used by [webspa/web/api]-cicd workflow to assign it to a container app
+  # For webspa-cicd and api-cicd, their prefix will be used to create 
+  # github secrets for their uai ids - which will be used by [webspa/web/api]-cicd workflow to assign it to a container app
   uai_repos = {
     "infra-cicd"  = "rajesh-nitc/terraform-azure-foundation"
     "webspa-cicd" = "rajesh-nitc/terraform-azure-foundation"
-    "webspa"      = "rajesh-nitc/terraform-azure-foundation"
     "api-cicd"    = "rajesh-nitc/terraform-azure-foundation"
-    "api"         = "rajesh-nitc/terraform-azure-foundation"
   }
 
   # Group will be created and role assignments are given to group at subscription level

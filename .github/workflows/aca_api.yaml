@@ -36,7 +36,7 @@ jobs:
       SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       REGISTRY_LOGIN_SERVER: ${{ secrets.API_CICD_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.API_CICD_RG_NAME }}
-      CONTAINER_UAI_ID: ${{ secrets.API_CONTAINER_UAI_ID }}
+      CONTAINER_UAI_ID: ${{ secrets.API_CICD_CONTAINER_UAI_ID }}
         
     runs-on: ubuntu-latest
     steps:

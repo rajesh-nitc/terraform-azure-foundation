@@ -44,16 +44,16 @@ resource "github_actions_environment_secret" "rg" {
   plaintext_value = local.rg_name
 }
 
-resource "github_actions_environment_secret" "uai_id" {
-  for_each        = local.filtered_app_repos
+resource "github_actions_environment_secret" "container_uai_id" {
+  for_each        = local.filtered_app_cicd_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "CONTAINER_UAI_ID")
-  plaintext_value = azurerm_user_assigned_identity.uai[each.key].id
+  plaintext_value = azurerm_user_assigned_identity.uai[split("-", each.key)[0]].id
 }
 
 resource "github_actions_environment_secret" "aad_client_id" {
-  for_each        = local.filtered_app_web_repos
+  for_each        = local.filtered_app_cicd_web_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "AAD_CLIENT_ID")
@@ -61,7 +61,7 @@ resource "github_actions_environment_secret" "aad_client_id" {
 }
 
 resource "github_actions_environment_secret" "aad_secret" {
-  for_each        = local.filtered_app_web_repos
+  for_each        = local.filtered_app_cicd_web_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "AAD_SECRET")

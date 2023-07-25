@@ -1,10 +1,10 @@
 resource "random_uuid" "authenticate_users" {
-  for_each = local.filtered_app_web_repos
+  for_each = local.filtered_app_cicd_web_repos
 }
 
 # Redirect uris will be updated manually by azure-devs group
 resource "azuread_application" "authenticate_users" {
-  for_each         = local.filtered_app_web_repos
+  for_each         = local.filtered_app_cicd_web_repos
   display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, each.key, var.env)
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
@@ -55,6 +55,6 @@ resource "azuread_application" "authenticate_users" {
 }
 
 resource "azuread_application_password" "authenticate_users" {
-  for_each              = local.filtered_app_web_repos
+  for_each              = local.filtered_app_cicd_web_repos
   application_object_id = azuread_application.authenticate_users[each.key].id
 }

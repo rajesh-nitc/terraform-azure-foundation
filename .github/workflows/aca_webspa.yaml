@@ -36,9 +36,9 @@ jobs:
       SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       REGISTRY_LOGIN_SERVER: ${{ secrets.WEBSPA_CICD_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.WEBSPA_CICD_RG_NAME }}
-      CONTAINER_UAI_ID: ${{ secrets.WEBSPA_CONTAINER_UAI_ID }}
-      WEBSPA_AAD_CLIENT_ID: ${{ secrets.WEBSPA_AAD_CLIENT_ID }}
-      WEBSPA_AAD_SECRET: ${{ secrets.WEBSPA_AAD_SECRET }}
+      CONTAINER_UAI_ID: ${{ secrets.WEBSPA_CICD_CONTAINER_UAI_ID }}
+      WEBSPA_AAD_CLIENT_ID: ${{ secrets.WEBSPA_CICD_AAD_CLIENT_ID }}
+      WEBSPA_AAD_SECRET: ${{ secrets.WEBSPA_CICD_AAD_SECRET }}
         
     runs-on: ubuntu-latest
     steps:
