@@ -81,7 +81,7 @@ jobs:
     #       --ingress external \
     #       --target-port 3000 \
     #       --user-assigned $CONTAINER_UAI_ID \
-    #       --env-vars API_URL="http://ca-bu1-app1-api-westus-pr:3500"
+    #       --env-vars API_URL="http://ca-bu1-app1-api-westus-pr"
 
     # - name: Update identity provider
     #   run: |
