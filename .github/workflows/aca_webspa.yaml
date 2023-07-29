@@ -23,12 +23,12 @@ env:
   LOCATION: westus
     
 jobs:
-  build_and_deploy_pr:
+  build_and_deploy_dev:
     # if: github.event_name == 'pull_request'
     defaults:
       run:
         working-directory: 06-aca-app/webspa
-    name: Build and Deploy PR
+    name: Build and Deploy Dev
     environment: dev
     env:
       WEBSPA_CICD_CLIENT_ID: ${{ secrets.WEBSPA_CICD_CLIENT_ID }}
@@ -49,7 +49,7 @@ jobs:
       id: get_short_sha
       run: |
           SHORT_SHA=$(git rev-parse --short HEAD)
-          echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
+          echo "::set-output name=short_sha::$SHORT_SHA"
 
     - name: Set Azure CLI to dynamically install missing extensions
       shell: bash
@@ -67,27 +67,42 @@ jobs:
       env:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
+          echo "short sha: $SHORT_SHA"
           #az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
-    # - name: Pull image
-    #   env:
-    #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-    #   run: |
-    #       az containerapp create --name ${CONTAINER_APP_NAME}-pr --resource-group $RG --location $LOCATION \
-    #       --container-name ${CONTAINER_NAME}-pr \ 
-    #       --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
-    #       --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
-    #       --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
-    #       --ingress external \
-    #       --target-port 3000 \
-    #       --user-assigned $CONTAINER_UAI_ID \
-    #       --env-vars API_URL="http://ca-bu1-app1-api-westus-pr"
+    - name: Check if Azure Container App exists
+      id: check-app
+      run: |
+          az containerapp show --resource-group $RG --name ${CONTAINER_APP_NAME}-dev || echo "::set-output name=exists::false"
+
+    - name: Pull image - Create Azure Container App
+      if: steps.check-app.outputs.exists == "false"
+      env:
+        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+      run: |
+          echo "app exists: ${{ steps.check-app.outputs.exists }}"
+          # az containerapp create --name ${CONTAINER_APP_NAME}-dev --resource-group $RG --location $LOCATION \
+          # --container-name ${CONTAINER_NAME}-dev \ 
+          # --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
+          # --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
+          # --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
+          # --ingress external \
+          # --target-port 3000 \
+          # --user-assigned $CONTAINER_UAI_ID \
+          # --env-vars API_URL="http://ca-bu1-app1-api-westus-dev"
+    
+    - name: Pull image - Update Azure Container App
+      if: steps.check-app.outputs.exists != "false"
+      env:
+        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+      run: |
+          az containerapp update --name ${CONTAINER_APP_NAME}-dev --resource-group $RG --location $LOCATION \
+          --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA
 
     # - name: Update identity provider
+    #   if: steps.check-app.outputs.exists == "false"
     #   run: |
-    #       az containerapp auth microsoft show --name ${CONTAINER_APP_NAME}-pr --resource-group $RG
-    #       #Add if condition that checks if aca already has microsoft identity provider set 
-    #       az containerapp auth microsoft update --name ${CONTAINER_APP_NAME}-pr --resource-group $RG \
+    #       az containerapp auth microsoft update --name ${CONTAINER_APP_NAME}-dev --resource-group $RG \
     #       --client-id $WEBSPA_AAD_CLIENT_ID \
     #       --client-secret-name $WEBSPA_AAD_SECRET \
     #       --issuer "https://login.microsoftonline.com/$TENANT_ID/v2.0"
