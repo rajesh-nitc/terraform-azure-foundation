@@ -74,7 +74,7 @@ jobs:
           az containerapp show --resource-group $RG --name ${CONTAINER_APP_NAME}-dev || echo "::set-output name=exists::false"
 
     - name: Pull image - Create Azure Container App
-      if: steps.check-app.outputs.exists == "false"
+      if: steps.check-app.outputs.exists == 'false'
       env:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
@@ -89,7 +89,7 @@ jobs:
           # --user-assigned $CONTAINER_UAI_ID
 
     - name: Pull image - Update Azure Container App
-      if: steps.check-app.outputs.exists != "false"
+      if: steps.check-app.outputs.exists != 'false'
       env:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
