@@ -44,12 +44,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Debug GitHub context1
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: |
-          echo "$GITHUB_CONTEXT"
-          echo ${{ github.event.deployment.environment }}
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@main
 
