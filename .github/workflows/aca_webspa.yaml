@@ -42,9 +42,23 @@ jobs:
       DEPLOYMENT_ENV: ${{ github.event.deployment.environment }}
         
     runs-on: ubuntu-latest
+
     steps:
+    - name: Debug GitHub context1
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+          echo "$GITHUB_CONTEXT"
+          echo ${{ github.event.deployment.environment }}
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@main
+
+    - name: Debug GitHub context2
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+          echo "$GITHUB_CONTEXT"
+          echo ${{ github.event.deployment.environment }}
 
     - name: Get Short SHA
       id: get_short_sha
