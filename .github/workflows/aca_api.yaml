@@ -37,6 +37,7 @@ jobs:
       REGISTRY_LOGIN_SERVER: ${{ secrets.API_CICD_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.API_CICD_RG_NAME }}
       CONTAINER_UAI_ID: ${{ secrets.API_CICD_CONTAINER_UAI_ID }}
+      DEPLOYMENT_ENV: ${{ github.event.deployment.environment }}
         
     runs-on: ubuntu-latest
     steps:
@@ -71,7 +72,8 @@ jobs:
     - name: Check if Azure Container App exists
       id: check-app
       run: |
-          az containerapp show --resource-group $RG --name ${CONTAINER_APP_NAME}-dev || echo "::set-output name=exists::false"
+          echo "deployment env: $DEPLOYMENT_ENV"
+          az containerapp show --resource-group $RG --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV || echo "::set-output name=exists::false"
 
     - name: Pull image - Create Azure Container App
       if: steps.check-app.outputs.exists == 'false'
@@ -79,9 +81,9 @@ jobs:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
           echo "app exists: ${{ steps.check-app.outputs.exists }}"
-          # az containerapp create --name ${CONTAINER_APP_NAME}-dev --resource-group $RG --location $LOCATION \
-          # --container-name ${CONTAINER_NAME}-dev \ 
-          # --environment ${CONTAINER_APP_ENVIRONMENT}-dev \
+          # az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --location $LOCATION \
+          # --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV \ 
+          # --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV \
           # --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
           # --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA \
           # --ingress internal \
@@ -93,5 +95,5 @@ jobs:
       env:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
-          az containerapp update --name ${CONTAINER_APP_NAME}-dev --resource-group $RG --location $LOCATION \
+          az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --location $LOCATION \
           --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME:$SHORT_SHA
