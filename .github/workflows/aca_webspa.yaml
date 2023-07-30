@@ -23,10 +23,10 @@ env:
   APP: app1
   APP_TYPE: webspa
   LOCATION: westus
-  IMAGE_NAME: $BU-$APP-$APP_TYPE
-  CONTAINER_NAME: $BU-$APP-$APP_TYPE
-  CONTAINER_APP_NAME: ca-$BU-$APP-$APP_TYPE-$LOCATION
-  CONTAINER_APP_ENVIRONMENT: cae-$BU-$APP-$LOCATION
+  IMAGE_NAME: ${{ env.BU }}-${{ env.APP }}-${{ env.APP_TYPE }}
+  CONTAINER_NAME: ${{ env.BU }}-${{ env.APP }}-${{ env.APP_TYPE }}
+  CONTAINER_APP_NAME: ca-${{ env.BU }}-${{ env.APP }}-${{ env.APP_TYPE }}-${{ env.LOCATION }}
+  CONTAINER_APP_ENVIRONMENT: cae-${{ env.BU }}-${{ env.APP }}-${{ env.LOCATION }}
      
 jobs:
   build_and_deploy_dev:
