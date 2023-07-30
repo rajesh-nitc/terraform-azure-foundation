@@ -31,15 +31,15 @@ jobs:
     name: Build and Deploy Dev
     environment: dev
     env:
+      DEPLOYMENT_ENV: dev
       API_CICD_CLIENT_ID: ${{ secrets.API_CICD_CLIENT_ID }}
       TENANT_ID: ${{ secrets.TENANT_ID }}
       SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       REGISTRY_LOGIN_SERVER: ${{ secrets.API_CICD_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.API_CICD_RG_NAME }}
       CONTAINER_UAI_ID: ${{ secrets.API_CICD_CONTAINER_UAI_ID }}
-      DEPLOYMENT_ENV: ${{ github.event.deployment.environment }}
-        
     runs-on: ubuntu-latest
+    
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@main
