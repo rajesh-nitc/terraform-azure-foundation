@@ -72,7 +72,6 @@ jobs:
     - name: Check if Azure Container App exists
       id: check-app
       run: |
-          echo "deployment env: $DEPLOYMENT_ENV"
           az containerapp show --resource-group $RG --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV || echo "::set-output name=exists::false"
 
     - name: Pull image - Create Azure Container App
