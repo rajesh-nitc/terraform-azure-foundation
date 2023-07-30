@@ -1,5 +1,8 @@
 # https://learn.microsoft.com/en-us/azure/container-instances/container-instances-github-action?tabs=openid
 
+# old way: echo "::set-output name={name}::{value}"
+# new way: echo "{name}={value}" >> $GITHUB_OUTPUT
+
 name: Deploy aca api
 on: 
   push:
@@ -48,7 +51,7 @@ jobs:
       id: get_short_sha
       run: |
           SHORT_SHA=$(git rev-parse --short HEAD)
-          echo "::set-output name=short_sha::$SHORT_SHA" 
+          echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT 
 
     - name: Set Azure CLI to dynamically install missing extensions
       shell: bash
@@ -72,7 +75,7 @@ jobs:
     - name: Check if Azure Container App exists
       id: check-app
       run: |
-          az containerapp show --resource-group $RG --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV || echo "::set-output name=exists::false"
+          az containerapp show --resource-group $RG --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV || echo "exists=false" >> $GITHUB_OUTPUT
 
     - name: Pull image - Create Azure Container App
       if: steps.check-app.outputs.exists == 'false'
