@@ -16,3 +16,8 @@ data "azurerm_virtual_network" "spoke_vnet" {
   name                = module.naming.virtual_network.name
   resource_group_name = local.rg_net_name
 }
+
+data "azurerm_log_analytics_workspace" "law" {
+  name                = module.naming.log_analytics_workspace.name
+  resource_group_name = local.rg_name
+}

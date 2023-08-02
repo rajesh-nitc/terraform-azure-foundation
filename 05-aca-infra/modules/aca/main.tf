@@ -3,17 +3,9 @@ resource "azurerm_container_app_environment" "env" {
   name                           = format("%s-%s-%s-%s-%s", "cae", var.bu, var.app, var.location, var.env)
   resource_group_name            = local.rg_name
   location                       = var.location
-  log_analytics_workspace_id     = azurerm_log_analytics_workspace.law.id
+  log_analytics_workspace_id     = data.azurerm_log_analytics_workspace.law.workspace_id
   infrastructure_subnet_id       = data.azurerm_subnet.infra.id
   internal_load_balancer_enabled = var.deploy_appgw ? true : false
-}
-
-resource "azurerm_log_analytics_workspace" "law" {
-  name                = format("%s-%s", module.naming.log_analytics_workspace.name, "aca")
-  location            = var.location
-  resource_group_name = local.rg_name
-  sku                 = "PerGB2018"
-  retention_in_days   = 30
 }
 
 resource "azurerm_private_dns_zone" "dns" {

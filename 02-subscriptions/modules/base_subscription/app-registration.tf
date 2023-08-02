@@ -4,8 +4,8 @@ resource "random_uuid" "authenticate_users" {
 
 resource "azuread_application" "authenticate_users" {
   for_each         = local.filtered_app_cicd_web_repos
-  display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, each.key, var.env)
-  identifier_uris  = ["api://${format("%s-%s-%s-%s", var.bu, var.app, each.key, var.env)}"]
+  display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, split("-", each.key)[0], var.env)
+  identifier_uris  = ["api://${format("%s-%s-%s-%s", var.bu, var.app, split("-", each.key)[0], var.env)}"]
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
 

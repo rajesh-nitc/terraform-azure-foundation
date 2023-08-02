@@ -8,11 +8,11 @@
 In this stage, we manually create a service principal ```sp-org-terraform``` with ```Owner``` role at ```mg-root ``` and run stages 0-4 manually using this sp. Other major resources that are created include terraform state bucket to store tfstate for stages 0-4.
 
 ## Org
-Mainly org level resources like policy, centralized log analytics workspace, azure ad groups are created in this stage. 
+Mainly org/platform level resources like policy, platform-level subscriptions, centralized log analytics workspace, azure ad groups are created in this stage. 
 
 ## Subscriptions
-New subscription can be created using ```base_subscription``` module. These subscriptions will be handed over to project teams. As part of creating new subscriptions, the following has been automated:
-- Default rg, acr, kv, tfstate
+New project-level subscription can be created using ```base_subscription``` module:
+- Default rg, acr, kv, tfstate, law
 - Support for app type ```webspa```, ```web```, ```api```. spa is single page application. ```api``` is internal
 - Github workflow uais: ```infra-cicd```, ```[webspa/web/api]-cicd```
 - Roles to workflow uais on subscription
@@ -23,7 +23,7 @@ New subscription can be created using ```base_subscription``` module. These subs
 - Github environments and secrets
 
 ## Networks
-New network hub or spoke can be created using single ```base_vnet``` module. As part of creating a vnet, the following has been automated:
+New network hub or spoke can be created using single ```base_vnet``` module:
 - rg-net, vnet, snet, nsg, nsg rules, routes
 - hub/spoke vnet peering
 - private dns zones in hub
