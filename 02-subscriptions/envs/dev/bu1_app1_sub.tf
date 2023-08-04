@@ -26,7 +26,6 @@ module "bu1_app1_sub" {
     # webspa
     "webspa-cicd" = [
       "AcrPush",
-      "AcrPull",
       "Managed Identity Operator", # To be able to use uais. webspa-cicd will use uai webspa for the container
       "Key Vault Secrets User",
       "Contributor", # Until Azure provide container app admin role
@@ -35,14 +34,12 @@ module "bu1_app1_sub" {
     # app
     "webspa" = [
       "AcrPull",
-      "Contributor",
 
     ]
 
     # api
     "api-cicd" = [
       "AcrPush",
-      "AcrPull",
       "Managed Identity Operator", # To be able to use uais. api-cicd will use uai api for the container
       "Key Vault Secrets User",
       "Contributor", # Until Azure provide container app admin role
@@ -51,7 +48,6 @@ module "bu1_app1_sub" {
     # app
     "api" = [
       "AcrPull",
-      "Contributor",
 
     ]
   }

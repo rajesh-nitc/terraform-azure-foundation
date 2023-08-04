@@ -71,7 +71,7 @@ jobs:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
           echo "short sha: $SHORT_SHA"
-          az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
+          # az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
     - name: Check if Azure Container App exists
       id: check-app
@@ -85,9 +85,9 @@ jobs:
       run: |
           echo "app exists: ${{ steps.check-app.outputs.exists }}"
           echo $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
-          az acr login --name $ACR
-          docker pull $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
-          az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress internal --target-port 3500 --user-assigned $CONTAINER_APP_UAI_ID
+          # az acr login --name $ACR
+          # docker pull $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+          # az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress internal --target-port 3500 --user-assigned $CONTAINER_APP_UAI_ID
 
     - name: Pull image - Update Azure Container App
       if: steps.check-app.outputs.exists != 'false'
