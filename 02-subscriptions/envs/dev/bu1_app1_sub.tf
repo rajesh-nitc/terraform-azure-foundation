@@ -34,6 +34,7 @@ module "bu1_app1_sub" {
 
     # app
     "webspa" = [
+      "AcrPull",
 
     ]
 
@@ -48,6 +49,7 @@ module "bu1_app1_sub" {
 
     # app
     "api" = [
+      "AcrPull",
 
     ]
   }
