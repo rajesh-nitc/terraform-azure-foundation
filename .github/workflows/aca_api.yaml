@@ -38,6 +38,7 @@ jobs:
       CICD_CLIENT_ID: ${{ secrets.API_CICD_CLIENT_ID }}
       TENANT_ID: ${{ secrets.TENANT_ID }}
       SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ACR: ${{ secrets.API_CICD_ACR_NAME }}
       REGISTRY_LOGIN_SERVER: ${{ secrets.API_CICD_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.API_CICD_RG_NAME }}
       CONTAINER_APP_UAI_ID: ${{ secrets.API_CICD_CONTAINER_APP_UAI_ID }}
@@ -84,6 +85,7 @@ jobs:
       run: |
           echo "app exists: ${{ steps.check-app.outputs.exists }}"
           echo $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+          az acr login --name $ACR
           az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress internal --target-port 3500 --user-assigned $CONTAINER_APP_UAI_ID
     
     # - name: Assign uai to app
