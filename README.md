@@ -2,7 +2,7 @@
 
 ## Org hierarchy
 
-![Alt text](images/image.png)
+![Alt text](images/org_hierarchy.png)
 
 ## Bootstrap
 In this stage, we manually create a service principal ```sp-org-terraform``` with ```Owner``` role at ```mg-root ``` and run stages 0-4 manually using this sp. Other major resources that are created include terraform state bucket to store tfstate for stages 0-4.
