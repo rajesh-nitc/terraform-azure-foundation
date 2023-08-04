@@ -88,6 +88,7 @@ jobs:
           echo "app exists: ${{ steps.check-app.outputs.exists }}"
           echo $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
           az acr login --name $ACR
+          docker pull $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
           az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress external --target-port 3000 --user-assigned $CONTAINER_APP_UAI_ID --env-vars "API_URL=http://ca-bu1-app1-api-westus-$DEPLOYMENT_ENV"
     
     - name: Pull image - Update Azure Container App

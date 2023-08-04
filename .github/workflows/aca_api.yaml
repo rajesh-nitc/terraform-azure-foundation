@@ -88,14 +88,6 @@ jobs:
           az acr login --name $ACR
           docker pull $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
           az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress internal --target-port 3500 --user-assigned $CONTAINER_APP_UAI_ID
-    
-    # - name: Assign uai to app
-    #   if: steps.check-app.outputs.exists == 'false'
-    #   run: |
-    #       az containerapp identity assign \
-    #       --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV \
-    #       --resource-group $RG \
-    #       --user-assigned $CONTAINER_APP_UAI_ID
 
     - name: Pull image - Update Azure Container App
       if: steps.check-app.outputs.exists != 'false'
