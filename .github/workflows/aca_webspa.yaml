@@ -93,7 +93,7 @@ jobs:
           --ingress external \
           --target-port 3000 \
           --user-assigned $CONTAINER_APP_UAI_ID \
-          --env-vars API_URL="http://ca-bu1-app1-api-westus-$DEPLOYMENT_ENV"
+          --env-vars "API_URL=http://ca-bu1-app1-api-westus-$DEPLOYMENT_ENV"
     
     - name: Pull image - Update Azure Container App
       if: steps.check-app.outputs.exists != 'false'

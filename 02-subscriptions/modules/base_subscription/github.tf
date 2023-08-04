@@ -49,7 +49,7 @@ resource "github_actions_environment_secret" "container_app_uai_id" {
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "CONTAINER_APP_UAI_ID")
-  plaintext_value = azurerm_user_assigned_identity.uai[split("-", each.key)[0]].principal_id
+  plaintext_value = azurerm_user_assigned_identity.uai[split("-", each.key)[0]].id
 }
 
 resource "github_actions_environment_secret" "aad_auth_client_id" {

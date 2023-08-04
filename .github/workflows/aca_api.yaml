@@ -89,7 +89,14 @@ jobs:
           --cpu 0.25 --memory 0.5Gi --min-replicas 1 --max-replicas 2 \
           --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA \
           --ingress internal \
-          --target-port 3500 \
+          --target-port 3500
+    
+    - name: Assign managed identity
+      if: steps.check-app.outputs.exists == 'false'
+      run: |
+          az containerapp identity assign \
+          --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV \
+          --resource-group $RG \
           --user-assigned $CONTAINER_APP_UAI_ID
 
     - name: Pull image - Update Azure Container App
