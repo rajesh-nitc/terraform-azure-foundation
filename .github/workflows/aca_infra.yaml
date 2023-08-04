@@ -16,7 +16,7 @@ permissions:
       pull-requests: write
       
 jobs: 
-  job_aca_infra_analysis:
+  aca_infra_analysis:
     # if: github.event_name == 'pull_request'
     defaults:
       run:
@@ -81,30 +81,30 @@ jobs:
     #   if: steps.plan.outcome == 'failure'
     #   run: exit 1
 
-  # job_aca_infra_deploy_to_dev:
-  #   if: github.event_name != 'pull_request' && contains(toJson(github.event.commits), 'Initial commit') == false
-  #   defaults:
-  #     run:
-  #       working-directory: 05-aca-infra/envs/dev
+  aca_infra_deploy_to_dev:
+    # if: github.event_name != 'pull_request' && contains(toJson(github.event.commits), 'Initial commit') == false
+    defaults:
+      run:
+        working-directory: 05-aca-infra/envs/dev
       
-  #   name: Deploy to Dev
-  #   environment: dev
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     ARM_CLIENT_ID: "${{ secrets.INFRA_CICD_CLIENT_ID }}"
-  #     ARM_SUBSCRIPTION_ID: "${{ secrets.SUBSCRIPTION_ID }}"
-  #     ARM_TENANT_ID: "${{ secrets.TENANT_ID }}"
+    name: Deploy to Dev
+    environment: dev
+    runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: "${{ secrets.INFRA_CICD_CLIENT_ID }}"
+      ARM_SUBSCRIPTION_ID: "${{ secrets.SUBSCRIPTION_ID }}"
+      ARM_TENANT_ID: "${{ secrets.TENANT_ID }}"
 
-  #   steps:
-  #   - name: Checkout Code
-  #     uses: actions/checkout@v2.5.0
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2.5.0
 
-  #   - name: HashiCorp - Setup Terraform
-  #     uses: hashicorp/setup-terraform@v2.0.3
+    - name: HashiCorp - Setup Terraform
+      uses: hashicorp/setup-terraform@v2.0.3
 
-  #   - name: Terraform Init
-  #     run: terraform init
+    - name: Terraform Init
+      run: terraform init
 
-  #   - name: Terraform Apply
-  #     run: terraform apply -auto-approve
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
           
