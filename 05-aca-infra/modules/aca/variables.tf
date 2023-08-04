@@ -24,3 +24,14 @@ variable "deploy_appgw" {
   nullable = false
   default  = true
 }
+
+variable "apps" {
+  type = map(object({
+    app_type    = string
+    external    = bool
+    target_port = number
+
+  }))
+  nullable = false
+  default  = {}
+}

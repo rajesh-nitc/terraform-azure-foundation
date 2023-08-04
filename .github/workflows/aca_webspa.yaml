@@ -19,8 +19,8 @@ permissions:
       pull-requests: write
 
 env:
-  IMAGE_NAME: bu1-app1-webspa
-  CONTAINER_NAME: bu1-app1-webspa
+  IMAGE_NAME: bu1-app1-webspa-westus
+  CONTAINER_NAME: bu1-app1-webspa-westus
   CONTAINER_APP_NAME: ca-bu1-app1-webspa-westus
   CONTAINER_APP_ENVIRONMENT: cae-bu1-app1-westus
   LOCATION: westus  
@@ -73,23 +73,23 @@ jobs:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
           echo "short sha: $SHORT_SHA"
-          # az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
+          az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
-    - name: Check if Azure Container App exists
-      id: check-app
-      run: |
-          az containerapp show --resource-group $RG --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV || echo "exists=false" >> $GITHUB_OUTPUT
+    # - name: Check if Azure Container App exists
+    #   id: check-app
+    #   run: |
+    #       az containerapp show --resource-group $RG --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV || echo "exists=false" >> $GITHUB_OUTPUT
 
-    - name: Pull image - Create Azure Container App
-      if: steps.check-app.outputs.exists == 'false'
-      env:
-        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-      run: |
-          echo "app exists: ${{ steps.check-app.outputs.exists }}"
-          echo $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
-          # az acr login --name $ACR
-          # docker pull $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
-          # az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress external --target-port 3000 --user-assigned $CONTAINER_APP_UAI_ID --env-vars "API_URL=http://ca-bu1-app1-api-westus-$DEPLOYMENT_ENV"
+    # - name: Pull image - Create Azure Container App
+    #   if: steps.check-app.outputs.exists == 'false'
+    #   env:
+    #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+    #   run: |
+    #       echo "app exists: ${{ steps.check-app.outputs.exists }}"
+    #       echo $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+    #       # az acr login --name $ACR
+    #       # docker pull $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+    #       # az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress external --target-port 3000 --user-assigned $CONTAINER_APP_UAI_ID --env-vars "API_URL=http://ca-bu1-app1-api-westus-$DEPLOYMENT_ENV"
     
     - name: Pull image - Update Azure Container App
       if: steps.check-app.outputs.exists != 'false'
@@ -97,12 +97,13 @@ jobs:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
           az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG \
-          --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+          --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA \
+          --set-env-vars API_URL=http://ca-bu1-app1-api-westus-$DEPLOYMENT_ENV
 
-    # - name: Update identity provider
-    #   if: steps.check-app.outputs.exists == 'false'
-    #   run: |
-    #       az containerapp auth microsoft update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG \
-    #       --client-id $AAD_AUTH_CLIENT_ID \
-    #       --client-secret-name $AAD_AUTH_SECRET \
-    #       --issuer "https://login.microsoftonline.com/$TENANT_ID/v2.0"
+    - name: Update identity provider
+      if: steps.check-app.outputs.exists == 'false'
+      run: |
+          az containerapp auth microsoft update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG \
+          --client-id $AAD_AUTH_CLIENT_ID \
+          --client-secret-name $AAD_AUTH_SECRET \
+          --issuer "https://login.microsoftonline.com/$TENANT_ID/v2.0"
