@@ -8,9 +8,9 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --production
+RUN npm install --omit=dev
 
-ENV API_URL=http://api:3500
+ENV REACT_APP_API_URL=http://localhost:3500
 
 # Copy the rest of the app's source code
 COPY . .
