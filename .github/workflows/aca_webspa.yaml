@@ -94,3 +94,4 @@ jobs:
       run: |
           az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG \
           --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+          --env-vars API_URL=https://ca-bu1-app1-api-westus-dev.livelyisland-0fea0d9b.westus.azurecontainerapps.io
