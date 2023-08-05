@@ -22,13 +22,12 @@ async function getData() {
 
   let data;
   try {
-    console.log(`Full response - ${JSON.stringify(response)}}`);
     const json = await response.json();
     data = json;
     console.log(`Data - ${JSON.stringify(data)}`);
   } catch (error) {
     console.error('Error parsing JSON:', error);
-    data = { "message": "error", "user_name": "error"}; // Set data to an empty object or any default value
+    data = { "message": "Received no json or error parsing json", "user_name": "!"};
   }
 
   return data;

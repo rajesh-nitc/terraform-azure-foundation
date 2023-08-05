@@ -1,96 +1,96 @@
-# https://learn.microsoft.com/en-us/azure/container-instances/container-instances-github-action?tabs=openid
+# # https://learn.microsoft.com/en-us/azure/container-instances/container-instances-github-action?tabs=openid
 
-# old way: echo "::set-output name={name}::{value}"
-# new way: echo "{name}={value}" >> $GITHUB_OUTPUT
+# # old way: echo "::set-output name={name}::{value}"
+# # new way: echo "{name}={value}" >> $GITHUB_OUTPUT
 
-name: Deploy aca webspa
-on: 
-  push:
-    branches:
-     - main
-  pull_request:
-    branches:
-     - main
-  workflow_dispatch:
+# name: Deploy aca webspa
+# on: 
+#   push:
+#     branches:
+#      - main
+#   pull_request:
+#     branches:
+#      - main
+#   workflow_dispatch:
 
-permissions:
-      id-token: write
-      contents: read
-      pull-requests: write
+# permissions:
+#       id-token: write
+#       contents: read
+#       pull-requests: write
 
-env:
-  IMAGE_NAME: bu1-app1-webspa-westus
-  CONTAINER_NAME: bu1-app1-webspa-westus
-  CONTAINER_APP_NAME: ca-bu1-app1-webspa-westus
-  CONTAINER_APP_ENVIRONMENT: cae-bu1-app1-westus
-  LOCATION: westus  
+# env:
+#   IMAGE_NAME: bu1-app1-webspa-westus
+#   CONTAINER_NAME: bu1-app1-webspa-westus
+#   CONTAINER_APP_NAME: ca-bu1-app1-webspa-westus
+#   CONTAINER_APP_ENVIRONMENT: cae-bu1-app1-westus
+#   LOCATION: westus  
      
-jobs:
-  build_and_deploy_dev:
-    # if: github.event_name == 'pull_request'
-    defaults:
-      run:
-        working-directory: 06-aca-app/webspa
-    name: Build and Deploy Dev
-    environment: dev
-    env:
-      DEPLOYMENT_ENV: dev
-      CICD_CLIENT_ID: ${{ secrets.WEBSPA_CICD_CLIENT_ID }}
-      TENANT_ID: ${{ secrets.TENANT_ID }}
-      SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-      ACR: ${{ secrets.WEBSPA_CICD_ACR_NAME }}
-      REGISTRY_LOGIN_SERVER: ${{ secrets.WEBSPA_CICD_ACR_NAME }}.azurecr.io
-      RG: ${{ secrets.WEBSPA_CICD_RG_NAME }}
-      CONTAINER_APP_UAI_ID: ${{ secrets.WEBSPA_CICD_CONTAINER_APP_UAI_ID }}
-    runs-on: ubuntu-latest
+# jobs:
+#   build_and_deploy_dev:
+#     # if: github.event_name == 'pull_request'
+#     defaults:
+#       run:
+#         working-directory: 06-aca-app/webspa
+#     name: Build and Deploy Dev
+#     environment: dev
+#     env:
+#       DEPLOYMENT_ENV: dev
+#       CICD_CLIENT_ID: ${{ secrets.WEBSPA_CICD_CLIENT_ID }}
+#       TENANT_ID: ${{ secrets.TENANT_ID }}
+#       SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+#       ACR: ${{ secrets.WEBSPA_CICD_ACR_NAME }}
+#       REGISTRY_LOGIN_SERVER: ${{ secrets.WEBSPA_CICD_ACR_NAME }}.azurecr.io
+#       RG: ${{ secrets.WEBSPA_CICD_RG_NAME }}
+#       CONTAINER_APP_UAI_ID: ${{ secrets.WEBSPA_CICD_CONTAINER_APP_UAI_ID }}
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@main
+#     steps:
+#     - name: 'Checkout GitHub Action'
+#       uses: actions/checkout@main
 
-    - name: Get Short SHA
-      id: get_short_sha
-      run: |
-          SHORT_SHA=$(git rev-parse --short HEAD)
-          echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
+#     - name: Get Short SHA
+#       id: get_short_sha
+#       run: |
+#           SHORT_SHA=$(git rev-parse --short HEAD)
+#           echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
 
-    - name: Set Azure CLI to dynamically install missing extensions
-      shell: bash
-      run: az config set extension.use_dynamic_install=yes_without_prompt 
+#     - name: Set Azure CLI to dynamically install missing extensions
+#       shell: bash
+#       run: az config set extension.use_dynamic_install=yes_without_prompt 
 
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        client-id: ${{ env.CICD_CLIENT_ID }}
-        tenant-id: ${{ env.TENANT_ID }}
-        subscription-id: ${{ env.SUBSCRIPTION_ID }}
+#     - name: 'Login via Azure CLI'
+#       uses: azure/login@v1
+#       with:
+#         client-id: ${{ env.CICD_CLIENT_ID }}
+#         tenant-id: ${{ env.TENANT_ID }}
+#         subscription-id: ${{ env.SUBSCRIPTION_ID }}
 
-    - name: Build and push image
-      id: build-image
-      env:
-        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-      run: |
-          echo "short sha: $SHORT_SHA"
-          az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
+#     - name: Build and push image
+#       id: build-image
+#       env:
+#         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+#       run: |
+#           echo "short sha: $SHORT_SHA"
+#           az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
-    - name: Check if Azure Container App exists
-      id: check-app
-      run: |
-          az containerapp show --resource-group $RG --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV || echo "exists=false" >> $GITHUB_OUTPUT
+#     - name: Check if Azure Container App exists
+#       id: check-app
+#       run: |
+#           az containerapp show --resource-group $RG --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV || echo "exists=false" >> $GITHUB_OUTPUT
 
-    - name: Pull image - Create Azure Container App
-      if: steps.check-app.outputs.exists == 'false'
-      env:
-        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-      run: |
-          echo "app exists: ${{ steps.check-app.outputs.exists }}"
-          echo $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
-          az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress external --target-port 3000 --min-replicas 1 --user-assigned $CONTAINER_APP_UAI_ID --registry-identity $CONTAINER_APP_UAI_ID --registry-server $REGISTRY_LOGIN_SERVER --env-vars API_URL=http://ca-bu1-app1-api-westus-$DEPLOYMENT_ENV
+#     - name: Pull image - Create Azure Container App
+#       if: steps.check-app.outputs.exists == 'false'
+#       env:
+#         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+#       run: |
+#           echo "app exists: ${{ steps.check-app.outputs.exists }}"
+#           echo $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+#           az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress external --target-port 3000 --min-replicas 1 --user-assigned $CONTAINER_APP_UAI_ID --registry-identity $CONTAINER_APP_UAI_ID --registry-server $REGISTRY_LOGIN_SERVER --env-vars API_URL=http://ca-bu1-app1-api-westus-$DEPLOYMENT_ENV
     
-    - name: Pull image - Update Azure Container App
-      if: steps.check-app.outputs.exists != 'false'
-      env:
-        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-      run: |
-          az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG \
-          --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+#     - name: Pull image - Update Azure Container App
+#       if: steps.check-app.outputs.exists != 'false'
+#       env:
+#         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+#       run: |
+#           az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG \
+#           --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
