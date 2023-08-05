@@ -28,13 +28,13 @@ resource "github_actions_environment_secret" "tenant_id" {
   plaintext_value = local.tenant_id
 }
 
-resource "github_actions_environment_secret" "acr" {
-  for_each        = local.filtered_app_cicd_repos
-  repository      = split("/", each.value)[1]
-  environment     = github_repository_environment.env[each.key].environment
-  secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "ACR_NAME")
-  plaintext_value = azurerm_container_registry.acr.name
-}
+# resource "github_actions_environment_secret" "acr" {
+#   for_each        = local.filtered_app_cicd_repos
+#   repository      = split("/", each.value)[1]
+#   environment     = github_repository_environment.env[each.key].environment
+#   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "ACR_NAME")
+#   plaintext_value = azurerm_container_registry.acr.name
+# }
 
 resource "github_actions_environment_secret" "rg" {
   for_each        = local.filtered_app_cicd_repos
