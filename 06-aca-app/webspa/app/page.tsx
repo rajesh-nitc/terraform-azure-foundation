@@ -10,7 +10,7 @@ async function getData() {
   const API_URL: string = process.env.API_URL ?? ""
   console.log(`API_URL - ${process.env.API_URL}`)
 
-  const response = await fetch(API_URL, {
+  const response = await fetch("https://ca-bu1-app1-api-westus-dev.livelyisland-0fea0d9b.westus.azurecontainerapps.io", {
     cache: "no-store",
     headers: headersInstance,
   })
