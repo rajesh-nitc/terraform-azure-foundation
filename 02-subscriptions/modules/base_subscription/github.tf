@@ -28,13 +28,13 @@ resource "github_actions_environment_secret" "tenant_id" {
   plaintext_value = local.tenant_id
 }
 
-# resource "github_actions_environment_secret" "acr" {
-#   for_each        = local.filtered_app_cicd_repos
-#   repository      = split("/", each.value)[1]
-#   environment     = github_repository_environment.env[each.key].environment
-#   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "ACR_NAME")
-#   plaintext_value = azurerm_container_registry.acr.name
-# }
+resource "github_actions_environment_secret" "acr" {
+  for_each        = local.filtered_app_cicd_repos
+  repository      = split("/", each.value)[1]
+  environment     = github_repository_environment.env[each.key].environment
+  secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "ACR_NAME")
+  plaintext_value = azurerm_container_registry.acr.name
+}
 
 resource "github_actions_environment_secret" "rg" {
   for_each        = local.filtered_app_cicd_repos
@@ -50,20 +50,4 @@ resource "github_actions_environment_secret" "container_app_uai_id" {
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "CONTAINER_APP_UAI_ID")
   plaintext_value = azurerm_user_assigned_identity.uai[split("-", each.key)[0]].id
-}
-
-resource "github_actions_environment_secret" "aad_auth_client_id" {
-  for_each        = local.filtered_app_cicd_web_repos
-  repository      = split("/", each.value)[1]
-  environment     = github_repository_environment.env[each.key].environment
-  secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "AAD_AUTH_CLIENT_ID")
-  plaintext_value = azuread_application.authenticate_users[each.key].application_id
-}
-
-resource "github_actions_environment_secret" "aad_auth_secret" {
-  for_each        = local.filtered_app_cicd_web_repos
-  repository      = split("/", each.value)[1]
-  environment     = github_repository_environment.env[each.key].environment
-  secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "AAD_AUTH_SECRET")
-  plaintext_value = azuread_application_password.authenticate_users[each.key].value
 }
