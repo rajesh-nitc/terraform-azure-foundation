@@ -39,4 +39,5 @@ This stage is for project team and is run on github actions using workflow uai `
 The app is made up of two Azure Container Apps: ```webspa``` (external but require authentication with azure ad) and ```api``` (internal). This stage is for project team and is run on github actions using workflow uais ```[webspa/web/api]-cicd```. Apps run with app uais ```[webspa/web/api]``` and can pull images from acr. 
 
 After ```webspa``` is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
-- Redirect uri
+- Add Redirect uri
+- Add AAD auth using outputs from subscriptions stage
