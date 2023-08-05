@@ -22,6 +22,7 @@ async function getData() {
 
   let data;
   try {
+    console.log(`Full response - ${response}}`);
     const json = await response.json();
     data = json;
     console.log(`Data - ${JSON.stringify(data)}`);
