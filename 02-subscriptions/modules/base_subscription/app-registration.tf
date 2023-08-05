@@ -27,7 +27,6 @@ resource "azuread_application" "authenticate_users" {
   # Redirect uris will be updated manually by azure-devs group
   lifecycle {
     ignore_changes = [
-      single_page_application[0].redirect_uris,
       web[0].redirect_uris,
     ]
   }

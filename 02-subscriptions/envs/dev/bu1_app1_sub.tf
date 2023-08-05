@@ -64,9 +64,9 @@ module "bu1_app1_sub" {
   # For web-cicd and api-cicd, their prefix will be used to create 
   # github secrets for their uai ids - which will be used by [web/api]-cicd workflow to assign it to a container app
   uai_repos = {
-    "infra-cicd"  = "rajesh-nitc/terraform-azure-foundation"
-    "web-cicd" = "rajesh-nitc/terraform-azure-foundation"
-    "api-cicd"    = "rajesh-nitc/terraform-azure-foundation"
+    "infra-cicd" = "rajesh-nitc/terraform-azure-foundation"
+    "web-cicd"   = "rajesh-nitc/terraform-azure-foundation"
+    "api-cicd"   = "rajesh-nitc/terraform-azure-foundation"
   }
 
   # Group will be created and role assignments are given to group at subscription level
