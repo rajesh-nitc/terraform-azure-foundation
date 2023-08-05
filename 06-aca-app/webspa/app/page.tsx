@@ -20,9 +20,17 @@ async function getData() {
     console.log(`Response Header - ${key}: ${value}`);
   });
 
-  const data = await response.json()
-  console.log(`Data - ${JSON.stringify(data)}`)
-  return data
+  let data;
+  try {
+    const json = await response.json();
+    data = json;
+    console.log(`Data - ${JSON.stringify(data)}`);
+  } catch (error) {
+    console.error('Error parsing JSON:', error);
+    data = { "message": "error", "user_name": "error"}; // Set data to an empty object or any default value
+  }
+
+  return data;
 
 }
 
