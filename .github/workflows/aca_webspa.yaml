@@ -3,7 +3,7 @@
 # old way: echo "::set-output name={name}::{value}"
 # new way: echo "{name}={value}" >> $GITHUB_OUTPUT
 
-name: Deploy aca webspa
+name: Deploy aca web
 on: 
   push:
     branches:
@@ -19,9 +19,9 @@ permissions:
       pull-requests: write
 
 env:
-  IMAGE_NAME: bu1-app1-webspa-westus
-  CONTAINER_NAME: bu1-app1-webspa-westus
-  CONTAINER_APP_NAME: ca-bu1-app1-webspa-westus
+  IMAGE_NAME: bu1-app1-web-westus
+  CONTAINER_NAME: bu1-app1-web-westus
+  CONTAINER_APP_NAME: ca-bu1-app1-web-westus
   CONTAINER_APP_ENVIRONMENT: cae-bu1-app1-westus
   LOCATION: westus  
      
@@ -30,18 +30,18 @@ jobs:
     # if: github.event_name == 'pull_request'
     defaults:
       run:
-        working-directory: 06-aca-app/webspa
+        working-directory: 06-aca-app/web
     name: Build and Deploy Dev
     environment: dev
     env:
       DEPLOYMENT_ENV: dev
-      CICD_CLIENT_ID: ${{ secrets.WEBSPA_CICD_CLIENT_ID }}
+      CICD_CLIENT_ID: ${{ secrets.WEB_CICD_CLIENT_ID }}
       TENANT_ID: ${{ secrets.TENANT_ID }}
       SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-      ACR: ${{ secrets.WEBSPA_CICD_ACR_NAME }}
-      REGISTRY_LOGIN_SERVER: ${{ secrets.WEBSPA_CICD_ACR_NAME }}.azurecr.io
-      RG: ${{ secrets.WEBSPA_CICD_RG_NAME }}
-      CONTAINER_APP_UAI_ID: ${{ secrets.WEBSPA_CICD_CONTAINER_APP_UAI_ID }}
+      ACR: ${{ secrets.WEB_CICD_ACR_NAME }}
+      REGISTRY_LOGIN_SERVER: ${{ secrets.WEB_CICD_ACR_NAME }}.azurecr.io
+      RG: ${{ secrets.WEB_CICD_RG_NAME }}
+      CONTAINER_APP_UAI_ID: ${{ secrets.WEB_CICD_CONTAINER_APP_UAI_ID }}
     runs-on: ubuntu-latest
 
     steps:

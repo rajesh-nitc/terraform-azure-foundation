@@ -13,13 +13,12 @@ Mainly org/platform level resources like policy, platform-level subscriptions, c
 ## Subscriptions
 New project-level subscription can be created using ```base_subscription``` module:
 - Default rg, acr, kv, tfstate, law
-- Support for app type ```webspa```, ```web```, ```api```
-- Github workflow uais: ```infra-cicd```, ```[webspa/web/api]-cicd```
+- Github workflow uais: ```infra-cicd```, ```[web/api]-cicd```
 - Roles to workflow uais on subscription
 - Federation of the workflow uais with github openid auth
-- App uais ```[webspa/web/api]``` and roles to app uais on subscription 
+- App uais ```[web/api]``` and roles to app uais on subscription 
 - Groups and roles to groups on subscription
-- App registrations
+- App registration for ```web```
 - Github environments and secrets
 
 ## Networks
@@ -36,8 +35,10 @@ New network hub or spoke can be created using single ```base_vnet``` module:
 This stage is for project team and is run on github actions using workflow uai ```infra-cicd``` that was handed over by platform/central team as part of subscriptions stage.
 
 ## Aca-app
-The app is made up of two Azure Container Apps: ```webspa``` (external but require authentication with azure ad) and ```api``` (external no auth). This stage is for project team and is run on github actions using workflow uais ```[webspa/web/api]-cicd```. Apps run with app uais ```[webspa/web/api]``` and can pull images from acr. 
+The app is made up of two Azure Container Apps: ```web``` (external but require authentication with azure ad) and ```api``` (external no auth). This stage is for project team and is run on github actions using workflow uais ```[web/api]-cicd```. Apps run with app uais ```[web/api]``` and can pull images from acr. 
 
-After ```webspa``` is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
-- Add Redirect uri
-- Add AAD auth using outputs from subscriptions stage
+After ```web``` is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
+- Add Redirect uri in the aad auth app created as part of subscriptions stage
+    - Web redirect uri: $APP_URL/.auth/login/aad/callback
+- Add AAD auth with the above aad auth app
+    -   Issuer url: https://login.microsoftonline.com/$TENANT_ID/v2.0

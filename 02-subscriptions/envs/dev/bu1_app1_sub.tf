@@ -11,9 +11,9 @@ module "bu1_app1_sub" {
 
   # Uai will be created and role assignments are given to uai at subscription level
   # Must have a key named infra-cicd
-  # Must pass app type key as [webspa/web/api] spa is single page application
-  # webspa and web are external, api is internal
-  # Must use [webspa/web/api]-cicd for workflows or just [webspa/web/api] for actual apps 
+  # Must pass app type key as [web/api]
+  # web and api are external, web required auth with azure ad
+  # Must use [web/api]-cicd for workflows or just [web/api] for actual apps 
   uai_roles = {
 
     # Infra
@@ -23,16 +23,16 @@ module "bu1_app1_sub" {
       "Key Vault Secrets Officer",
     ]
 
-    # webspa
-    "webspa-cicd" = [
+    # web
+    "web-cicd" = [
       "AcrPush",
-      "Managed Identity Operator", # To be able to use uais. webspa-cicd will use uai webspa for the container
+      "Managed Identity Operator", # To be able to use uais. web-cicd will use uai web for the container
       "Key Vault Secrets User",
       "Contributor", # Until Azure provide container app admin role
     ]
 
     # app
-    "webspa" = [
+    "web" = [
       "AcrPull",
 
     ]
@@ -61,11 +61,11 @@ module "bu1_app1_sub" {
   # If the key includes "cicd" but not "infra":
   # github secrets for acr name and rg name will be created
 
-  # For webspa-cicd and api-cicd, their prefix will be used to create 
-  # github secrets for their uai ids - which will be used by [webspa/web/api]-cicd workflow to assign it to a container app
+  # For web-cicd and api-cicd, their prefix will be used to create 
+  # github secrets for their uai ids - which will be used by [web/api]-cicd workflow to assign it to a container app
   uai_repos = {
     "infra-cicd"  = "rajesh-nitc/terraform-azure-foundation"
-    "webspa-cicd" = "rajesh-nitc/terraform-azure-foundation"
+    "web-cicd" = "rajesh-nitc/terraform-azure-foundation"
     "api-cicd"    = "rajesh-nitc/terraform-azure-foundation"
   }
 

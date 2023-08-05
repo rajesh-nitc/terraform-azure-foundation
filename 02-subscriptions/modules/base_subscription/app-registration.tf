@@ -9,16 +9,8 @@ resource "azuread_application" "authenticate_users" {
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
 
-  dynamic "single_page_application" {
-    for_each = can(regex(".*spa.*", each.key)) ? [1] : []
-
-    content {
-      redirect_uris = []
-    }
-  }
-
   dynamic "web" {
-    for_each = !can(regex(".*spa.*", each.key)) ? [1] : []
+    for_each = can(regex(".*web.*", each.key)) ? [1] : []
 
     content {
       redirect_uris = []

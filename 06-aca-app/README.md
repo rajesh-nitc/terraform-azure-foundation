@@ -1,8 +1,8 @@
 # aca-app
 
-webspa:
+web:
 
-```docker run -p 3000:3000 --name webspa webspa```
+```docker run -p 3000:3000 --name web web```
 
 api:
 
