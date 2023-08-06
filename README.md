@@ -40,5 +40,5 @@ The app is made up of two Azure Container Apps: ```web``` (external but require 
 After ```web``` is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
 - Add Redirect uri to the aad auth app created as part of subscriptions stage:
     - Web redirect uri: ```$APP_URL/.auth/login/aad/callback```
-- Add AAD auth to the container app by choosing existing aad auth app:
+- Add AAD auth to the container app and select existing aad auth app:
     - Issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
