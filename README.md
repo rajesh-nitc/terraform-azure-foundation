@@ -35,9 +35,9 @@ New network hub or spoke can be created using single ```base_vnet``` module:
 This stage is for project team and is run on github actions using workflow uai ```infra-cicd``` that was handed over by platform/central team as part of subscriptions stage.
 
 ## Aca-app
-The app is made up of two Azure Container Apps: ```web``` and ```api```. This stage is for project team and is run on github actions using workflow uais ```[web/api]-cicd```. Apps run with app uais ```[web/api]``` and can pull images from acr. 
+The app is made up of two Azure Container Apps: ```web``` and ```api```. Both are external at the moment. This stage is for project team and is run on github actions using workflow uais ```[web/api]-cicd```. Apps run with app uais ```[web/api]``` and can pull images from acr. 
 
-After apps are deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
+After web app is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
 - Add Redirect uri to the aad auth app created as part of subscriptions stage:
     - Web redirect uri: ```$APP_URL/.auth/login/aad/callback```
 - Add AAD auth to the container app and select existing aad auth app:
