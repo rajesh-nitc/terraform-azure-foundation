@@ -37,8 +37,9 @@ This stage is for project team and is run on github actions using workflow uai `
 ## Aca-app
 The app is made up of two Azure Container Apps: ```web``` and ```api```. This stage is for project team and is run on github actions using workflow uais ```[web/api]-cicd```. Apps run with app uais ```[web/api]``` and can pull images from acr. 
 
-After ```web``` is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
+After apps are deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
 - Add Redirect uri to the aad auth app created as part of subscriptions stage:
     - Web redirect uri: ```$APP_URL/.auth/login/aad/callback```
 - Add AAD auth to the container app and select existing aad auth app:
     - Issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
+- Add cors

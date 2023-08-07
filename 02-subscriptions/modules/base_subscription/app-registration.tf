@@ -19,6 +19,17 @@ resource "azuread_application" "web" {
   api {
     mapped_claims_enabled          = false
     requested_access_token_version = 2
+
+    oauth2_permission_scope {
+      admin_consent_description  = "Allow the application to access example on behalf of the signed-in user."
+      admin_consent_display_name = "Access example"
+      enabled                    = true
+      id                         = random_uuid.uuid.result
+      type                       = "User"
+      user_consent_description   = "Allow the application to access example on your behalf."
+      user_consent_display_name  = "Access example"
+      value                      = "user_impersonation"
+    }
   }
 
   required_resource_access {
@@ -26,6 +37,15 @@ resource "azuread_application" "web" {
 
     resource_access {
       id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d" # User.Read
+      type = "Scope"
+    }
+  }
+
+  required_resource_access {
+    resource_app_id = azuread_application.api.application_id
+
+    resource_access {
+      id   = random_uuid.uuid.result
       type = "Scope"
     }
   }
@@ -49,9 +69,9 @@ resource "azuread_application" "api" {
     mapped_claims_enabled          = false
     requested_access_token_version = 2
 
-    known_client_applications = [
-      azuread_application.web.application_id,
-    ]
+    # known_client_applications = [
+    #   azuread_application.web.application_id,
+    # ]
 
     oauth2_permission_scope {
       admin_consent_description  = "Allow the application to access example on behalf of the signed-in user."
@@ -62,6 +82,15 @@ resource "azuread_application" "api" {
       user_consent_description   = "Allow the application to access example on your behalf."
       user_consent_display_name  = "Access example"
       value                      = "user_impersonation"
+    }
+  }
+
+  required_resource_access {
+    resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+
+    resource_access {
+      id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d" # User.Read
+      type = "Scope"
     }
   }
 

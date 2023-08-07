@@ -16,8 +16,4 @@ app.add_middleware(
 
 @app.get("/")
 def read_root(request: Request):
-    print("Request headers: ", request.headers)
-    user_name = request.headers.get("x-ms-client-principal-name") or "world"
-    data = {"message": "hello", "user_name": user_name}
-    print(data)
-    return data
+    return request.headers

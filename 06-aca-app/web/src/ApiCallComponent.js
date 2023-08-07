@@ -11,17 +11,8 @@ const ApiCallComponent = () => {
   const fetchData = async () => {
     try {
       console.log(process.env.REACT_APP_API_URL)
-      const headers = {}
-      const init = {
-        method: "GET",
-        headers: headers,
-        credentials: "include"
-      }
-      const response = await fetch(process.env.REACT_APP_API_URL, init);
+      const response = await fetch(process.env.REACT_APP_API_URL);
       console.log(response)
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
       const jsonData = await response.json();
       setData(jsonData);
     } catch (error) {
@@ -31,7 +22,7 @@ const ApiCallComponent = () => {
 
   return (
     <div>
-      <p>{data.message} {data.user_name}!</p>
+      <p>{JSON.stringify(data)}</p>
     </div>
   );
 };
