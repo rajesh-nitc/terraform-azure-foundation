@@ -1,4 +1,7 @@
-resource "random_uuid" "uuid" {
+resource "random_uuid" "web" {
+}
+
+resource "random_uuid" "api" {
 }
 
 resource "azuread_application" "web" {
@@ -24,7 +27,7 @@ resource "azuread_application" "web" {
       admin_consent_description  = "Allow the application to access example on behalf of the signed-in user."
       admin_consent_display_name = "Access example"
       enabled                    = true
-      id                         = random_uuid.uuid.result
+      id                         = random_uuid.web.result
       type                       = "User"
       user_consent_description   = "Allow the application to access example on your behalf."
       user_consent_display_name  = "Access example"
@@ -41,15 +44,6 @@ resource "azuread_application" "web" {
     }
   }
 
-  # required_resource_access {
-  #   resource_app_id = azuread_application.api.application_id
-
-  #   resource_access {
-  #     id   = random_uuid.uuid.result
-  #     type = "Scope"
-  #   }
-  # }
-
   # Redirect uris will be updated manually by azure-devs group
   lifecycle {
     ignore_changes = [
@@ -59,39 +53,46 @@ resource "azuread_application" "web" {
 
 }
 
-# resource "azuread_application" "api" {
-#   display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, "api", var.env)
-#   identifier_uris  = ["api://${format("%s-%s-%s-%s", var.bu, var.app, "api", var.env)}"]
-#   owners           = [data.azuread_client_config.current.object_id]
-#   sign_in_audience = "AzureADMyOrg"
+resource "azuread_application" "api" {
+  display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, "api", var.env)
+  identifier_uris  = ["api://${format("%s-%s-%s-%s", var.bu, var.app, "api", var.env)}"]
+  owners           = [data.azuread_client_config.current.object_id]
+  sign_in_audience = "AzureADMyOrg"
 
-#   api {
-#     mapped_claims_enabled          = false
-#     requested_access_token_version = 2
+  web {
+    implicit_grant {
+      access_token_issuance_enabled = false
+      id_token_issuance_enabled     = true
+    }
+  }
 
-#     # known_client_applications = [
-#     #   azuread_application.web.application_id,
-#     # ]
+  api {
+    mapped_claims_enabled          = false
+    requested_access_token_version = 2
 
-#     oauth2_permission_scope {
-#       admin_consent_description  = "Allow the application to access example on behalf of the signed-in user."
-#       admin_consent_display_name = "Access example"
-#       enabled                    = true
-#       id                         = random_uuid.uuid.result
-#       type                       = "User"
-#       user_consent_description   = "Allow the application to access example on your behalf."
-#       user_consent_display_name  = "Access example"
-#       value                      = "user_impersonation"
-#     }
-#   }
+    known_client_applications = [
+      azuread_application.web.application_id,
+    ]
 
-#   required_resource_access {
-#     resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+    oauth2_permission_scope {
+      admin_consent_description  = "Allow the application to access example on behalf of the signed-in user."
+      admin_consent_display_name = "Access example"
+      enabled                    = true
+      id                         = random_uuid.api.result
+      type                       = "User"
+      user_consent_description   = "Allow the application to access example on your behalf."
+      user_consent_display_name  = "Access example"
+      value                      = "user_impersonation"
+    }
+  }
 
-#     resource_access {
-#       id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d" # User.Read
-#       type = "Scope"
-#     }
-#   }
+  required_resource_access {
+    resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
 
-# }
+    resource_access {
+      id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d" # User.Read
+      type = "Scope"
+    }
+  }
+
+}

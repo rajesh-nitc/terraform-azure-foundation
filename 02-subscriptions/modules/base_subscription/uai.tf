@@ -1,6 +1,3 @@
-# Unsupported regions for user-assigned managed identities
-# https://learn.microsoft.com/en-gb/azure/active-directory/workload-identities/workload-identity-federation-considerations#unsupported-regions-user-assigned-managed-identities
-
 resource "azurerm_user_assigned_identity" "uai" {
   for_each            = var.uai_roles
   name                = format("%s-%s-%s-%s-%s", "uai", each.key, var.bu, var.app, var.env)
@@ -20,7 +17,6 @@ resource "azurerm_role_assignment" "uai" {
   principal_id         = azurerm_user_assigned_identity.uai[each.value.member].principal_id
 }
 
-# Federate repos provided by user that contain "cicd" 
 resource "azurerm_federated_identity_credential" "cicd" {
   for_each            = var.uai_repos
   name                = format("%s-%s-%s-%s-%s", "uaif", each.key, var.bu, var.app, var.env)
