@@ -1,26 +1,27 @@
-resource "random_uuid" "authenticate_users" {
-  for_each = local.filtered_app_cicd_web_repos
+resource "random_uuid" "uuid" {
 }
 
-resource "azuread_application" "authenticate_users" {
-  for_each         = local.filtered_app_cicd_web_repos
-  display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, split("-", each.key)[0], var.env)
-  identifier_uris  = ["api://${format("%s-%s-%s-%s", var.bu, var.app, split("-", each.key)[0], var.env)}"]
+resource "azuread_application" "web" {
+  display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, "web", var.env)
+  identifier_uris  = ["api://${format("%s-%s-%s-%s", var.bu, var.app, "web", var.env)}"]
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
 
-  dynamic "web" {
-    for_each = can(regex(".*web.*", each.key)) ? [1] : []
+  web {
+    redirect_uris = []
 
-    content {
-      redirect_uris = []
+    implicit_grant {
+      access_token_issuance_enabled = false
+      id_token_issuance_enabled     = true
+    }
+  }
 
-      implicit_grant {
-        access_token_issuance_enabled = false
-        id_token_issuance_enabled     = true
-      }
+  required_resource_access {
+    resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
 
-
+    resource_access {
+      id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d" # User.Read
+      type = "Scope"
     }
   }
 
@@ -33,7 +34,30 @@ resource "azuread_application" "authenticate_users" {
 
 }
 
-resource "azuread_application_password" "authenticate_users" {
-  for_each              = local.filtered_app_cicd_web_repos
-  application_object_id = azuread_application.authenticate_users[each.key].id
+resource "azuread_application" "api" {
+  display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, "api", var.env)
+  identifier_uris  = ["api://${format("%s-%s-%s-%s", var.bu, var.app, "api", var.env)}"]
+  owners           = [data.azuread_client_config.current.object_id]
+  sign_in_audience = "AzureADMyOrg"
+
+  api {
+    mapped_claims_enabled          = true
+    requested_access_token_version = 2
+
+    known_client_applications = [
+      azuread_application.web.application_id,
+    ]
+
+    oauth2_permission_scope {
+      admin_consent_description  = "Allow the application to access example on behalf of the signed-in user."
+      admin_consent_display_name = "Access example"
+      enabled                    = true
+      id                         = random_uuid.uuid.result
+      type                       = "User"
+      user_consent_description   = "Allow the application to access example on your behalf."
+      user_consent_display_name  = "Access example"
+      value                      = "user_impersonation"
+    }
+  }
+
 }

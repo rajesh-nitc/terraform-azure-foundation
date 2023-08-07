@@ -35,13 +35,13 @@ jobs:
     environment: dev
     env:
       DEPLOYMENT_ENV: dev
-      CICD_CLIENT_ID: ${{ secrets.API_CICD_CLIENT_ID }}
+      CICD_CLIENT_ID: ${{ secrets.API_CLIENT_ID }}
       TENANT_ID: ${{ secrets.TENANT_ID }}
       SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-      ACR: ${{ secrets.API_CICD_ACR_NAME }}
-      REGISTRY_LOGIN_SERVER: ${{ secrets.API_CICD_ACR_NAME }}.azurecr.io
-      RG: ${{ secrets.API_CICD_RG_NAME }}
-      CONTAINER_APP_UAI_ID: ${{ secrets.API_CICD_CONTAINER_APP_UAI_ID }}
+      ACR: ${{ secrets.API_ACR_NAME }}
+      REGISTRY_LOGIN_SERVER: ${{ secrets.API_ACR_NAME }}.azurecr.io
+      RG: ${{ secrets.API_RG_NAME }}
+      CONTAINER_APP_UAI_ID: ${{ secrets.API_CONTAINER_APP_UAI_ID }}
     runs-on: ubuntu-latest
     
     steps:
@@ -65,32 +65,32 @@ jobs:
         tenant-id: ${{ env.TENANT_ID }}
         subscription-id: ${{ env.SUBSCRIPTION_ID }}
 
-    # - name: Build and push image
-    #   id: build-image
-    #   env:
-    #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-    #   run: |
-    #       echo "short sha: $SHORT_SHA"
-    #       az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
+    - name: Build and push image
+      id: build-image
+      env:
+        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+      run: |
+          echo "short sha: $SHORT_SHA"
+          az acr build --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --registry $REGISTRY_LOGIN_SERVER --file "Dockerfile" .
 
-    # - name: Check if Azure Container App exists
-    #   id: check-app
-    #   run: |
-    #       az containerapp show --resource-group $RG --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV || echo "exists=false" >> $GITHUB_OUTPUT
+    - name: Check if Azure Container App exists
+      id: check-app
+      run: |
+          az containerapp show --resource-group $RG --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV || echo "exists=false" >> $GITHUB_OUTPUT
 
-    # - name: Pull image - Create Azure Container App
-    #   if: steps.check-app.outputs.exists == 'false'
-    #   env:
-    #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-    #   run: |
-    #       echo "app exists: ${{ steps.check-app.outputs.exists }}"
-    #       echo $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
-    #       az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress external --target-port 3500 --min-replicas 1 --user-assigned $CONTAINER_APP_UAI_ID --registry-identity $CONTAINER_APP_UAI_ID --registry-server $REGISTRY_LOGIN_SERVER
+    - name: Pull image - Create Azure Container App
+      if: steps.check-app.outputs.exists == 'false'
+      env:
+        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+      run: |
+          echo "app exists: ${{ steps.check-app.outputs.exists }}"
+          echo $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+          az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress external --target-port 3500 --min-replicas 1 --user-assigned $CONTAINER_APP_UAI_ID --registry-identity $CONTAINER_APP_UAI_ID --registry-server $REGISTRY_LOGIN_SERVER
 
-    # - name: Pull image - Update Azure Container App
-    #   if: steps.check-app.outputs.exists != 'false'
-    #   env:
-    #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
-    #   run: |
-    #       az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG \
-    #       --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+    - name: Pull image - Update Azure Container App
+      if: steps.check-app.outputs.exists != 'false'
+      env:
+        SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
+      run: |
+          az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG \
+          --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA

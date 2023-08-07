@@ -5,15 +5,15 @@ resource "github_repository_environment" "env" {
 }
 
 resource "github_actions_environment_secret" "client_id" {
-  for_each        = local.filtered_cicd_repos
+  for_each        = var.uai_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "CLIENT_ID") # Error: secret names can only contain alphanumeric characters or underscores
-  plaintext_value = azurerm_user_assigned_identity.uai[each.key].client_id
+  plaintext_value = azurerm_user_assigned_identity.uai["${each.key}-cicd"].client_id
 }
 
 resource "github_actions_environment_secret" "subscription_id" {
-  for_each        = local.filtered_cicd_repos
+  for_each        = var.uai_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = "SUBSCRIPTION_ID"
@@ -21,23 +21,23 @@ resource "github_actions_environment_secret" "subscription_id" {
 }
 
 resource "github_actions_environment_secret" "tenant_id" {
-  for_each        = local.filtered_cicd_repos
+  for_each        = var.uai_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = "TENANT_ID"
   plaintext_value = local.tenant_id
 }
 
-# resource "github_actions_environment_secret" "acr" {
-#   for_each        = local.filtered_app_cicd_repos
-#   repository      = split("/", each.value)[1]
-#   environment     = github_repository_environment.env[each.key].environment
-#   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "ACR_NAME")
-#   plaintext_value = azurerm_container_registry.acr.name
-# }
+resource "github_actions_environment_secret" "acr" {
+  for_each        = local.app_repos
+  repository      = split("/", each.value)[1]
+  environment     = github_repository_environment.env[each.key].environment
+  secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "ACR_NAME")
+  plaintext_value = azurerm_container_registry.acr.name
+}
 
 resource "github_actions_environment_secret" "rg" {
-  for_each        = local.filtered_app_cicd_repos
+  for_each        = local.app_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "RG_NAME")
@@ -45,9 +45,9 @@ resource "github_actions_environment_secret" "rg" {
 }
 
 resource "github_actions_environment_secret" "container_app_uai_id" {
-  for_each        = local.filtered_app_cicd_repos
+  for_each        = local.app_repos
   repository      = split("/", each.value)[1]
   environment     = github_repository_environment.env[each.key].environment
   secret_name     = format("%s_%s", upper(replace(each.key, "-", "_")), "CONTAINER_APP_UAI_ID")
-  plaintext_value = azurerm_user_assigned_identity.uai[split("-", each.key)[0]].id
+  plaintext_value = azurerm_user_assigned_identity.uai[each.key].id
 }

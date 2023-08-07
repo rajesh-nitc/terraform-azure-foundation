@@ -12,7 +12,6 @@ module "bu1_app1_sub" {
   # Uai will be created and role assignments are given to uai at subscription level
   # Must have a key named infra-cicd
   # Must pass app type key as [web/api]
-  # web and api are external, web required auth with azure ad
   # Must use [web/api]-cicd for workflows or just [web/api] for actual apps 
   uai_roles = {
 
@@ -54,19 +53,14 @@ module "bu1_app1_sub" {
 
   # In real world, repos will be different
   # repos must exist before running this code
-  # The keys must include cicd as suffix and must match with keys of uai_roles
 
-  # If the key includes "cicd", uai will be federated for github openid auth:
-
-  # If the key includes "cicd" but not "infra":
+  # Keys must match with the uai_roles (Infra key to be used without cicd)
   # github secrets for acr name and rg name will be created
-
-  # For web-cicd and api-cicd, their prefix will be used to create 
   # github secrets for their uai ids - which will be used by [web/api]-cicd workflow to assign it to a container app
   uai_repos = {
-    "infra-cicd" = "rajesh-nitc/terraform-azure-foundation"
-    "web-cicd"   = "rajesh-nitc/terraform-azure-foundation"
-    "api-cicd"   = "rajesh-nitc/terraform-azure-foundation"
+    "infra" = "rajesh-nitc/terraform-azure-foundation"
+    "web"   = "rajesh-nitc/terraform-azure-foundation"
+    "api"   = "rajesh-nitc/terraform-azure-foundation"
   }
 
   # Group will be created and role assignments are given to group at subscription level
