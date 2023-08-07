@@ -11,9 +11,14 @@ resource "azuread_application" "web" {
     redirect_uris = []
 
     implicit_grant {
-      access_token_issuance_enabled = false
+      access_token_issuance_enabled = true
       id_token_issuance_enabled     = true
     }
+  }
+
+  api {
+    mapped_claims_enabled          = false
+    requested_access_token_version = 2
   }
 
   required_resource_access {
@@ -41,7 +46,7 @@ resource "azuread_application" "api" {
   sign_in_audience = "AzureADMyOrg"
 
   api {
-    mapped_claims_enabled          = true
+    mapped_claims_enabled          = false
     requested_access_token_version = 2
 
     known_client_applications = [
