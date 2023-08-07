@@ -11,7 +11,13 @@ const ApiCallComponent = () => {
   const fetchData = async () => {
     try {
       console.log(process.env.REACT_APP_API_URL)
-      const response = await fetch(process.env.REACT_APP_API_URL);
+      const headers = {}
+      const init = {
+        method: "GET",
+        headers: headers,
+        credentials: "include"
+      }
+      const response = await fetch(process.env.REACT_APP_API_URL, init);
       console.log(response)
       if (!response.ok) {
         throw new Error('Network response was not ok');
