@@ -7,9 +7,11 @@ resource "azuread_application" "web" {
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
 
-  web {
+  single_page_application {
     redirect_uris = []
+  }
 
+  web {
     implicit_grant {
       access_token_issuance_enabled = true
       id_token_issuance_enabled     = true
@@ -41,7 +43,7 @@ resource "azuread_application" "web" {
   # Redirect uris will be updated manually by azure-devs group
   lifecycle {
     ignore_changes = [
-      web[0].redirect_uris,
+      single_page_application[0].redirect_uris,
     ]
   }
 
