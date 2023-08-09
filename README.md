@@ -41,5 +41,5 @@ After web app is deployed via github workflow, ```azure-devs``` group need to ma
 - Add Redirect uri to the aad auth app created as part of subscriptions stage:
     - Web redirect uri: ```$APP_URL/.auth/login/aad/callback```
 - Add AAD auth to the container app and select existing aad auth app:
+    - generate secret
     - Issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
-- Add cors
