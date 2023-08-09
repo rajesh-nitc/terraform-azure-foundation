@@ -1,28 +1,57 @@
 import React, { useState, useEffect } from 'react';
 
 const ApiCallComponent = () => {
-  const [data, setData] = useState([]);
+  const [easyauthdata, setEasyAuthData] = useState([]);
+  const [apidata, setApiData] = useState([]);
 
   useEffect(() => {
-    // Call the API once the component mounts
-    fetchData();
+    if (process.env.REACT_APP_ENV !== "development") {
+      get_easy_auth_data();
+    }
+    get_api_data();
   }, []);
 
-  const fetchData = async () => {
+  const get_easy_auth_data = async () => {
+    try {
+      const response = await fetch("/.auth/me", {
+        method: 'GET',
+        redirect: 'follow',
+        cache: "no-cache",
+        credentials: "include",
+      });
+      const jsonData = await response.json();
+      console.log(jsonData)
+      setEasyAuthData(jsonData);
+    } catch (error) {
+      console.error('Error in get_easy_auth_data:', error);
+
+    }
+  }
+
+  const get_api_data = async () => {
     try {
       console.log(process.env.REACT_APP_API_URL)
-      const response = await fetch(process.env.REACT_APP_API_URL);
-      console.log(response)
+      const headers = new Headers();
+      if (process.env.REACT_APP_ENV !== "development" && easyauthdata.length > 0) {
+        headers.append("Authorization", "Bearer " + easyauthdata[0].access_token);
+      }
+      const requestOptions = {
+        method: 'GET',
+        headers: headers,
+        cache: "no-cache",
+      };
+      const response = await fetch(process.env.REACT_APP_API_URL, requestOptions);
       const jsonData = await response.json();
-      setData(jsonData);
+      console.log(jsonData)
+      setApiData(jsonData);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error in get_api_data:', error);
     }
   };
 
   return (
     <div>
-      <p>{JSON.stringify(data)}</p>
+      <p>{JSON.stringify(apidata)}</p>
     </div>
   );
 };

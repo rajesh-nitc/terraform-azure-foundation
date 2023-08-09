@@ -65,13 +65,13 @@ resource "azuread_application" "api" {
     requested_access_token_version = 2
 
     oauth2_permission_scope {
-      admin_consent_description  = "Allow the application to access example on behalf of the signed-in user."
-      admin_consent_display_name = "Access example"
+      admin_consent_description  = "Allow client to access backend api on behalf of the signed-in user."
+      admin_consent_display_name = "Access backend api"
       enabled                    = true
       id                         = random_uuid.api.result
       type                       = "User"
-      user_consent_description   = "Allow the application to access example on your behalf."
-      user_consent_display_name  = "Access example"
+      user_consent_description   = "Allow client to access backend api on your behalf."
+      user_consent_display_name  = "Access backend api"
       value                      = "user_impersonation"
     }
   }
