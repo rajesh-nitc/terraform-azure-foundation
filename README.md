@@ -43,3 +43,10 @@ After web app is deployed via github workflow, ```azure-devs``` group need to ma
     - Create client secret to use hybrid flow which will return access and refresh tokens
 - Add authentication to container app and select existing aad auth app:
     - Issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
+
+## Token store
+Once token store is implemented by the Azure Container App team:
+- Update ```REACT_APP_ENV=azure``` in ```aca_web.yaml```
+- Update ```{"loginParameters":["scope=openid offline_access api://bu1-app1-api-dev/user_impersonation"]}``` on the ```web``` conatiner app
+- Enable easy auth on ```api``` container app
+- Test if react app can get response from api
