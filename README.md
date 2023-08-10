@@ -47,6 +47,6 @@ After web app is deployed via github workflow, ```azure-devs``` group need to ma
 ## Token store
 Once token store feature is available to Azure Container Apps:
 - Update ```REACT_APP_ENV=azure``` in ```aca_web.yaml```
-- Update ```{"loginParameters":["scope=openid offline_access api://bu1-app1-api-dev/user_impersonation"]}``` on the ```web``` conatiner app
+- Update ```{"loginParameters":["scope=openid offline_access api://bu1-app1-api-dev/user_impersonation"]}``` on the ```web``` container app
 - Enable easy auth on ```api``` container app
 - Test if react app can get response from api
