@@ -41,5 +41,5 @@ After web app is deployed via github workflow, ```azure-devs``` group need to ma
 - Update aad auth app created as part of subscriptions stage:
     - SPA redirect uri: ```$APP_URL/.auth/login/aad/callback```
     - Create client secret to use hybrid flow which will return access and refresh tokens
-- Add aad auth to container app and select existing aad auth app:
+- Add authentication to container app and select existing aad auth app:
     - Issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
