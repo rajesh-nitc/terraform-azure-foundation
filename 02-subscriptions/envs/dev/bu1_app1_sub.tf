@@ -76,5 +76,10 @@ module "bu1_app1_sub" {
     ]
   }
 
+  budget_amount = 500
+  budget_contact_emails = [
+    "rajesh.nitc@gmail.com"
+  ]
+
 }
 

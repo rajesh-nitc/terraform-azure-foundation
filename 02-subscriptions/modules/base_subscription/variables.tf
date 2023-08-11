@@ -44,3 +44,13 @@ variable "group_roles" {
     error_message = "Must have a key named azure-devs"
   }
 }
+
+variable "budget_amount" {
+  type     = number
+  nullable = false
+}
+
+variable "budget_contact_emails" {
+  type     = list(string)
+  nullable = false
+}

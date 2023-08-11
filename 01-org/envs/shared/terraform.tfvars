@@ -33,3 +33,8 @@ law_solutions = [
     product   = "AzurePolicy"
   },
 ]
+
+budget_amount = 500
+budget_contact_emails = [
+  "rajesh.nitc@gmail.com"
+]
