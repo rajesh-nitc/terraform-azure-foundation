@@ -8,11 +8,11 @@
 In this stage, we manually create a service principal ```sp-org-terraform``` with ```Owner``` role at ```mg-root ``` and run stages 0-4 manually using this sp. Other major resources that are created include terraform state bucket to store tfstate for stages 0-4.
 
 ## Org
-Mainly org/platform level resources like policy, platform-level subscriptions, centralized log analytics workspace, azure ad groups are created in this stage. 
+Mainly org/platform level resources like policy, platform-level subscriptions, centralized log analytics workspace, azure ad groups, budget alerts are created in this stage. 
 
 ## Subscriptions
 New project-level subscription can be created using ```base_subscription``` module:
-- Default rg, acr, kv, tfstate, law
+- Default rg, acr, kv, tfstate, law, budget alerts
 - Github workflow uais: ```infra-cicd```, ```[web/api]-cicd```
 - Roles to workflow uais on subscription
 - Federation of the workflow uais with github openid auth
