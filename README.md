@@ -17,9 +17,9 @@ New project-level subscription can be created using ```base_subscription``` modu
 - Roles to workflow uais on subscription
 - Federation of the workflow uais with github openid auth
 - App uais ```[web/api]``` and roles to app uais on subscription 
+- App registration for ```web``` and ```api```
 - Groups and roles to groups on subscription
-- App registration for ```web```
-- Github environments and secrets
+- Github repository environments and actions environment secrets
 
 ## Networks
 New network hub or spoke can be created using single ```base_vnet``` module:
