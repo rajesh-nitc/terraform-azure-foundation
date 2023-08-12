@@ -13,6 +13,7 @@ Mainly org/platform level resources:
 - Management and connectivity subscriptions under ```mg-common```
 - Centralized log analytics workspace in management subscription
 - Azure ad groups
+- Roles to Azure ad groups at ```mg-root```
 - Budget alerts at ```mg-root``` and at management and connectivity subscription
 - Diagnostic settings at management, connectivity and dev subscription
 
@@ -20,12 +21,12 @@ Mainly org/platform level resources:
 New project-level subscription can be created using ```base_subscription``` module:
 - Default rg, acr, kv, tfstate, law, budget alerts
 - Github workflow uais: ```infra-cicd```, ```[web/api]-cicd```
-- Roles to workflow uais on subscription
+- Roles to workflow uais at subscription
 - Federation of the workflow uais with github openid auth
-- App uais ```[web/api]``` and roles to app uais on subscription 
+- App uais ```[web/api]``` and roles to app uais at subscription 
 - App registration for ```web``` and ```api```
 - Azure ad groups
-- Roles to Azure ad groups on subscription
+- Roles to Azure ad groups at subscription
 - Github repository environments and actions environment secrets
 
 ## Networks
