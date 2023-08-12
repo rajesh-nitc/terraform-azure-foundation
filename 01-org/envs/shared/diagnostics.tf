@@ -1,4 +1,5 @@
-# This cannot be configured at management group level using terraform yet
+# This cannot be configured at management group level
+# Error: Can not parse "target_resource_id" as a resource id: No subscription ID found in: "providers/Microsoft.Management/managementGroups/dfeb6941-abde-47b4-8f0e-f0f2fbb4f470"
 # Hence, configuring it at subscription level
 # Send admin activity logs including var.log_categories to central law
 resource "azurerm_monitor_diagnostic_setting" "logs" {

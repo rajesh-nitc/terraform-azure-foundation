@@ -16,9 +16,9 @@ group_roles = {
 
 # Most are commented out to save on costs
 log_categories = [
-  # "Administrative",
-  "Security",
-  "Policy",
+  "Administrative",
+  # "Security",
+  # "Policy",
   # "ServiceHealth", 
   # "Alert", 
   # "Recommendation", 
@@ -27,11 +27,11 @@ log_categories = [
 ]
 
 law_solutions = [
-  {
-    name      = "compliance"
-    publisher = "Microsoft"
-    product   = "AzurePolicy"
-  },
+  # {
+  #   name      = "compliance"
+  #   publisher = "Microsoft"
+  #   product   = "AzurePolicy"
+  # },
 ]
 
 budget_amount = 500

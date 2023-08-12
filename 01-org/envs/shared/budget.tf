@@ -1,6 +1,6 @@
 resource "azurerm_consumption_budget_management_group" "root" {
   name                = format("%s-%s", "budget", data.azurerm_management_group.root.display_name)
-  management_group_id = data.azurerm_management_group.root.id
+  management_group_id = local.scope
 
   amount     = var.budget_amount
   time_grain = "Monthly"
