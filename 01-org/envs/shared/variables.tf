@@ -22,6 +22,14 @@ variable "location" {
   default  = "westus"
 }
 
+variable "logs" {
+  type = list(object({
+    category = string
+    enabled  = bool
+  }))
+  nullable = false
+}
+
 variable "law_solutions" {
   type = list(object({
     name      = string
@@ -32,15 +40,6 @@ variable "law_solutions" {
 
   nullable = false
   default  = []
-}
-
-variable "log_categories" {
-  type     = list(string)
-  nullable = false
-  default = [
-    "Administrative"
-  ]
-
 }
 
 variable "group_roles" {

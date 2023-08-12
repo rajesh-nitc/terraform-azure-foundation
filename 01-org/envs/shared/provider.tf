@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/azuread"
       version = ">=2.39.0"
     }
+    azapi = {
+      source  = "Azure/azapi"
+      version = ">=1.8.0"
+    }
 
   }
 }
@@ -27,4 +31,7 @@ provider "azurerm" {
   alias                      = "sub-common-management"
   subscription_id            = "3c624b7d-5bd9-45bb-b1e2-485d05be69c2"
   features {}
+}
+
+provider "azapi" {
 }

@@ -15,7 +15,7 @@ Mainly org/platform level resources:
 - Azure ad groups
 - Roles to Azure ad groups at ```mg-root```
 - Budget alerts at ```mg-root``` and at management and connectivity subscription
-- Diagnostic settings at management, connectivity and dev subscription
+- Diagnostic settings at ```mg-root```
 
 ## Subscriptions
 New project-level subscription can be created using ```base_subscription``` module:

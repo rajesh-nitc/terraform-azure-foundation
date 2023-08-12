@@ -14,16 +14,15 @@ group_roles = {
   "azure-org-viewers"     = ["Reader"]
 }
 
-# Most are commented out to save on costs
-log_categories = [
-  "Administrative",
-  # "Security",
-  # "Policy",
-  # "ServiceHealth", 
-  # "Alert", 
-  # "Recommendation", 
-  # "Autoscale", 
-  # "ResourceHealth"
+logs = [
+  {
+    "category" : "Administrative",
+    "enabled" : true
+  },
+  {
+    "category" : "Policy",
+    "enabled" : false
+  },
 ]
 
 law_solutions = [
