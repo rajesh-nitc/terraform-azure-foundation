@@ -20,13 +20,17 @@ Mainly org/platform level resources:
 ## Subscriptions
 New project-level subscription can be created using ```base_subscription``` module:
 - Default rg, acr, kv, tfstate, law, budget alerts
-- Github workflow uais: ```infra-cicd```, ```[web/api]-cicd```
-- Roles to workflow uais at subscription
-- Federation of the workflow uais with github openid auth
-- App uais ```[web/api]``` and roles to app uais at subscription 
-- App registration for ```web``` and ```api```
-- Azure ad groups
-- Roles to Azure ad groups at subscription
+- Github workflow uais: 
+    - ```infra-cicd```, ```web-cicd```, ```api-cicd```
+    - Roles to workflow uais at subscription
+    - Federation of the workflow uais with github openid auth
+- App uais:
+    - ```web```, ```api``` 
+    - Roles to app uais at subscription 
+- App registrations:
+    - ```web```, ```api```
+- Azure ad groups:
+    - Roles to Azure ad groups at subscription
 - Github repository environments and actions environment secrets
 
 ## Networks
