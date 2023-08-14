@@ -10,11 +10,13 @@ In this stage, we manually create a service principal ```sp-org-terraform``` wit
 ## Org
 Mainly org/platform level resources:
 - Policy assignment at ```mg-root```
-- Management and connectivity subscriptions under ```mg-common```
-- Centralized log analytics workspace in management subscription
-- Azure ad groups
+- Subscriptions under ```mg-common```:
+    - ```sub-common-management```, ```sub-common-connectivity```
+- Centralized log analytics workspace in ```sub-common-management```
+- Azure ad groups:
     - Roles to Azure ad groups at ```mg-root```
-- Budget alerts at ```mg-root``` and at management and connectivity subscription
+- Budget alerts at ```mg-root```:
+    - and at ```sub-common-management```, ```sub-common-connectivity```
 - Diagnostic settings at ```mg-root```
 
 ## Subscriptions
