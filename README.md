@@ -13,7 +13,7 @@ Mainly org/platform level resources:
 - Management and connectivity subscriptions under ```mg-common```
 - Centralized log analytics workspace in management subscription
 - Azure ad groups
-- Roles to Azure ad groups at ```mg-root```
+    - Roles to Azure ad groups at ```mg-root```
 - Budget alerts at ```mg-root``` and at management and connectivity subscription
 - Diagnostic settings at ```mg-root```
 
