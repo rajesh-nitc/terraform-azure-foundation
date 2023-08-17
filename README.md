@@ -7,42 +7,42 @@
 ## Bootstrap
 - ```mg-root``` under Root Management Group
 - ```mg-bootstrap``` under ```mg-root```
-- Move ```sub-bootstrap-tfstate``` under ```mg-bootstrap```
-- Terraform state is stored in a tfstate container in ```sub-bootstrap-tfstate```
-- Foundation-level stages will use ```terraform_service_principal``` which has:
-    - Owner role at ```mg-root```
-    - Azure ad roles to create azuread applications, azuread groups, azuread directory role assignments
-- Project-level stages such as ```aca-infra``` will run on github actions and use user assigned identity which will be created as part of subscriptions stage
+- Move default subscription under ```mg-bootstrap```
+- terraform state container
+- terraform_service_principal:
+    - Azure resource roles: Owner role at ```mg-root```
+    - Azure ad roles: ```Application.ReadWrite.All```, ```Directory.ReadWrite.All```, ```RoleManagement.ReadWrite.Directory```
 
 ## Org
 Mainly org/platform level resources:
 - Policy assignment at ```mg-root```
 - Move subscriptions under ```mg-common```
-- Centralized log analytics workspace in ```sub-common-management```
-- Azure ad groups:
-    - Roles to Azure ad groups at ```mg-root```
+- Centralized log analytics workspace in management sub
 - Budget alerts at ```mg-root``` and at subs under ```mg-common```
 - Diagnostic settings at ```mg-root```
+- Azure ad groups:
+    - Azure resource roles to Azure ad groups at ```mg-root```
 
 ## Subscriptions
 New project-level pay as you go subscription is created manually on the portal and is made ready to use using ```base_subscription``` module:
 - Default rg, acr, kv, tfstate, law, budget alerts
 - Github workflow uais: 
     - ```infra-cicd```, ```web-cicd```, ```api-cicd```
-    - Roles to workflow uais at subscription
+    - Azure resource roles to workflow uais at subscription
     - Federation of the workflow uais with github openid auth
 - App uais:
     - ```web```, ```api``` 
-    - Roles to app uais at subscription 
+    - Azure resource roles such as ```AcrPull``` to app uais at subscription 
 - App registrations:
     - ```web```, ```api```
 - Azure ad groups:
-    - Roles to Azure ad groups at subscription
+    - Azure resource roles to Azure ad groups at subscription
+    - Azure ad roles such as ```Application Developer``` to ```azure-devs``` group
 - Github repository environments and actions environment secrets
 
 ## Networks
 New network hub or spoke can be created using single ```base_vnet``` module:
-- rg-net, vnet, snet, nsg, nsg rules, routes
+- rg-net, hub/spoke vnet, snet, nsg, nsg rules, routes
 - hub/spoke vnet peering
 - private dns zones in hub
 - private endpoints in spoke 
