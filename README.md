@@ -7,21 +7,21 @@
 ## Bootstrap
 - ```mg-root``` under Root Management Group
 - ```mg-bootstrap``` under ```mg-root```
-- ```sub-bootstrap-tfstate``` under ```mg-bootstrap```
-- tfstate container in ```sub-bootstrap-tfstate```
-- ```terraform_service_principal```:
+- Move ```sub-bootstrap-tfstate``` under ```mg-bootstrap```
+- Terraform state is stored in a tfstate container in ```sub-bootstrap-tfstate```
+- Foundation-level stages will use ```terraform_service_principal``` which has:
     - Owner role at ```mg-root```
-    - Azure ad roles
+    - Azure ad roles to create azuread applications, azuread groups, azuread directory role assignments
+- Project-level stages such as ```aca-infra``` will run on github actions and use user assigned identity which will be created as part of subscriptions stage
 
 ## Org
 Mainly org/platform level resources:
 - Policy assignment at ```mg-root```
-- Subscriptions under ```mg-common```:
-    - ```sub-common-management```, ```sub-common-connectivity```
+- Move subscriptions under ```mg-common```
 - Centralized log analytics workspace in ```sub-common-management```
 - Azure ad groups:
     - Roles to Azure ad groups at ```mg-root```
-- Budget alerts at ```mg-root``` and at ```sub-common-management```, ```sub-common-connectivity```
+- Budget alerts at ```mg-root``` and at subs under ```mg-common```
 - Diagnostic settings at ```mg-root```
 
 ## Subscriptions
