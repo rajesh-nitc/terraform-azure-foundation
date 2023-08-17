@@ -14,7 +14,7 @@ resource "azurerm_role_assignment" "group" {
       member = i.member
     }
   }
-  scope                = local.id
+  scope                = local.sub_resource_id
   role_definition_name = each.value.role
   principal_id         = azuread_group.group[each.value.member].object_id
 }

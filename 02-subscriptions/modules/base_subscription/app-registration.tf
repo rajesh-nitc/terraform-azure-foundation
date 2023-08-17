@@ -1,6 +1,11 @@
 resource "random_uuid" "api" {
 }
 
+resource "azuread_service_principal" "msgraph" {
+  application_id = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
+  use_existing   = true
+}
+
 resource "azuread_application" "web" {
   display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, "web", var.env)
   identifier_uris  = ["api://${format("%s-%s-%s-%s", var.bu, var.app, "web", var.env)}"]
@@ -23,10 +28,10 @@ resource "azuread_application" "web" {
   }
 
   required_resource_access {
-    resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+    resource_app_id = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
 
     resource_access {
-      id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d" # User.Read
+      id   = azuread_service_principal.msgraph.app_role_ids["User.Read.All"]
       type = "Scope"
     }
   }
@@ -79,10 +84,10 @@ resource "azuread_application" "api" {
   }
 
   required_resource_access {
-    resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+    resource_app_id = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
 
     resource_access {
-      id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d" # User.Read
+      id   = azuread_service_principal.msgraph.app_role_ids["User.Read.All"]
       type = "Scope"
     }
   }

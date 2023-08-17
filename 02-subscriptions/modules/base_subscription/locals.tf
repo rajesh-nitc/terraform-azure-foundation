@@ -1,9 +1,8 @@
 locals {
-  mg_id     = data.azurerm_management_group.mg.id
-  sub_name  = data.azurerm_subscriptions.all.subscriptions[0].display_name
-  sub_id    = data.azurerm_subscriptions.all.subscriptions[0].subscription_id
-  id        = data.azurerm_subscriptions.all.subscriptions[0].id
-  tenant_id = data.azurerm_client_config.current.tenant_id
+  mg_id           = data.azurerm_management_group.mg.id
+  sub_id          = data.azurerm_subscription.current.subscription_id
+  sub_resource_id = data.azurerm_subscription.current.id
+  tenant_id       = data.azurerm_client_config.current.tenant_id
 
   rg_name = azurerm_resource_group.rg.name
 

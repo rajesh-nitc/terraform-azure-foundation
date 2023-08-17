@@ -25,7 +25,7 @@ resource "azurerm_consumption_budget_management_group" "root" {
 }
 
 resource "azurerm_consumption_budget_subscription" "management" {
-  name            = format("%s-%s", "budget", local.sub_name_management)
+  name            = format("%s-%s", "budget", "sub-common-management")
   subscription_id = local.sub_resource_id_management
 
   amount     = var.budget_amount
@@ -51,7 +51,7 @@ resource "azurerm_consumption_budget_subscription" "management" {
 }
 
 resource "azurerm_consumption_budget_subscription" "connectivity" {
-  name            = format("%s-%s", "budget", local.sub_name_connectivity)
+  name            = format("%s-%s", "budget", "sub-common-connectivity")
   subscription_id = local.sub_resource_id_connectivity
 
   amount     = var.budget_amount

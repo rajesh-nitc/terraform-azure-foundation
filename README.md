@@ -5,7 +5,13 @@
 ![Alt text](images/org_hierarchy.png)
 
 ## Bootstrap
-In this stage, we manually create a service principal ```sp-org-terraform``` with ```Owner``` role at ```mg-root ``` and run stages 0-4 manually using this sp. Other major resources that are created include terraform state bucket to store tfstate for stages 0-4.
+- ```mg-root``` under Root Management Group
+- ```mg-bootstrap``` under ```mg-root```
+- ```sub-bootstrap-tfstate``` under ```mg-bootstrap```
+- tfstate container in ```sub-bootstrap-tfstate```
+- ```terraform_service_principal```:
+    - Owner role at ```mg-root```
+    - Azure ad roles
 
 ## Org
 Mainly org/platform level resources:
@@ -15,12 +21,11 @@ Mainly org/platform level resources:
 - Centralized log analytics workspace in ```sub-common-management```
 - Azure ad groups:
     - Roles to Azure ad groups at ```mg-root```
-- Budget alerts at ```mg-root```:
-    - and at ```sub-common-management```, ```sub-common-connectivity```
+- Budget alerts at ```mg-root``` and at ```sub-common-management```, ```sub-common-connectivity```
 - Diagnostic settings at ```mg-root```
 
 ## Subscriptions
-New project-level subscription can be created using ```base_subscription``` module:
+New project-level pay as you go subscription is created manually on the portal and is made ready to use using ```base_subscription``` module:
 - Default rg, acr, kv, tfstate, law, budget alerts
 - Github workflow uais: 
     - ```infra-cicd```, ```web-cicd```, ```api-cicd```

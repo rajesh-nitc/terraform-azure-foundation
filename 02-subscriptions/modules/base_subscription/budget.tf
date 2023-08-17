@@ -1,6 +1,6 @@
 resource "azurerm_consumption_budget_subscription" "budget" {
-  name            = format("%s-%s", "budget", local.sub_name)
-  subscription_id = local.id
+  name            = "default-sub-budget"
+  subscription_id = local.sub_resource_id
 
   amount     = var.budget_amount
   time_grain = "Monthly"

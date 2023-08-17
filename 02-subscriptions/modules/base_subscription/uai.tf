@@ -12,7 +12,7 @@ resource "azurerm_role_assignment" "uai" {
       member = i.member
     }
   }
-  scope                = local.id
+  scope                = local.sub_resource_id
   role_definition_name = each.value.role
   principal_id         = azurerm_user_assigned_identity.uai[each.value.member].principal_id
 }

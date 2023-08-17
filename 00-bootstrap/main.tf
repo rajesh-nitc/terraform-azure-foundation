@@ -8,25 +8,10 @@ resource "azurerm_management_group" "bootstrap" {
 
   subscription_ids = [
     # Assign sub-bootstrap-tfstate to mg-bootstrap
-    local.default_subscription_id
+    var.default_subscription_id
   ]
 }
 
-# This is actually your first default subscription that you get with pay as you go
-resource "azurerm_subscription" "tfstate" {
-  alias             = local.default_subscription_name
-  subscription_name = local.default_subscription_name
-  subscription_id   = local.default_subscription_id
-  lifecycle {
-    ignore_changes = [
-      # we changed the subscription name on the portal
-      # we might change it again if we find a better naming for subscription
-      alias,
-    ]
-  }
-}
-
-# We did not specify the subscription - the current subscription used by tf will be used
 resource "azurerm_resource_group" "tfstate" {
   name     = module.naming.resource_group.name
   location = var.location

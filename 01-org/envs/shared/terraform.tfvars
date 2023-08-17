@@ -1,6 +1,6 @@
-location                         = "westus"
-subscription_management_suffix   = "management"
-subscription_connectivity_suffix = "connectivity"
+location            = "westus"
+sub_id_management   = "3c624b7d-5bd9-45bb-b1e2-485d05be69c2"
+sub_id_connectivity = "9f75fbbf-3b6c-4036-971d-426b55119ad5"
 
 allowed_locations = [
   "westus"

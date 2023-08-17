@@ -1,13 +1,11 @@
-variable "subscription_management_suffix" {
+variable "sub_id_management" {
   type     = string
   nullable = false
-  default  = "management"
 }
 
-variable "subscription_connectivity_suffix" {
+variable "sub_id_connectivity" {
   type     = string
   nullable = false
-  default  = "connectivity"
 }
 
 variable "allowed_locations" {
