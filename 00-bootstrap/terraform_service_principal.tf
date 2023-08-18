@@ -34,13 +34,13 @@ resource "azuread_application_password" "terraform" {
   application_object_id = azuread_application.terraform.id
 }
 
+# Assign Azure resource roles
 resource "azuread_service_principal" "terraform" {
   application_id               = azuread_application.terraform.application_id
   app_role_assignment_required = false
   owners                       = [data.azuread_client_config.current.object_id]
 }
 
-# Assign Owner role at Root Management Group
 resource "azurerm_role_assignment" "terraform" {
   scope                = data.azurerm_management_group.root.id
   role_definition_name = "Owner"

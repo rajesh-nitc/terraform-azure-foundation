@@ -10,7 +10,7 @@
 - Move default subscription under ```mg-bootstrap```
 - terraform state container
 - terraform_service_principal:
-    - Azure resource roles: Owner role at ```mg-root```
+    - Azure resource roles: ```Owner``` role at ```mg-root```
     - Azure ad roles: ```Application.ReadWrite.All```, ```Directory.ReadWrite.All```, ```RoleManagement.ReadWrite.Directory```
 
 ## Org
@@ -24,7 +24,7 @@ Mainly org/platform level resources:
     - Azure resource roles to Azure ad groups at ```mg-root```
 
 ## Subscriptions
-New project-level pay as you go subscription is created manually on the portal and is made ready to use using ```base_subscription``` module:
+New project-level subscription is created manually on the portal and is made ready to use using ```base_subscription``` module:
 - Default rg, acr, kv, tfstate, law, budget alerts
 - Github workflow uais: 
     - ```infra-cicd```, ```web-cicd```, ```api-cicd```
@@ -33,8 +33,10 @@ New project-level pay as you go subscription is created manually on the portal a
 - App uais:
     - ```web```, ```api``` 
     - Azure resource roles such as ```AcrPull``` to app uais at subscription 
-- App registrations:
-    - ```web```, ```api```
+- App registrations support for single web, multiple apis and multiple apps, we use single web and single api:
+    - web is Single Page Application
+    - api is backend api to web
+    - app is standalone server app
 - Azure ad groups:
     - Azure resource roles to Azure ad groups at subscription
     - Azure ad roles such as ```Application Developer``` to ```azure-devs``` group
@@ -59,7 +61,6 @@ The app is made up of two Azure Container Apps: ```web``` and ```api```. Both ar
 After web app is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
 - Update aad auth app created as part of subscriptions stage:
     - SPA redirect uri: ```$APP_URL/.auth/login/aad/callback```
-    - Create client secret to use hybrid flow which will return access and refresh tokens
 - Add authentication to container app and select existing aad auth app:
     - Issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
 

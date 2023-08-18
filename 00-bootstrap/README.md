@@ -1,6 +1,5 @@
 # 00-bootstrap
 
-- Use your default pay as you go subscription
 - Comment out ```backend.tf```
 - ```az login```
 - terraform init/plan/apply

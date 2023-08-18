@@ -9,20 +9,24 @@ module "bu1_app1_sub" {
   app      = "app1"
   location = "westus"
 
-  # Uai will be created and role assignments are given to uai at subscription level
-  # Must have a key named infra-cicd
-  # Must pass app type key as [web/api]
-  # Must use [web/api]-cicd for workflows or just [web/api] for actual apps 
+  # web is Single Page Application
+  # api is backend api to web
+  # app is standalone server app
+
+  # app type key must "include" these keywords: web / api / app
+  # for e.g. for multiple apis/apps: api-foo, api-bar, app-foo, app-bar
+  # single web is supported
+  # use [web/api/app]-cicd for workflows or just [web/api/app] for actual apps 
   uai_roles = {
 
-    # Infra
+    # Infra cicd
     "infra-cicd" = [
       "Contributor",
       "Storage Blob Data Contributor", # tfstate
       "Key Vault Secrets Officer",
     ]
 
-    # web
+    # web cicd
     "web-cicd" = [
       "AcrPush",
       "Managed Identity Operator", # To be able to use uais. web-cicd will use uai web for the container
@@ -30,13 +34,13 @@ module "bu1_app1_sub" {
       "Contributor", # Until Azure provide container app admin role
     ]
 
-    # app
+    # web
     "web" = [
       "AcrPull",
 
     ]
 
-    # api
+    # api cicd
     "api-cicd" = [
       "AcrPush",
       "Managed Identity Operator", # To be able to use uais. api-cicd will use uai api for the container
@@ -44,7 +48,7 @@ module "bu1_app1_sub" {
       "Contributor", # Until Azure provide container app admin role
     ]
 
-    # app
+    # api
     "api" = [
       "AcrPull",
 
@@ -54,9 +58,9 @@ module "bu1_app1_sub" {
   # In real world, repos will be different
   # repos must exist before running this code
 
-  # Keys must match with the uai_roles (Infra key to be used without cicd)
-  # github secrets for acr name and rg name will be created
-  # github secrets for their uai ids - which will be used by [web/api]-cicd workflow to assign it to a container app
+  # Keys must match with the uai_roles (without the cicd suffix)
+  # github secret for acr name and rg name will be created
+  # github secret for app uai id - which will be used by [web/api/app]-cicd workflow to assign it to container app
   uai_repos = {
     "infra" = "rajesh-nitc/terraform-azure-foundation"
     "web"   = "rajesh-nitc/terraform-azure-foundation"
