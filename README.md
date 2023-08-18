@@ -33,13 +33,13 @@ New project-level subscription is created manually on the portal and is made rea
 - App uais:
     - ```web```, ```api``` 
     - Azure resource roles such as ```AcrPull``` to app uais at subscription 
-- App registrations support for single web, multiple apis and multiple apps, we use single web and single api:
-    - web is Single Page Application
-    - api is backend api to web
-    - app is standalone server app
 - Azure ad groups:
     - Azure resource roles to Azure ad groups at subscription
     - Azure ad roles such as ```Application Developer``` to ```azure-devs``` group
+- App registrations:
+    - ```azure-devs``` group need to manually update ```API Permissions```:
+        - Grant admin consent to api permissions for ```api```
+        - Go to ```web ``` -> API Permissions -> Add a permission -> APIs my organization uses -> type client id of ```api``` -> select permission ```user_impersonation``` (which was configured by the module)
 - Github repository environments and actions environment secrets
 
 ## Networks

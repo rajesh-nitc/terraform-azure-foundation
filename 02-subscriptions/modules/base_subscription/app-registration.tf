@@ -13,7 +13,7 @@ resource "azuread_service_principal" "msgraph" {
 
 # If user provide web
 resource "azuread_application" "web" {
-  count            = contains(keys(var.uai_repos), "web") ? 1 : 0
+  for_each         = { for k, v in var.uai_repos : k => v if can(regex(".*web.*", k)) }
   display_name     = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, "web", var.env)
   identifier_uris  = ["api://${format("%s-%s-%s-%s", var.bu, var.app, "web", var.env)}"]
   owners           = [data.azuread_client_config.current.object_id]
@@ -38,25 +38,8 @@ resource "azuread_application" "web" {
     resource_app_id = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
 
     resource_access {
-      id   = azuread_service_principal.msgraph.app_role_ids["User.Read.All"]
+      id   = azuread_service_principal.msgraph.oauth2_permission_scope_ids["User.Read"]
       type = "Scope"
-    }
-  }
-
-  dynamic "required_resource_access" {
-    for_each = azuread_application.api
-    content {
-      resource_app_id = required_resource_access.value.application_id
-
-      dynamic "resource_access" {
-        for_each = required_resource_access.value.api.0.oauth2_permission_scope
-        iterator = scope
-
-        content {
-          id   = scope.value.id
-          type = "Scope"
-        }
-      }
     }
   }
 
@@ -64,6 +47,7 @@ resource "azuread_application" "web" {
   lifecycle {
     ignore_changes = [
       single_page_application[0].redirect_uris,
+      required_resource_access,
     ]
   }
 
@@ -71,8 +55,8 @@ resource "azuread_application" "web" {
 
 # Create client secret to use hybrid flow which will return access and refresh tokens
 resource "azuread_application_password" "web" {
-  count                 = contains(keys(var.uai_repos), "web") ? 1 : 0
-  application_object_id = azuread_application.web[count.index].id
+  for_each              = { for k, v in var.uai_repos : k => v if can(regex(".*web.*", k)) }
+  application_object_id = azuread_application.web[each.key].id
 }
 
 # If user provide app
@@ -100,7 +84,7 @@ resource "azuread_application" "app" {
     resource_app_id = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
 
     resource_access {
-      id   = azuread_service_principal.msgraph.app_role_ids["User.Read.All"]
+      id   = azuread_service_principal.msgraph.oauth2_permission_scope_ids["User.Read"]
       type = "Scope"
     }
   }
@@ -109,6 +93,7 @@ resource "azuread_application" "app" {
   lifecycle {
     ignore_changes = [
       web[0].redirect_uris,
+      required_resource_access,
     ]
   }
 
@@ -149,9 +134,15 @@ resource "azuread_application" "api" {
     resource_app_id = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
 
     resource_access {
-      id   = azuread_service_principal.msgraph.app_role_ids["User.Read.All"]
+      id   = azuread_service_principal.msgraph.oauth2_permission_scope_ids["User.Read"]
       type = "Scope"
     }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      required_resource_access,
+    ]
   }
 
 }

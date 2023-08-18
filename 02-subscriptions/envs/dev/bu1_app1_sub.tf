@@ -14,8 +14,7 @@ module "bu1_app1_sub" {
   # app is standalone server app
 
   # app type key must "include" these keywords: web / api / app
-  # for e.g. for multiple apis/apps: api-foo, api-bar, app-foo, app-bar
-  # single web is supported
+  # for e.g. for multiple instances: web-foo, web-bar, api-foo, api-bar, app-foo, app-bar
   # use [web/api/app]-cicd for workflows or just [web/api/app] for actual apps 
   uai_roles = {
 
