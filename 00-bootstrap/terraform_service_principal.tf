@@ -41,14 +41,9 @@ resource "azuread_service_principal" "terraform" {
   owners                       = [data.azuread_client_config.current.object_id]
 }
 
-resource "azurerm_role_assignment" "mg_root" {
+resource "azurerm_role_assignment" "terraform" {
+  for_each             = toset(var.terraform_service_principal_roles)
   scope                = data.azurerm_management_group.root.id
-  role_definition_name = "Owner"
-  principal_id         = azuread_service_principal.terraform.object_id
-}
-
-resource "azurerm_role_assignment" "tf_state" {
-  scope                = azurerm_storage_container.tfstate.resource_manager_id
-  role_definition_name = "Storage Blob Data Contributor"
+  role_definition_name = each.key
   principal_id         = azuread_service_principal.terraform.object_id
 }

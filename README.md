@@ -12,8 +12,7 @@
     - terraform backend: ```stct-org-tfstate```
     - terraform service principal: ```sp-terraform-foundation```
         - Azure resource roles: 
-            - ```Owner``` role at ```mg-root```
-            - ```Storage Blob Data Contributor``` at ```stct-org-tfstate```
+            - ```Owner``` and ```Storage Blob Data Contributor``` at ```mg-root```
         - Azure ad roles: ```Application.ReadWrite.All```, ```Directory.ReadWrite.All```, ```RoleManagement.ReadWrite.Directory```
 
 ## Org

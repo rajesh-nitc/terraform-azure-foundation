@@ -8,6 +8,11 @@ variable "terraform_service_principal" {
   nullable = false
 }
 
+variable "terraform_service_principal_roles" {
+  type     = list(string)
+  nullable = false
+}
+
 variable "location" {
   type     = string
   nullable = false

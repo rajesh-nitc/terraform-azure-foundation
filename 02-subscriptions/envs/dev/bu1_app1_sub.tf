@@ -4,11 +4,10 @@ module "bu1_app1_sub" {
     azurerm = azurerm.sub-bu1-app1-dev
   }
 
-  env                         = "dev"
-  bu                          = "bu1"
-  app                         = "app1"
-  location                    = "westus"
-  terraform_service_principal = "sp-terraform-foundation"
+  env      = "dev"
+  bu       = "bu1"
+  app      = "app1"
+  location = "westus"
 
   # web is Single Page Application
   # api is backend api to web
