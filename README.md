@@ -8,10 +8,11 @@
 - ```mg-root``` under Root Management Group
 - ```mg-bootstrap``` under ```mg-root```
 - Move default subscription under ```mg-bootstrap```
-- terraform state container
-- terraform_service_principal:
-    - Azure resource roles: ```Owner``` role at ```mg-root```
-    - Azure ad roles: ```Application.ReadWrite.All```, ```Directory.ReadWrite.All```, ```RoleManagement.ReadWrite.Directory```
+- Terraform resources:
+    - terraform backend: ```stct-org-tfstate```
+    - terraform service principal: ```sp-terraform-foundation```
+        - Azure resource roles: ```Owner``` role at ```mg-root```
+        - Azure ad roles: ```Application.ReadWrite.All```, ```Directory.ReadWrite.All```, ```RoleManagement.ReadWrite.Directory```
 
 ## Org
 Mainly org/platform level resources:

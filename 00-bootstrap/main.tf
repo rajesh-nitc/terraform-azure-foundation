@@ -13,12 +13,12 @@ resource "azurerm_management_group" "bootstrap" {
 }
 
 resource "azurerm_resource_group" "tfstate" {
-  name     = module.naming.resource_group.name
+  name     = "rg-org-tfstate"
   location = var.location
 }
 
 resource "azurerm_storage_account" "tfstate" {
-  name                     = module.naming.storage_account.name
+  name                     = "storgtfstate"
   resource_group_name      = azurerm_resource_group.tfstate.name
   location                 = azurerm_resource_group.tfstate.location
   account_tier             = "Standard"
@@ -26,7 +26,7 @@ resource "azurerm_storage_account" "tfstate" {
 }
 
 resource "azurerm_storage_container" "tfstate" {
-  name                  = module.naming.storage_container.name
+  name                  = "stct-org-tfstate"
   storage_account_name  = azurerm_storage_account.tfstate.name
   container_access_type = "private"
 }
