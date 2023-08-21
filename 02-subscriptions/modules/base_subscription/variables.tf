@@ -54,3 +54,8 @@ variable "budget_contact_emails" {
   type     = list(string)
   nullable = false
 }
+
+variable "terraform_service_principal" {
+  type     = string
+  nullable = false
+}

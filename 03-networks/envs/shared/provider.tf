@@ -22,5 +22,6 @@ provider "azurerm" {
   skip_provider_registration = false
   alias                      = "sub-common-connectivity"
   subscription_id            = "9f75fbbf-3b6c-4036-971d-426b55119ad5"
+  storage_use_azuread        = true
   features {}
 }

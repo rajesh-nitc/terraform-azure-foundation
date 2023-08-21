@@ -11,3 +11,7 @@ data "azurerm_management_group" "mg" {
 
 data "azuread_application_published_app_ids" "well_known" {
 }
+
+data "azuread_service_principal" "terraform" {
+  display_name = var.terraform_service_principal
+}

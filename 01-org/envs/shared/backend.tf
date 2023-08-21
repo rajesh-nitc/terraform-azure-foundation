@@ -4,5 +4,6 @@ terraform {
     container_name       = "stct-org-tfstate"
     key                  = "org.tfstate"
     resource_group_name  = "rg-org-tfstate"
+    use_azuread_auth     = true
   }
 }
