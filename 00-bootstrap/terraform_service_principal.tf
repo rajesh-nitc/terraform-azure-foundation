@@ -43,7 +43,7 @@ resource "azuread_service_principal" "terraform" {
 
 resource "azurerm_role_assignment" "terraform" {
   for_each             = toset(var.terraform_service_principal_roles)
-  scope                = data.azurerm_management_group.root.id
+  scope                = azurerm_management_group.root.id
   role_definition_name = each.key
   principal_id         = azuread_service_principal.terraform.object_id
 }
