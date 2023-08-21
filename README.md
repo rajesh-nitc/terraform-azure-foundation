@@ -9,7 +9,7 @@
 - ```mg-bootstrap``` under ```mg-root```
 - Move default subscription under ```mg-bootstrap```
 - Terraform resources:
-    - terraform backend: ```stct-org-tfstate```
+    - terraform state container: ```stct-org-tfstate```
     - terraform service principal: ```sp-terraform-foundation```
         - Azure resource roles: 
             - ```Owner``` and ```Storage Blob Data Contributor``` at ```mg-root```
