@@ -19,7 +19,7 @@ terraform {
 }
 
 provider "azurerm" {
-  skip_provider_registration = false
+  skip_provider_registration = true
   features {}
 }
 
@@ -27,7 +27,7 @@ provider "azuread" {
 }
 
 provider "azurerm" {
-  skip_provider_registration = false
+  skip_provider_registration = true
   alias                      = "sub-common-management"
   subscription_id            = "3c624b7d-5bd9-45bb-b1e2-485d05be69c2"
   storage_use_azuread        = true

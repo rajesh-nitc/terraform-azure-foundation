@@ -1,5 +1,5 @@
 output "terraform_sp_client_id" {
-  value     = azuread_application.terraform.application_id
+  value     = azuread_application.terraform.client_id
   sensitive = false
 }
 

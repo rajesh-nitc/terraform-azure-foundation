@@ -1,6 +1,6 @@
 resource "azuread_service_principal" "msgraph" {
-  application_id = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
-  use_existing   = true
+  client_id    = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
+  use_existing = true
 }
 
 # Assign roles on azure ad
@@ -31,12 +31,12 @@ resource "azuread_application" "terraform" {
 }
 
 resource "azuread_application_password" "terraform" {
-  application_object_id = azuread_application.terraform.id
+  application_id = azuread_application.terraform.id
 }
 
 # Assign Azure resource roles
 resource "azuread_service_principal" "terraform" {
-  application_id               = azuread_application.terraform.application_id
+  client_id                    = azuread_application.terraform.client_id
   app_role_assignment_required = false
   owners                       = [data.azuread_client_config.current.object_id]
 }
