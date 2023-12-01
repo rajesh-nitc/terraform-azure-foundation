@@ -5,54 +5,54 @@
 ![Alt text](images/org_hierarchy.png)
 
 ## Bootstrap
-- ```mg-root``` under Root Management Group
-- ```mg-bootstrap``` under ```mg-root```
-- Move default subscription under ```mg-bootstrap```
-- Terraform resources:
+- Create ```mg-root``` under Root Management Group
+- Create ```mg-bootstrap``` under ```mg-root```
+- Move default pay as you go subscription ```sub-bootstrap-tfstate``` under ```mg-bootstrap```
+- Create terraform resources in ```sub-bootstrap-tfstate```:
     - terraform state container: ```stct-org-tfstate```
     - terraform service principal: ```sp-terraform-foundation```
-        - Azure resource roles: 
-            - ```Owner``` and ```Storage Blob Data Contributor``` at ```mg-root```
-        - Azure ad roles: ```Application.ReadWrite.All```, ```Directory.ReadWrite.All```, ```RoleManagement.ReadWrite.Directory```
+        - Grant Azure resource roles at ```mg-root```: 
+            - ```Owner``` and ```Storage Blob Data Contributor``` 
+        - Grant Azure ad roles:
+            - ```Application.ReadWrite.All```, ```Directory.ReadWrite.All```, ```RoleManagement.ReadWrite.Directory```
 
 ## Org
-Mainly org/platform level resources:
-- Policy assignment at ```mg-root```
-- Move subscriptions under ```mg-common```
-- Centralized log analytics workspace in management sub
-- Budget alerts at ```mg-root``` and at subs under ```mg-common```
-- Diagnostic settings at ```mg-root```
-- Azure ad groups:
-    - Azure resource roles to Azure ad groups at ```mg-root```
+Mainly org/platform level resources are created in this stage:
+- Create ```mg-common``` under ```mg-root```
+- Create policy assignment at ```mg-root```
+- Move subscriptions ```sub-common-management``` and ```sub-common-connectivity``` under ```mg-common```
+- Create centralized log analytics workspace in ```sub-common-management```
+- Create budget alerts at ```mg-root``` and at ```sub-common-management``` and ```sub-common-connectivity```
+- Create diagnostic settings at ```mg-root```
+- Create org/platform level Azure ad groups:
+    - Grant Azure resource roles at ```mg-root```
 
 ## Subscriptions
 New project-level subscription is created manually on the portal and is made ready to use using ```base_subscription``` module:
-- Default rg, acr, kv, tfstate, law, budget alerts
-- Github workflow uais: 
-    - ```infra-cicd```, ```web-cicd```, ```api-cicd```
-    - Azure resource roles to workflow uais at subscription
-    - Federation of the workflow uais with github openid auth
-- App uais:
-    - ```web```, ```api``` 
-    - Azure resource roles such as ```AcrPull``` to app uais at subscription 
-- Azure ad groups:
-    - Azure resource roles to Azure ad groups at subscription
-    - Azure ad roles such as ```Application Developer``` to ```azure-devs``` group
-- App registrations:
+- Create default rg, acr, kv, tfstate, law, budget alerts
+- Create github workflow uais: ```infra-cicd```, ```web-cicd```, ```api-cicd```
+    - Grant Azure resource roles at subscription
+    - Federate workflow uais with github openid auth
+- Create app uais: ```web```, ```api```: 
+    - Grant Azure resource roles such as ```AcrPull``` at subscription 
+- Create project-level Azure ad groups:
+    - Grant Azure resource roles at subscription
+    - Grant Azure ad roles for e.g. ```Application Developer``` to ```azure-devs``` group
+- Create app registrations:
     - ```azure-devs``` group need to manually update ```API Permissions```:
         - Grant admin consent to api permissions for ```api```
         - Go to ```web ``` -> API Permissions -> Add a permission -> APIs my organization uses -> type client id of ```api``` -> select permission ```user_impersonation``` (which was configured by the module)
-- Github repository environments and actions environment secrets
+- Create github repository environments and actions environment secrets
 
 ## Networks
 New network hub or spoke can be created using single ```base_vnet``` module:
-- rg-net, hub/spoke vnet, snet, nsg, nsg rules, routes
-- hub/spoke vnet peering
-- private dns zones in hub
-- private endpoints in spoke 
-- bastion, firewall in hub
-- enable nat on snet
-- default snets like private endpoint subnet
+- Create rg-net, hub/spoke vnet, snet, nsg, nsg rules, routes
+- Create hub/spoke vnet peering
+- Create private dns zones in hub
+- Create private endpoints in spoke 
+- Create bastion, firewall in hub
+- Create nat on snet
+- Create default snets like private endpoint subnet
 
 ## Aca-infra
 This stage is for project team and is run on github actions using workflow uai ```infra-cicd``` that was handed over by platform/central team as part of subscriptions stage.
