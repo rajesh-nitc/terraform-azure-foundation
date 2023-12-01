@@ -11,10 +11,8 @@
 - Create terraform resources in ```sub-bootstrap-tfstate```:
     - terraform state container: ```stct-org-tfstate```
     - terraform service principal: ```sp-terraform-foundation```
-        - Grant Azure resource roles at ```mg-root```: 
-            - ```Owner``` and ```Storage Blob Data Contributor``` 
-        - Grant Azure ad roles:
-            - ```Application.ReadWrite.All```, ```Directory.ReadWrite.All```, ```RoleManagement.ReadWrite.Directory```
+        - Grant Azure resource roles at ```mg-root```: ```Owner``` and ```Storage Blob Data Contributor``` 
+        - Grant Azure ad roles: ```Application.ReadWrite.All```, ```Directory.ReadWrite.All```, ```RoleManagement.ReadWrite.Directory```
 
 ## Org
 Mainly org/platform level resources are created in this stage:
