@@ -9,13 +9,7 @@ module "bu1_app1_sub" {
   app      = "app1"
   location = "westus"
 
-  # web is Single Page Application
-  # api is backend api to web
-  # app is standalone server app
-
-  # app type key must "include" these keywords: web / api / app
-  # for e.g. for multiple instances: web-foo, web-bar, api-foo, api-bar, app-foo, app-bar
-  # use [web/api/app]-cicd for workflows or just [web/api/app] for actual apps 
+  # use [web/api]-cicd for workflows or just [web/api] for actual apps 
   uai_roles = {
 
     # Infra cicd
@@ -59,7 +53,7 @@ module "bu1_app1_sub" {
 
   # Keys must match with the uai_roles (without the cicd suffix)
   # github secret for acr name and rg name will be created
-  # github secret for app uai id - which will be used by [web/api/app]-cicd workflow to assign it to container app
+  # github secret for app uai id - which will be used by [web/api]-cicd workflow to assign it to container app
   uai_repos = {
     "infra" = "rajesh-nitc/terraform-azure-foundation"
     "web"   = "rajesh-nitc/terraform-azure-foundation"

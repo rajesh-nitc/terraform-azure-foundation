@@ -44,6 +44,7 @@ variable "snets" {
         protocol                   = string
         source_port_range          = optional(string)
         source_port_ranges         = optional(list(string))
+        destination_port_range     = optional(string)
         destination_port_ranges    = list(string)
         source_address_prefix      = string
         destination_address_prefix = string
@@ -94,3 +95,8 @@ variable "pe_address_prefixes" {
   default  = []
 }
 
+variable "apim_address_prefixes" {
+  type     = list(string)
+  nullable = false
+  default  = []
+}

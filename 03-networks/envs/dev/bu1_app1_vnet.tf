@@ -20,6 +20,7 @@ module "bu1_app1_vnet" {
   # default subnets
   appgw_address_prefixes = []
   pe_address_prefixes    = ["10.0.66.0/24"]
+  apim_address_prefixes  = ["10.0.67.0/24"]
 
   snets = {
     infrasubnet = {

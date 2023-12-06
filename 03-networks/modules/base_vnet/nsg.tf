@@ -15,6 +15,7 @@ resource "azurerm_network_security_rule" "nsg_rule" {
   source_port_range           = each.value.source_port_range
   source_port_ranges          = each.value.source_port_ranges
   destination_port_ranges     = each.value.destination_port_ranges
+  destination_port_range      = each.value.destination_port_range
   source_address_prefix       = each.value.source_address_prefix
   destination_address_prefix  = each.value.destination_address_prefix
   resource_group_name         = local.rg_name

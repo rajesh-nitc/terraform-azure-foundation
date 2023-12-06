@@ -12,6 +12,12 @@ data "azurerm_subnet" "infra" {
   resource_group_name  = local.rg_net_name
 }
 
+data "azurerm_subnet" "apim" {
+  name                 = format("%s-%s", module.naming.subnet.name, "apimsubnet")
+  virtual_network_name = module.naming.virtual_network.name
+  resource_group_name  = local.rg_net_name
+}
+
 data "azurerm_virtual_network" "spoke_vnet" {
   name                = module.naming.virtual_network.name
   resource_group_name = local.rg_net_name

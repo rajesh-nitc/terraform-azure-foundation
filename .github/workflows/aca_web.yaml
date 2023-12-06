@@ -42,6 +42,7 @@ jobs:
       REGISTRY_LOGIN_SERVER: ${{ secrets.WEB_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.WEB_RG_NAME }}
       CONTAINER_APP_UAI_ID: ${{ secrets.WEB_CONTAINER_APP_UAI_ID }}
+      REACT_APP_APIM_KEY: ${{ REACT_APP_APIM_KEY }}
     runs-on: ubuntu-latest
 
     steps:
@@ -92,4 +93,4 @@ jobs:
     #   env:
     #     SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
     #   run: |
-    #       az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --set-env-vars 'REACT_APP_API_URL=https://ca-bu1-app1-api-westus-dev.happyrock-24281ad8.westus.azurecontainerapps.io REACT_APP_ENV=development'
+    #       az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --set-env-vars 'REACT_APP_API_URL=https://ca-bu1-app1-api-westus-dev.happyrock-24281ad8.westus.azurecontainerapps.io REACT_APP_APIM_KEY=$REACT_APP_APIM_KEY'

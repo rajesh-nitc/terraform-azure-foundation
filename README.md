@@ -1,4 +1,5 @@
 # terraform-azure-foundation
+This repo shows how to build a simple and secure foundation on Azure. Later, we use the foundation to deploy a simple hello-world enterprise app that is accessible to all authenticated employees over the Internet. This app will have a frontend webapp on aca, apim and backend api on aca. Easy auth is enabled on webapp.
 
 ## Org hierarchy
 
@@ -36,10 +37,7 @@ New project-level subscription is created manually on the portal and is made rea
 - Create project-level Azure ad groups:
     - Grant Azure resource roles at subscription
     - Grant Azure ad roles for e.g. ```Application Developer``` to ```azure-devs``` group
-- Create app registrations:
-    - ```azure-devs``` group need to manually update ```API Permissions```:
-        - Grant admin consent to api permissions for ```api```
-        - Go to ```web ``` -> API Permissions -> Add a permission -> APIs my organization uses -> type client id of ```api``` -> select permission ```user_impersonation``` (which was configured by the module)
+- Create app registration for web
 - Create github repository environments and actions environment secrets
 
 ## Networks
@@ -49,24 +47,18 @@ New network hub or spoke can be created using single ```base_vnet``` module:
 - Create private dns zones in hub
 - Create private endpoints in spoke 
 - Create bastion, firewall in hub
-- Create nat on snet
-- Create default snets like private endpoint subnet
+- Create snets in spoke: private endpoint, appgw, apim
 
 ## Aca-infra
 This stage is for project team and is run on github actions using workflow uai ```infra-cicd``` that was handed over by platform/central team as part of subscriptions stage.
 
 ## Aca-app
-The app is made up of two Azure Container Apps: ```web``` and ```api```. Both are external at the moment. This stage is for project team and is run on github actions using workflow uais ```[web/api]-cicd```. Apps run with app uais ```[web/api]``` and can pull images from acr. 
+This stage is for project team and is run on github actions using workflow uais ```[web/api]-cicd```. Apps run with app uais ```[web/api]``` and can pull images from acr. 
+
+Before weapp is deployed via github workflow, create a github secret REACT_APP_APIM_KEY
 
 After web app is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
 - Update aad auth app created as part of subscriptions stage:
     - SPA redirect uri: ```$APP_URL/.auth/login/aad/callback```
 - Add authentication to container app and select existing aad auth app:
     - Issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
-
-## Token store
-Once token store feature is available to Azure Container Apps:
-- Update ```REACT_APP_ENV=azure``` in ```aca_web.yaml```
-- Update ```{"loginParameters":["scope=openid offline_access api://bu1-app1-api-dev/user_impersonation"]}``` on the ```web``` container app
-- Enable easy auth on ```api``` container app
-- Test if react app can get response from api

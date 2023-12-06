@@ -15,6 +15,9 @@ locals {
     length(var.pe_address_prefixes) > 0 && var.env != "hub"
     ? local.pe_snet
     : {},
+    length(var.apim_address_prefixes) > 0 && var.env != "hub"
+    ? local.apim_snet
+    : {},
     var.snets
   )
 
@@ -206,6 +209,42 @@ locals {
     }
   }
 
+  apim_snet = {
+
+    apimsubnet = {
+      name                                      = "apimsubnet"
+      address_prefixes                          = var.apim_address_prefixes
+      private_endpoint_network_policies_enabled = false
+      nsg_name                                  = "apim"
+      # For testing allow all inbound and outbound
+      # Correct list of rules at https://learn.microsoft.com/en-gb/azure/api-management/virtual-network-reference?tabs=stv2
+      nsg_rules = {
+        "apimAllowAllInbound" = {
+          name                       = "apimAllowAllInbound"
+          priority                   = 100
+          direction                  = "Inbound"
+          access                     = "Allow"
+          protocol                   = "*"
+          source_port_range          = "*"
+          destination_port_range     = "*"
+          source_address_prefix      = "*"
+          destination_address_prefix = "*"
+        }
+        "apimAllowAllOutbound" = {
+          name                       = "apimAllowAllOutbound"
+          priority                   = 100
+          direction                  = "Outbound"
+          access                     = "Allow"
+          protocol                   = "*"
+          source_port_range          = "*"
+          destination_port_range     = "*"
+          source_address_prefix      = "*"
+          destination_address_prefix = "*"
+        }
+      }
+    }
+  }
+
   nsg_rules = flatten([
     for i in values(local.all_snets) : [
       for k, v in try(i.nsg_rules, {}) : {
@@ -215,9 +254,10 @@ locals {
         direction                  = v.direction
         access                     = v.access
         protocol                   = v.protocol
-        source_port_range          = v.source_port_range
-        source_port_ranges         = v.source_port_ranges
-        destination_port_ranges    = v.destination_port_ranges
+        source_port_range          = try(v.source_port_range, null)
+        source_port_ranges         = try(v.source_port_ranges, null)
+        destination_port_range     = try(v.destination_port_range, null)
+        destination_port_ranges    = try(v.destination_port_ranges, null)
         source_address_prefix      = v.source_address_prefix
         destination_address_prefix = v.destination_address_prefix
       }

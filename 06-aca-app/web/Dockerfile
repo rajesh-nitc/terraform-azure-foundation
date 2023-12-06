@@ -11,7 +11,6 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 ENV REACT_APP_API_URL=http://localhost:3500
-ENV REACT_APP_ENV=development
 
 # Copy the rest of the app's source code
 COPY . .
