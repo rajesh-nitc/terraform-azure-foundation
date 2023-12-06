@@ -42,7 +42,7 @@ jobs:
       REGISTRY_LOGIN_SERVER: ${{ secrets.WEB_ACR_NAME }}.azurecr.io
       RG: ${{ secrets.WEB_RG_NAME }}
       CONTAINER_APP_UAI_ID: ${{ secrets.WEB_CONTAINER_APP_UAI_ID }}
-      REACT_APP_APIM_KEY: ${{ REACT_APP_APIM_KEY }}
+      REACT_APP_APIM_KEY: ${{ secrets.REACT_APP_APIM_KEY }}
     runs-on: ubuntu-latest
 
     steps:
