@@ -34,10 +34,10 @@ New project-level subscription is created manually on the portal and is made rea
     - Federate workflow uais with github openid auth
 - Create app uais: ```web```, ```api```: 
     - Grant Azure resource roles such as ```AcrPull``` at subscription 
+- Create app registration for ```web```
 - Create project-level Azure ad groups:
     - Grant Azure resource roles at subscription
     - Grant Azure ad roles for e.g. ```Application Developer``` to ```azure-devs``` group
-- Create app registration for web
 - Create github repository environments and actions environment secrets
 
 ## Networks
@@ -55,7 +55,7 @@ This stage is for project team and is run on github actions using workflow uai `
 ## Aca-app
 This stage is for project team and is run on github actions using workflow uais ```[web/api]-cicd```. Apps run with app uais ```[web/api]``` and can pull images from acr. 
 
-Before weapp is deployed via github workflow, create a github secret REACT_APP_APIM_KEY
+Before weapp is deployed via github workflow, manually create a github secret ```REACT_APP_APIM_KEY```
 
 After web app is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
 - Update aad auth app created as part of subscriptions stage:
