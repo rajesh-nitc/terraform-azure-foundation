@@ -9,7 +9,7 @@ const ApiCallComponent = () => {
 
   const get_api_data = async () => {
     try {
-      console.log(process.env.REACT_APP_API_URL)
+      console.log(process.env.REACT_APP_APIM_URL)
       const requestOptions = {
         method: 'GET',
         headers: {
@@ -18,7 +18,7 @@ const ApiCallComponent = () => {
         },
         cache: "no-cache",
       };
-      const response = await fetch(process.env.REACT_APP_API_URL, requestOptions);
+      const response = await fetch(process.env.REACT_APP_APIM_URL, requestOptions);
       const jsonData = await response.json();
       console.log(jsonData)
       setApiData(jsonData);
