@@ -18,3 +18,13 @@ variable "location" {
   nullable = false
   default  = "westus"
 }
+
+variable "publisher_name" {
+  type     = string
+  nullable = false
+}
+
+variable "publisher_email" {
+  type     = string
+  nullable = false
+}

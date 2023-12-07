@@ -26,3 +26,10 @@ resource "azurerm_federated_identity_credential" "cicd" {
   parent_id           = azurerm_user_assigned_identity.uai["${each.key}-cicd"].id
   subject             = "repo:${each.value}:environment:${var.env}"
 }
+
+# apim
+resource "azurerm_user_assigned_identity" "apim" {
+  name                = format("%s-%s-%s-%s-%s", "uai", "apim", var.bu, var.app, var.env)
+  resource_group_name = local.rg_name
+  location            = var.location
+}
