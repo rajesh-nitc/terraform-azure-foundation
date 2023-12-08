@@ -1,6 +1,8 @@
 # terraform-azure-foundation
 This repo shows how to build a simple and secure foundation on Azure. Later, we use the foundation to deploy a simple hello-world enterprise app that is accessible to all authenticated employees over the Internet. This app will have a frontend webapp on aca, apim and backend api on aca.
 
+Stages 00-04 are run locally using terraform service principal. Stages 05-06 are run on github actions. Stage 05 is run using uai infra-cicd and Stage 06 is run using uai web-cicd and uai api-cicd.
+
 ## Org hierarchy
 
 ![Alt text](images/org_hierarchy.png)
@@ -50,10 +52,10 @@ New network hub or spoke can be created using single ```base_vnet``` module:
 - Create snets in spoke: private endpoint, appgw, apim
 
 ## Aca-infra
-This stage is for project team and is run on github actions using workflow uai ```infra-cicd``` that was handed over by platform/central team as part of subscriptions stage.
+Apim and Aca environment are created in this stage
 
 ## Aca-app
-This stage is for project team and is run on github actions using workflow uais ```[web/api]-cicd```. Apps run with app uais ```[web/api]``` and can pull images from acr. 
+This stage is for the project team and is run on github actions using workflow uais ```[web/api]-cicd```. Actual apps run with app uais ```[web/api]``` and can pull images from acr. 
 
 After web app and api are deployed via github workflow, ```azure-devs``` group need to manually update the auth settings on both the container apps:
 - Update existing aad auth app which was created as part of 02-subscriptions stage:

@@ -28,3 +28,13 @@ resource "azuread_directory_role_assignment" "devs_group" {
   role_id             = azuread_directory_role.app_developer.template_id
   principal_object_id = azuread_group.group["azure-devs"].object_id
 }
+
+# Allow infra-cicd uai to get azure ad app details in 05-aca-infra i.e. data "azuread_application" "api"
+resource "azuread_directory_role" "reader" {
+  display_name = "Directory Readers"
+}
+
+resource "azuread_directory_role_assignment" "infra_cicd_uai" {
+  role_id             = azuread_directory_role.reader.template_id
+  principal_object_id = azurerm_user_assigned_identity.uai["infra-cicd"].principal_id
+}
