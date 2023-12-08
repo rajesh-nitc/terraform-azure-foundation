@@ -28,3 +28,8 @@ variable "publisher_email" {
   type     = string
   nullable = false
 }
+
+variable "service_url" {
+  type     = string
+  nullable = false
+}

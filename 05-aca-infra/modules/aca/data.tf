@@ -1,3 +1,5 @@
+data "azurerm_client_config" "current" {}
+
 data "azurerm_resource_group" "rg" {
   name = module.naming.resource_group.name
 }
@@ -33,7 +35,11 @@ data "azurerm_user_assigned_identity" "apim" {
   resource_group_name = local.rg_name
 }
 
-data "azurerm_user_assigned_identity" "api" {
-  name                = format("%s-%s-%s-%s-%s", "uai", "api", var.bu, var.app, var.env)
+data "azurerm_user_assigned_identity" "web" {
+  name                = format("%s-%s-%s-%s-%s", "uai", "web", var.bu, var.app, var.env)
   resource_group_name = local.rg_name
+}
+
+data "azuread_application" "api" {
+  display_name = format("%s-%s-%s-%s-%s", "app", var.bu, var.app, "api", var.env)
 }

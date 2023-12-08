@@ -1,5 +1,5 @@
 # terraform-azure-foundation
-This repo shows how to build a simple and secure foundation on Azure. Later, we use the foundation to deploy a simple hello-world enterprise app that is accessible to all authenticated employees over the Internet. This app will have a frontend webapp on aca, apim and backend api on aca. Easy auth is enabled on webapp.
+This repo shows how to build a simple and secure foundation on Azure. Later, we use the foundation to deploy a simple hello-world enterprise app that is accessible to all authenticated employees over the Internet. This app will have a frontend webapp on aca, apim and backend api on aca.
 
 ## Org hierarchy
 
@@ -57,8 +57,8 @@ This stage is for project team and is run on github actions using workflow uais 
 
 Before weapp is deployed via github workflow, manually create a github secret ```REACT_APP_APIM_KEY```
 
-After web app is deployed via github workflow, ```azure-devs``` group need to manually update the settings listed below:
-- Update aad auth app created as part of subscriptions stage:
-    - SPA redirect uri: ```$APP_URL/.auth/login/aad/callback```
+After web app and api are deployed via github workflow, ```azure-devs``` group need to manually update the auth settings on both the container apps:
+- Update existing aad auth app which was created as part of 02-subscriptions stage:
+    - redirect uri: ```$APP_URL/.auth/login/aad/callback```
 - Add authentication to container app and select existing aad auth app:
-    - Issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
+    - issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
