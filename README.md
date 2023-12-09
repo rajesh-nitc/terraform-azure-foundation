@@ -31,16 +31,16 @@ Mainly org/platform level resources are created in this stage:
 ## Subscriptions
 New project-level subscription is created manually on the portal and is made ready to use using ```base_subscription``` module:
 - Create default rg, acr, kv, tfstate, law, budget alerts
+- Create app registrations for ```web``` and ```api```
+- Create github repository environments and actions environment secrets
 - Create github workflow uais: ```infra-cicd```, ```web-cicd```, ```api-cicd```
     - Grant Azure resource roles at subscription
     - Federate workflow uais with github openid auth
 - Create app uais: ```web```, ```api```: 
     - Grant Azure resource roles such as ```AcrPull``` at subscription 
-- Create app registrations for ```web``` and ```api```
 - Create project-level Azure ad groups:
     - Grant Azure resource roles at subscription
     - Grant Azure ad roles for e.g. ```Application Developer``` to ```azure-devs``` group
-- Create github repository environments and actions environment secrets
 
 ## Networks
 New network hub or spoke can be created using single ```base_vnet``` module:
