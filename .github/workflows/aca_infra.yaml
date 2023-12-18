@@ -16,10 +16,10 @@ on:
      - main
   workflow_dispatch:
 
-permissions:
-      id-token: write
-      contents: read
-      pull-requests: write
+# permissions:
+#       id-token: write
+#       contents: read
+#       pull-requests: write
       
 jobs: 
   aca_infra_analysis:
@@ -34,7 +34,7 @@ jobs:
       ARM_CLIENT_ID: "${{ secrets.INFRA_CLIENT_ID }}"
       ARM_SUBSCRIPTION_ID: "${{ secrets.SUBSCRIPTION_ID }}"
       ARM_TENANT_ID: "${{ secrets.TENANT_ID }}"
-      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      GITHUB_TOKEN: "${{ secrets.PAT }}"
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2.5.0
@@ -71,7 +71,7 @@ jobs:
       ARM_CLIENT_ID: "${{ secrets.INFRA_CLIENT_ID }}"
       ARM_SUBSCRIPTION_ID: "${{ secrets.SUBSCRIPTION_ID }}"
       ARM_TENANT_ID: "${{ secrets.TENANT_ID }}"
-      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      GITHUB_TOKEN: "${{ secrets.PAT }}"
 
     steps:
     - name: Checkout Code
