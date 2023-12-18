@@ -21,7 +21,6 @@ jobs:
     defaults:
       run:
         working-directory: 05-aca-infra/envs/dev
-      
     name: Deploy to Dev
     environment: dev
     runs-on: ubuntu-latest

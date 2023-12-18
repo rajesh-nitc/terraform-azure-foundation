@@ -36,16 +36,6 @@ resource "azurerm_api_management_subscription" "scope_all_apis" {
   display_name        = format("%s-%s-%s-%s-%s", "apim-key", var.bu, var.app, var.location, var.env)
 }
 
-resource "azurerm_api_management_api" "api" {
-  name                = format("%s-%s-%s-%s-%s", "api", var.bu, var.app, var.location, var.env)
-  resource_group_name = local.rg_name
-  api_management_name = azurerm_api_management.apim.name
-  revision            = "1"
-  display_name        = format("%s-%s-%s-%s-%s", "api", var.bu, var.app, var.location, var.env)
-  path                = ""
-  protocols           = ["https"]
-}
-
 resource "azurerm_api_management_product" "product" {
   product_id            = "api"
   api_management_name   = azurerm_api_management.apim.name
@@ -54,13 +44,6 @@ resource "azurerm_api_management_product" "product" {
   subscription_required = true
   approval_required     = false
   published             = true
-}
-
-resource "azurerm_api_management_product_api" "product_api" {
-  api_name            = azurerm_api_management_api.api.name
-  product_id          = azurerm_api_management_product.product.product_id
-  api_management_name = azurerm_api_management.apim.name
-  resource_group_name = local.rg_name
 }
 
 # resource "azurerm_api_management_api_policy" "policy" {
