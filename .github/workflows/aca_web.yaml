@@ -86,11 +86,11 @@ jobs:
       run: |
           echo "app exists: ${{ steps.check-app.outputs.exists }}"
           echo $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
-          az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress external --target-port 3000 --min-replicas 1 --user-assigned $CONTAINER_APP_UAI_ID --registry-identity $CONTAINER_APP_UAI_ID --registry-server $REGISTRY_LOGIN_SERVER --set-env-vars 'REACT_APP_APIM_URL=https://apimbu1app1westusdev.azure-api.net REACT_APP_APIM_KEY=$REACT_APP_APIM_KEY'
+          az containerapp create --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --container-name $CONTAINER_NAME-$DEPLOYMENT_ENV --environment $CONTAINER_APP_ENVIRONMENT-$DEPLOYMENT_ENV --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --ingress external --target-port 3000 --min-replicas 1 --user-assigned $CONTAINER_APP_UAI_ID --registry-identity $CONTAINER_APP_UAI_ID --registry-server $REGISTRY_LOGIN_SERVER
     
     - name: Pull image - Update Azure Container App
       if: steps.check-app.outputs.exists != 'false'
       env:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
-          az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA
+          az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --set-env-vars 'REACT_APP_APIM_URL=https://apimbu1app1westusdev.azure-api.net REACT_APP_APIM_KEY=$REACT_APP_APIM_KEY'
