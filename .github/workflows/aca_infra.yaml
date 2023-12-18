@@ -42,6 +42,11 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
+    - name: Print Environment Variables
+      run: |
+          echo "Printing environment variables"
+          env
+
     - name: Terraform Plan
       id: plan
       run: terraform plan -no-color -input=false
