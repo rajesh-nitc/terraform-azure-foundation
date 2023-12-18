@@ -93,4 +93,4 @@ jobs:
       env:
         SHORT_SHA: ${{ steps.get_short_sha.outputs.short_sha }}
       run: |
-          az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --set-env-vars 'REACT_APP_APIM_URL=https://apimbu1app1westusdev.azure-api.net REACT_APP_APIM_KEY=$REACT_APP_APIM_KEY'
+          az containerapp update --name $CONTAINER_APP_NAME-$DEPLOYMENT_ENV --resource-group $RG --image $REGISTRY_LOGIN_SERVER/$IMAGE_NAME-$DEPLOYMENT_ENV:$SHORT_SHA --set-env-vars "REACT_APP_APIM_URL=https://apimbu1app1westusdev.azure-api.net" "REACT_APP_APIM_KEY=$REACT_APP_APIM_KEY"
