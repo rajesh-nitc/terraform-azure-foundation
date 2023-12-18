@@ -62,3 +62,6 @@ After web app and api are deployed via github workflow, ```azure-devs``` group n
     - redirect uri: ```$APP_URL/.auth/login/aad/callback```
 - Add authentication to container app and select existing aad auth app:
     - issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
+
+## Costs
+When not working, comment out acr, law, private dns zone for acr, apim, cae to keep near zero costs

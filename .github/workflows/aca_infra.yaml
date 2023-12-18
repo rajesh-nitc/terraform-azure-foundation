@@ -1,5 +1,11 @@
 # https://learn.microsoft.com/en-us/samples/azure-samples/github-terraform-oidc-ci-cd/github-terraform-oidc-ci-cd/
 
+# Error: GET https://api.github.com/user: 403 Resource not accessible by integration []
+
+#   with provider["registry.terraform.io/integrations/github"],
+#   on provider.tf line 32, in provider "github":
+#   32: provider "github" {
+
 name: Deploy aca infra
 on: 
   push:
@@ -47,10 +53,10 @@ jobs:
           echo "Printing environment variables"
           env
 
-    - name: Terraform Plan
-      id: plan
-      run: terraform plan -no-color -input=false
-      continue-on-error: true
+    # - name: Terraform Plan
+    #   id: plan
+    #   run: terraform plan -no-color -input=false
+    #   continue-on-error: true
 
   aca_infra_deploy_to_dev:
     # if: github.event_name != 'pull_request' && contains(toJson(github.event.commits), 'Initial commit') == false
@@ -78,5 +84,5 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
-    - name: Terraform Apply
-      run: terraform apply -auto-approve
+    # - name: Terraform Apply
+    #   run: terraform apply -auto-approve
