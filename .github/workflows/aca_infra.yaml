@@ -15,7 +15,7 @@ permissions:
       contents: read
       pull-requests: write
       
-jobs: 
+jobs:
   aca_infra_deploy_to_dev:
     # if: github.event_name != 'pull_request' && contains(toJson(github.event.commits), 'Initial commit') == false
     defaults:
