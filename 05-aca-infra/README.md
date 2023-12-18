@@ -1,5 +1,5 @@
 # aca-infra
 
-Manually create a github secret ```REACT_APP_APIM_KEY``` which is set as an env variable on the web container app in the ```aca_web.yaml``` workflow
+Manually update the ```aca_web.yaml``` workflow with ```REACT_APP_APIM_URL```
 
-Update service url in the Apim api
+Manually import ```api``` into apim

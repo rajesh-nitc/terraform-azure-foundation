@@ -29,7 +29,7 @@ variable "publisher_email" {
   nullable = false
 }
 
-variable "service_url" {
+variable "repo" {
   type     = string
   nullable = false
 }

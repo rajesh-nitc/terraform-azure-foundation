@@ -1,6 +1,6 @@
 # Add apim in external mode
 resource "azurerm_api_management" "apim" {
-  name                = format("%s-%s-%s-%s-%s", module.naming.api_management, var.bu, var.app, var.location, var.env)
+  name                = module.naming.api_management.name
   resource_group_name = local.rg_name
   location            = var.location
   publisher_name      = var.publisher_name
@@ -21,6 +21,19 @@ resource "azurerm_api_management" "apim" {
 
 }
 
+resource "random_password" "apim" {
+  length  = 32
+  special = false
+}
+
+resource "azurerm_api_management_subscription" "subsciption" {
+  api_management_name = azurerm_api_management.apim.name
+  resource_group_name = local.rg_name
+  primary_key         = random_password.apim.result
+  state               = "active"
+  display_name        = format("%s-%s-%s-%s-%s", "apim-key", var.bu, var.app, var.location, var.env)
+}
+
 resource "azurerm_api_management_api" "api" {
   name                = format("%s-%s-%s-%s-%s", "api", var.bu, var.app, var.location, var.env)
   resource_group_name = local.rg_name
@@ -29,7 +42,6 @@ resource "azurerm_api_management_api" "api" {
   display_name        = format("%s-%s-%s-%s-%s", "api", var.bu, var.app, var.location, var.env)
   path                = ""
   protocols           = ["https"]
-  service_url         = var.service_url
 }
 
 resource "azurerm_api_management_api_policy" "policy" {

@@ -7,6 +7,5 @@ module "bu1_app1_aca_infra" {
   location        = "westus"
   publisher_name  = "Budita"
   publisher_email = "rajesh.nitc@gmail.com"
-  # Update after deploying api via github workflow
-  service_url = ""
+  repo            = "rajesh-nitc/terraform-azure-foundation"
 }
