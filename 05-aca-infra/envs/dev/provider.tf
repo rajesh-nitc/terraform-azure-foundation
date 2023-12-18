@@ -24,3 +24,12 @@ provider "azurerm" {
   storage_use_azuread        = true
   features {}
 }
+
+provider "azuread" {
+
+}
+
+provider "github" {
+  # set GITHUB_TOKEN environment variable
+  # Is it available on github action ? 
+}

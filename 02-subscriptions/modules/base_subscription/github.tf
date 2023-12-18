@@ -1,4 +1,5 @@
 resource "github_repository_environment" "env" {
+  for_each    = var.uai_repos
   environment = var.env
   repository  = split("/", each.value)[1]
 }
