@@ -25,10 +25,10 @@ data "azurerm_virtual_network" "spoke_vnet" {
   resource_group_name = local.rg_net_name
 }
 
-# data "azurerm_log_analytics_workspace" "law" {
-#   name                = module.naming.log_analytics_workspace.name
-#   resource_group_name = local.rg_name
-# }
+data "azurerm_log_analytics_workspace" "law" {
+  name                = module.naming.log_analytics_workspace.name
+  resource_group_name = local.rg_name
+}
 
 data "azurerm_user_assigned_identity" "apim" {
   name                = format("%s-%s-%s-%s-%s", "uai", "apim", var.bu, var.app, var.env)

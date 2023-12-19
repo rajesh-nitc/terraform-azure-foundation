@@ -29,3 +29,10 @@ Update inbound policy of api to allow cors:
         </cors> 
     </inbound>
 ```
+
+```
+<authentication-managed-identity resource="${data.azuread_application.api.client_id}" client-id="${data.azurerm_user_assigned_identity.apim.client_id}" output-token-variable-name="msi-access-token" ignore-error="false"/>
+    <set-header name="Authorization" exists-action="override">
+        <value>@("Bearer " + (string)context.Variables["msi-access-token"])</value>
+    </set-header>
+```
