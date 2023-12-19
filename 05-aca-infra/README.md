@@ -7,7 +7,7 @@ If on github actions: Need to add github pat as environment secret
 Apim api is not created as part of terraform
 
 After ```api``` is deployed via github workflow:
- - Manually import it into apim using OpenAPI specification. Backend api must be public for it to be imported by apim. As we are using fastapi, openapi spec is available at https://api_url/openapi.json. API URL suffix is important, let's give it a value of api. Choose the product created as part of terraform
+ - Manually import it into apim using OpenAPI specification. Backend api must be public for it to be imported by apim. As we are using fastapi, openapi spec is available at ```$Application_Url/openapi.json```. API URL suffix is important, let's give it a value of api. Choose the product created as part of terraform
  - Manually update the ```aca_web.yaml``` workflow with ```REACT_APP_APIM_URL```. Append it with API URL suffix which is set as api
 
 Update inbound policy of api to allow cors and to allow apim to authenticate with backend api:
@@ -34,3 +34,7 @@ Update inbound policy of api to allow cors and to allow apim to authenticate wit
             </set-header> 
 </inbound>
 ```
+
+b147569f-643a-4d3b-b0e4-55750750f770 = client_id of backend api
+
+e880ad99-c842-49ee-9d71-5f51e40c8a08 = client_id of apim uai 

@@ -12,7 +12,7 @@ module "hub_vnet" {
   vnet_address_space = ["10.0.0.0/18"]
 
   private_dns_zones = [
-    "privatelink.azurecr.io",
+    # "privatelink.azurecr.io",
     # "privatelink.vaultcore.azure.net",
     # "privatelink.blob.core.windows.net",
   ]
