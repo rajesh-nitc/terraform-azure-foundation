@@ -11,6 +11,7 @@ After ```api``` is deployed via github workflow:
  - Manually update the ```aca_web.yaml``` workflow with ```REACT_APP_APIM_URL```. Append it with API URL suffix which is set as api
 
 Update inbound policy of api to allow cors and to allow apim to authenticate with backend api:
+
 ```
 <inbound>
         <cors allow-credentials="true"> 
