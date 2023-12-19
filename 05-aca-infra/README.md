@@ -35,6 +35,6 @@ Update inbound policy of api to allow cors and to allow apim to authenticate wit
 </inbound>
 ```
 
-b147569f-643a-4d3b-b0e4-55750750f770 = client_id of backend api
+b147569f-643a-4d3b-b0e4-55750750f770 = client_id of backend api azure ad app
 
 e880ad99-c842-49ee-9d71-5f51e40c8a08 = client_id of apim uai 
