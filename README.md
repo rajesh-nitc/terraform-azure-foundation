@@ -59,7 +59,7 @@ This stage is for the project team and is run on github actions using workflow u
 
 After web app and api are deployed via github workflow, ```azure-devs``` group need to manually update the auth settings on both the container apps:
 - Update existing aad auth app which was created as part of 02-subscriptions stage:
-    - redirect uri: ```$APP_URL/.auth/login/aad/callback```
+    - web redirect uri: ```$APP_URL/.auth/login/aad/callback```
 - Add authentication to container app and select existing aad auth app:
     - issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
 
