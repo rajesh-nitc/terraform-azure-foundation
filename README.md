@@ -1,7 +1,9 @@
 # terraform-azure-foundation
-This repo shows how to build a simple and secure foundation on Azure. Later, we use the foundation to deploy a simple hello-world enterprise app that is accessible to authenticated employees over the Internet. This app will have a easy auth enabled frontend webapp on aca, apim and easy auth enabled backend api on aca.
+This repo shows how to build a secure cloud foundation on Azure. 
 
-Stages 00-04 are run locally using terraform service principal. Stages 05-06 are run on github actions. Stage 05 is run using uai infra-cicd and Stage 06 is run using uai web-cicd and uai api-cicd.
+A simple hello-world app which is accessible to authenticated employees over the internet is deployed on Azure Container App (aca). It is made up of frontend webapp (aca), apim and backend api (aca). Easy auth is enabled on frontend and backend.
+
+Stages 00-04 are run locally using terraform service principal. Stages 05-06 are run on github actions. Stage 05 is run using uai ```infra-cicd``` and Stage 06 is run using uai ```web-cicd``` and uai ```api-cicd```.
 
 ## Org hierarchy
 
@@ -64,4 +66,4 @@ After web app and api are deployed via github workflow, ```azure-devs``` group n
     - issuer url: ```https://login.microsoftonline.com/$TENANT_ID/v2.0```
 
 ## Costs
-When not working, comment out acr, law, private dns zone for acr, apim, cae to keep near zero costs
+When not working, comment out / destroy acr, law, private dns zone for acr, apim, cae to keep near zero costs
